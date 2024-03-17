@@ -15,7 +15,7 @@ class Oracul(ABC):
     """Interface for oracul (anonymous value generator in point)"""
 
     @abstractmethod
-    def evaluate(self, point: Point) -> np.dtype[float].type:
+    def evaluate(self, point: Point) -> float:
         """
         Get value in point
         :param point:       point for evaluating
@@ -57,7 +57,7 @@ class LambdaOracul(Oracul):
         self.func = func
         self.dimension = dimension
 
-    def evaluate(self, point: Point) -> np.dtype[float].type:
+    def evaluate(self, point: Point) -> float:
         return self.func(*(point.coordinates[:self.dimension - 1]))
 
     def get_dimension(self) -> int:

@@ -14,6 +14,7 @@ class State:
     """
     visual_state: list[Figure]
     parameters: list[tp.Any]
+    eps: tp.Optional[float] = None
 
 
 class OptimizationMethod(ABC):

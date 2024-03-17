@@ -43,7 +43,8 @@ class Animator:
 
         axes.set_xlabel("x")
         axes.set_ylabel("y")
-        axes.set_zlabel("z")
+        if dimension == 3:
+            axes.set_zlabel("z")
         return ArtistAnimation(
             figure,
             frames,
@@ -66,8 +67,9 @@ class Animator:
         if any(map(lambda st, en: en - st < 0, start, end)):
             raise ValueError("Invalid intervals for surface")
         if oracul.get_dimension() == 2:
-            # To do
-            pass
+            x = np.arange(start[0], end[0], (end[0] - start[0]) * step)
+            y = np.array([oracul.evaluate(Point(np.array([xval]))) for xval in x])
+            return axes.plot(x, y, alpha=0.8, **params)
         elif oracul.get_dimension() == 3:
             x = np.arange(start[0], end[0], (end[0] - start[0]) * step)
             y = np.arange(start[1], end[1], (end[1] - start[1]) * step)
