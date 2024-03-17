@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from inspect import signature
 from typing import Callable
 
 import numpy as np
@@ -48,14 +49,13 @@ class GradientOracul(Oracul):
 class LambdaOracul(Oracul):
     """Interface for oracul from lambda"""
 
-    def __init__(self, func: Callable[..., float], dimension: int) -> None:
+    def __init__(self, func: Callable[..., float]) -> None:
         """
         Constructor for lambda oracul
         :param func:        lambda that generate oracul
-        :param dimension:   dimension where work lambda
         """
         self.func = func
-        self.dimension = dimension
+        self.dimension = len(signature(func).parameters) + 1
 
     def evaluate(self, point: Point) -> float:
         return self.func(*(point.coordinates[:self.dimension - 1]))

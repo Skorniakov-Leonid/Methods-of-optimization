@@ -11,6 +11,7 @@ class State:
     """Class for state transferring between steps
     :param visual_state     list of geometric figure that visualize current state
     :param parameters       parameters for next step
+    :param eps              current maximum deviation
     """
     visual_state: list[Figure]
     parameters: list[tp.Any]

@@ -74,7 +74,7 @@ class Animator:
             x = np.arange(start[0], end[0], (end[0] - start[0]) * step)
             y = np.arange(start[1], end[1], (end[1] - start[1]) * step)
             xgrid, ygrid = np.meshgrid(x, y)
-            zgrid = np.array([[oracul.evaluate(Point(np.array([xval, yval]))) for yval in y] for xval in x])
+            zgrid = np.array([[oracul.evaluate(Point(np.array([xval, yval]))) for xval in x] for yval in y])
             return [
                 axes.plot_surface(xgrid, ygrid, zgrid, rstride=4, cstride=4, shade=False, alpha=0.5, **params),
                 axes.plot_wireframe(xgrid, ygrid, zgrid, rstride=4, cstride=4, alpha=0.65)
