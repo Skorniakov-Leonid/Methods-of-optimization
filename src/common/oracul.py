@@ -77,7 +77,7 @@ class PoweredSumOracul(GradientOracul):
     def evaluate_gradient(self, point: Point) -> np.ndarray:
         res = np.zeros(len(self.params))
         for i in range(len(self.params)):
-            res[i] = (point.coordinates[i]**(self.params[i][1] - 1))*self.params[i][0]*self.params[i][1]
+            res[i] = (point.coordinates[i] ** (self.params[i][1] - 1)) * self.params[i][0] * self.params[i][1]
         return res
 
     def get_dimension(self) -> int:
