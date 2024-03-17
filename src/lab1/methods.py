@@ -3,6 +3,7 @@ import random
 import numpy as np
 
 from ..common import Oracul, State, OptimizationMethod, Point, PointFigure, LineFigure
+from ..common.oracul import GradientOracul
 
 
 class RandomMethod(OptimizationMethod):
@@ -66,7 +67,6 @@ class GoldenRatioMethod(OptimizationMethod):
     def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
         self.left_border = params["a"]
         self.right_border = params["b"]
-        print(self.left_border, self.right_border)
         self.left_intermediate = self.calc_left_intermediate()
         self.right_intermediate = self.calc_right_intermediate()
         self.left_intermediate_dec = oracul.evaluate(Point(np.array([self.right_intermediate])))
@@ -74,7 +74,6 @@ class GoldenRatioMethod(OptimizationMethod):
         return self.calc_temp_res(), self.get_state()
 
     def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
-        print(self.left_border, self.right_border)
         if self.right_intermediate_dec < self.left_intermediate_dec:
             self.right_border = self.right_intermediate
             self.right_intermediate = self.left_intermediate
@@ -89,4 +88,28 @@ class GoldenRatioMethod(OptimizationMethod):
             self.right_intermediate_dec = oracul.evaluate(Point(np.array([self.right_intermediate])))
         return self.calc_temp_res(), self.get_state()
 
-# class GradientDescent(OptimizationMethod):
+
+class GradientDescent(OptimizationMethod):
+
+    def __init__(self):
+        self.x = None
+        self.learning_rate = None
+        self.y = None
+
+    def get_state(self) -> State:
+        return State([PointFigure(np.array(self.x).tolist() + [self.y])], [None],
+                     float("inf"))
+
+    def get_temp_res(self):
+        return Point(np.append(np.array(self.x), np.array([self.y])))
+
+    def initial_step(self, oracul: GradientOracul, **params) -> tuple[Point, State]:
+        self.x = params["x"]
+        self.y = oracul.evaluate(Point(np.array(self.x)))
+        self.learning_rate = params["learning_rate"]
+        return self.get_temp_res(), self.get_state()
+
+    def step(self, oracul: GradientOracul, state: State) -> tuple[Point, State]:
+        self.x = np.array(self.x) - oracul.evaluate_gradient(Point(np.array(self.x))) * self.learning_rate
+        self.y = oracul.evaluate(Point(np.array(self.x)))
+        return self.get_temp_res(), self.get_state()

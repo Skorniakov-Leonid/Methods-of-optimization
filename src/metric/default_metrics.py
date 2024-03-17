@@ -20,6 +20,9 @@ class CallCount(Metric):
 
             def get_dimension(self_oracul) -> int:
                 return oracul.get_dimension()
+
+            def evaluate_gradient(self_oracul, point: Point):
+                return oracul.evaluate_gradient(point)
         return CountingOracul()
 
     def detect_point(self, point: Point) -> None:
