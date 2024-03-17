@@ -12,6 +12,7 @@ class RandomMethod(OptimizationMethod):
 
         point = Point(np.array(coordinates))
         visual_point = PointFigure(coordinates)
+        oracul.evaluate(point)
 
         state = State(visual_state=[visual_point], parameters=[point])
         return point, state
@@ -23,6 +24,9 @@ class RandomMethod(OptimizationMethod):
 
         visual_point = PointFigure(new_coordinates)
         visual_line = LineFigure(last_coordinates, new_coordinates)
+
+        oracul.evaluate(point)
+        oracul.evaluate(point)
 
         state = State(visual_state=[visual_point, visual_line], parameters=[point])
         return point, state
