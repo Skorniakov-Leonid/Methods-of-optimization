@@ -32,3 +32,13 @@ class CountCondition(StopCondition):
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
         self.count += 1
         return self.count > self.max_count
+
+
+class PrecisionCondition(StopCondition):
+    def __init__(self, trust_decision) -> None:
+        self.eps = trust_decision
+
+    def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
+        if state is None:
+            return False
+        return self.eps > state.eps
