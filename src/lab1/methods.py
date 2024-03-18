@@ -93,61 +93,49 @@ class GoldenRatioMethod(OptimizationMethod):
         return self.calc_temp_res(), self.get_state()
 
 
-class BaseGradientDescent(OptimizationMethod, ABC):
+class BaseGradientDescent(OptimizationMethod):
     def __init__(self):
         self.x = None
         self.y = None
+        self.learning_rate = None
 
     def get_state(self) -> State:
         return State([PointFigure(np.array(self.x).tolist() + [self.y])], [],
                      float("inf"))
 
-    @abstractmethod
     def get_learning_rate(self, ray, oracul) -> float:
-        pass
+        return self.learning_rate
 
     def get_temp_res(self):
         return Point(np.append(np.array(self.x), np.array([self.y])))
 
     def initial_step(self, oracul: GradientOracul, **params) -> tuple[Point, State]:
+        self.learning_rate = params["learning_rate"]
         self.x: list[float] = params["x"]
-        self.y: float = oracul.evaluate(Point(np.array(self.x)))  # вообще говоря, может и не вычислять
+        self.y: float = oracul.evaluate(Point(np.array(self.x, dtype=np.float64)))  # вообще говоря, может и не вычислять
         return self.get_temp_res(), self.get_state()
 
     def step(self, oracul: GradientOracul, state: State) -> tuple[Point, State]:
-        gradient_at_x = oracul.evaluate_gradient(Point(np.array(self.x)))
-        self.x = np.array(self.x) - gradient_at_x * self.get_learning_rate(gradient_at_x, oracul)
-        self.y = oracul.evaluate(Point(np.array(self.x)))
+        gradient_at_x = oracul.evaluate_gradient(Point(np.array(self.x, np.float64)))
+        gradient_at_x = gradient_at_x / np.linalg.norm(gradient_at_x, ord=1)
+        self.x = np.array(self.x) - gradient_at_x * self.get_learning_rate(
+            gradient_at_x, oracul)
+        self.y = oracul.evaluate(Point(np.array(self.x, dtype=np.float64)))
         return self.get_temp_res(), self.get_state()
 
-
-class GradientDescentWithFixedRate(BaseGradientDescent):
-    def __init__(self):
-        self.learning_rate = None
-        super().__init__()
-
-    def get_learning_rate(self, ray, oracul) -> float:
-        return self.learning_rate
-
-    def initial_step(self, oracul: GradientOracul, **params) -> tuple[Point, State]:
-        self.learning_rate = params["learning_rate"]
-        return super().initial_step(oracul, **params)
-
-
-#
 
 class GradientDescent(BaseGradientDescent):
     def __init__(self, step_precision=0.05, method=GoldenRatioMethod()):
         super().__init__()
         self.method = method
-        self.eps = step_precision
+        self.step_precision = step_precision
 
     def get_learning_rate(self, ray, oracul):
         point, metrics, anim = MethodProcessor.process(self.method,
                                                        LambdaOracul(lambda rate: oracul.evaluate(
                                                            Point(np.array(self.x) - rate * ray))),
-                                                       CountCondition(200),  # Should be PrecisionCondition
+                                                       CountCondition(20),  # Should be PrecisionCondition
                                                        metrics=None, method_params={"a": 0,
-                                                                                    "b": 10},  # ???
+                                                                                    "b": self.learning_rate},
                                                        visualize=False)
         return point.coordinates[0]
