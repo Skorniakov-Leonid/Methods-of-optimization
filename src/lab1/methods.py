@@ -112,7 +112,8 @@ class BaseGradientDescent(OptimizationMethod):
     def initial_step(self, oracul: GradientOracul, **params) -> tuple[Point, State]:
         self.learning_rate = params["learning_rate"]
         self.x: list[float] = params["x"]
-        self.y: float = oracul.evaluate(Point(np.array(self.x, dtype=np.float64)))  # вообще говоря, может и не вычислять
+        self.y: float = oracul.evaluate(
+            Point(np.array(self.x, dtype=np.float64)))  # вообще говоря, может и не вычислять
         return self.get_temp_res(), self.get_state()
 
     def step(self, oracul: GradientOracul, state: State) -> tuple[Point, State]:
@@ -139,3 +140,52 @@ class GradientDescent(BaseGradientDescent):
                                                                                     "b": self.learning_rate},
                                                        visualize=False)
         return point.coordinates[0]
+
+
+class CoordinateDescent(OptimizationMethod):
+    def __init__(self):
+        self.step_len = None
+        self.x_dec = None
+        self.precision = None
+        self.dim_num = None
+        self.x = None
+        self.temp_dim = 0
+
+    def get_state(self) -> State:
+        return State([PointFigure(np.array(self.x).tolist() + [self.x_dec])], [],
+                     float(self.step_len))
+
+    def get_temp_res(self):
+        return Point(np.append(np.array(self.x), np.array([self.x_dec])))
+
+    def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
+        self.x = np.array(params["x"], np.float64)
+        self.step_len = params["learning_rate"]
+        self.precision = params["eps"]
+        self.x_dec = oracul.evaluate(Point(self.x))
+        self.dim_num = len(self.x)
+        return self.get_temp_res(), self.get_state()
+
+    def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
+        success = False
+        checked_dim = 0
+        while self.step_len > self.precision and not success:
+            temp_step = np.zeros(self.dim_num, np.float64)
+            temp_step[self.temp_dim] = self.step_len
+            temp_dec = oracul.evaluate(Point(self.x + temp_step))
+            if self.x_dec > temp_dec:
+                self.x[self.temp_dim] += self.step_len
+                self.x_dec = temp_dec
+                success = True
+            else:
+                temp_step[self.temp_dim] = -self.step_len
+                temp_dec = oracul.evaluate(Point(self.x + temp_step))
+                if self.x_dec > temp_dec:
+                    self.x[self.temp_dim] -= self.step_len
+                    self.x_dec = temp_dec
+                    success = True
+            self.temp_dim = (self.temp_dim + 1) % self.dim_num
+            checked_dim = (checked_dim + 1) % self.dim_num
+            if checked_dim == 0 and not success:
+                self.step_len /= 2
+        return self.get_temp_res(), self.get_state()
