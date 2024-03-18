@@ -64,20 +64,30 @@ class LambdaOracul(Oracul):
         return self.dimension
 
 
+class GradientLambdaOracul(LambdaOracul, GradientOracul):
+    def __init__(self, func: Callable[..., float], gradfunc: Callable[..., np.ndarray]):
+        super().__init__(func)
+        self.gradfunc = gradfunc
+
+    def evaluate_gradient(self, point: Point) -> np.ndarray:
+        return self.gradfunc(*(point.coordinates[:self.dimension - 1]))
+
+
 class PoweredSumOracul(GradientOracul):
     def __init__(self, params) -> None:
         self.params = params
 
     def evaluate(self, point: Point) -> float:
-        res = 0
+        res = np.float64(0)
         for i in range(len(self.params)):
-            res += self.params[i][0] * (point.coordinates[i] ** self.params[i][1])
+            res += self.params[i][0] * (np.float64(point.coordinates[i]) ** self.params[i][1])
         return res
 
     def evaluate_gradient(self, point: Point) -> np.ndarray:
-        res = np.zeros(len(self.params))
+        res = np.zeros(len(self.params), dtype=np.float64)
         for i in range(len(self.params)):
-            res[i] = (point.coordinates[i] ** (self.params[i][1] - 1)) * self.params[i][0] * self.params[i][1]
+            res[i] = (np.float64(point.coordinates[i]) ** np.float64(self.params[i][1] - 1)) * self.params[i][0] * \
+                     self.params[i][1]
         return res
 
     def get_dimension(self) -> int:
