@@ -23,6 +23,32 @@ class CallCount(Metric):
 
             def evaluate_gradient(self_oracul, point: Point):
                 return oracul.evaluate_gradient(point)
+
+        return CountingOracul()
+
+    def detect_point(self, point: Point) -> None:
+        pass
+
+    def get_result(self, **params) -> float:
+        return float(self.calls_count)
+
+
+class GradientCount(Metric):
+    """Metric counting count of calls of oracul's gradient"""
+    calls_count = 0
+
+    def process_oracul(self, oracul: Oracul) -> Oracul:
+        class CountingOracul(Oracul):
+            def evaluate(self_oracul, point: Point) -> np.floating:
+                return oracul.evaluate(point)
+
+            def get_dimension(self_oracul) -> int:
+                return oracul.get_dimension()
+
+            def evaluate_gradient(self_oracul, point: Point):
+                self.calls_count += 1
+                return oracul.evaluate_gradient(point)
+
         return CountingOracul()
 
     def detect_point(self, point: Point) -> None:
