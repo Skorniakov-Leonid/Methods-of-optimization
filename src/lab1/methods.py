@@ -196,3 +196,32 @@ class CoordinateDescent(OptimizationMethod):
             if checked_dim == 0 and not success:
                 self.step_len /= 2
         return self.get_temp_res(), self.get_state()
+
+
+class DichotomyMethod(OptimizationMethod):
+    def __init__(self):
+        self.left_border = None
+        self.right_border = None
+        self.eps = None
+
+    def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
+        self.left_border = params["a"]
+        self.right_border = params["b"]
+        self.eps = 1e-6
+        return self.calc(), self.get_state()
+
+    def get_state(self) -> State:
+        return State([LineFigure([self.left_border, 0], [self.right_border, 0]), PointFigure([self.left_border, 0]),
+                      PointFigure([self.right_border, 0])], [None],
+                     self.left_border - self.right_border)
+
+    def calc(self) -> Point:
+        return Point(np.array([(self.left_border + self.right_border) / 2]))
+
+    def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
+        c = (self.left_border + self.right_border) / 2
+        if oracul.evaluate(Point(c - self.eps)) < oracul.evaluate(Point(c + self.eps)):
+            self.right_border = c
+        else:
+            self.left_border = c
+        return self.calc(), self.get_state()
