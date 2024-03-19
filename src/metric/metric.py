@@ -15,10 +15,11 @@ class Metric(ABC):
         return oracul
 
     @abstractmethod
-    def detect_point(self, point: Point) -> None:
+    def detect_step(self, point: Point, state: State) -> None:
         """
         Detect point for collecting metrics
         :param point:           point
+        :param state:           state after step
         """
         pass
 
@@ -59,7 +60,7 @@ class MetricMethod(OptimizationMethod):
 
         point, next_state = self.method.initial_step(prepared_oracul, **params)
         for metric in self.metrics:
-            metric.detect_point(point)
+            metric.detect_step(point, next_state)
 
         return point, next_state
 
@@ -70,6 +71,6 @@ class MetricMethod(OptimizationMethod):
 
         point, next_state = self.method.step(prepared_oracul, state)
         for metric in self.metrics:
-            metric.detect_point(point)
+            metric.detect_step(point, next_state)
 
         return point, next_state

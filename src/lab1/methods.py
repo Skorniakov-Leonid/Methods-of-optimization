@@ -66,7 +66,7 @@ class GoldenRatioMethod(OptimizationMethod):
     def get_state(self):
         return State([LineFigure([self.left_border, 0], [self.right_border, 0]), PointFigure([self.left_border, 0]),
                       PointFigure([self.right_border, 0])], [None],
-                     self.left_border - self.right_border)
+                     self.right_border - self.left_border)
 
     def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
         self.left_border = params["a"]
@@ -132,17 +132,16 @@ class BaseGradientDescent(OptimizationMethod):
 
 class GradientDescent(BaseGradientDescent):
 
-    def __init__(self, step_precision=0.05, method=GoldenRatioMethod()):
+    def __init__(self, aprox_count = 20, method=GoldenRatioMethod()):
         super().__init__()
         self.method = method
-        self.step_precision = step_precision
-        self.temp_prec = float("inf")
+        self.aprox_count = aprox_count
 
     def get_learning_rate(self, ray, oracul):
         point, metrics, anim = MethodProcessor.process(self.method,
                                                        LambdaOracul(lambda rate: oracul.evaluate(
                                                            Point(np.array(self.x) - rate * ray))),
-                                                       PrecisionCondition(self.step_precision),
+                                                       CountCondition(self.aprox_count),
                                                        metrics=None, method_params={"a": 0,
                                                                                     "b": self.learning_rate},
                                                        visualize=False)
