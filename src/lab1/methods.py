@@ -212,14 +212,15 @@ class DichotomyMethod(OptimizationMethod):
     def get_state(self) -> State:
         return State([LineFigure([self.left_border, 0], [self.right_border, 0]), PointFigure([self.left_border, 0]),
                       PointFigure([self.right_border, 0])], [None],
-                     self.left_border - self.right_border)
+                     self.right_border - self.left_border)
 
     def calc(self) -> Point:
         return Point(np.array([(self.left_border + self.right_border) / 2]))
 
     def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
         c = (self.left_border + self.right_border) / 2
-        if oracul.evaluate(Point(c - self.eps)) < oracul.evaluate(Point(c + self.eps)):
+        if oracul.evaluate(Point(np.array([c - self.eps], dtype=np.float64))) \
+                < oracul.evaluate(Point(np.array([c + self.eps], dtype=np.float64))):
             self.right_border = c
         else:
             self.left_border = c
