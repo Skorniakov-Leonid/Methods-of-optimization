@@ -95,13 +95,14 @@ class GoldenRatioMethod(OptimizationMethod):
 
 class BaseGradientDescent(OptimizationMethod):
     def __init__(self):
+        self.prev_x = None
         self.x = None
         self.y = None
         self.learning_rate = None
 
     def get_state(self) -> State:
         return State([PointFigure(np.array(self.x).tolist() + [self.y])], [],
-                     float("inf"))
+                     self.get_precision())
 
     def get_learning_rate(self, ray, oracul) -> float:
         return self.learning_rate
@@ -118,24 +119,30 @@ class BaseGradientDescent(OptimizationMethod):
 
     def step(self, oracul: GradientOracul, state: State) -> tuple[Point, State]:
         gradient_at_x = oracul.evaluate_gradient(Point(np.array(self.x, np.float64)))
-        gradient_at_x = gradient_at_x / np.linalg.norm(gradient_at_x, ord=1)
+        gradient_at_x = gradient_at_x / np.linalg.norm(gradient_at_x, ord=2)
+        self.prev_x = self.x
         self.x = np.array(self.x) - gradient_at_x * self.get_learning_rate(
             gradient_at_x, oracul)
         self.y = oracul.evaluate(Point(np.array(self.x, dtype=np.float64)))
         return self.get_temp_res(), self.get_state()
 
+    def get_precision(self):
+        return float("inf") if self.prev_x is None else np.linalg.norm(self.x - self.prev_x)
+
 
 class GradientDescent(BaseGradientDescent):
+
     def __init__(self, step_precision=0.05, method=GoldenRatioMethod()):
         super().__init__()
         self.method = method
         self.step_precision = step_precision
+        self.temp_prec = float("inf")
 
     def get_learning_rate(self, ray, oracul):
         point, metrics, anim = MethodProcessor.process(self.method,
                                                        LambdaOracul(lambda rate: oracul.evaluate(
                                                            Point(np.array(self.x) - rate * ray))),
-                                                       CountCondition(20),  # Should be PrecisionCondition
+                                                       PrecisionCondition(self.step_precision),
                                                        metrics=None, method_params={"a": 0,
                                                                                     "b": self.learning_rate},
                                                        visualize=False)
@@ -153,7 +160,7 @@ class CoordinateDescent(OptimizationMethod):
 
     def get_state(self) -> State:
         return State([PointFigure(np.array(self.x).tolist() + [self.x_dec])], [],
-                     float(self.step_len))
+                     self.step_len)
 
     def get_temp_res(self):
         return Point(np.append(np.array(self.x), np.array([self.x_dec])))

@@ -39,6 +39,6 @@ class PrecisionCondition(StopCondition):
         self.eps = trust_decision
 
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
-        if state is None:
-            return False
-        return self.eps > state.eps
+        if state is not None:
+            return self.eps > state.eps
+        return False
