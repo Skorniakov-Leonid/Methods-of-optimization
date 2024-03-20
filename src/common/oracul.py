@@ -95,6 +95,18 @@ class PoweredSumOracul(GradientOracul):
         return len(self.params) + 1
 
 
+class NoiseLambdaOracul(LambdaOracul):
+    def __init__(self, func: Callable[..., float], start_noise: float,
+                 end_noise: float):
+        super().__init__(func)
+        self.start_noise = start_noise
+        self.end_noise = end_noise
+
+    def evaluate(self, point: Point) -> float:
+        return self.func(*(point.coordinates[:self.dimension - 1]) \
+                          + random.uniform(self.start_noise, self.end_noise))
+
+
 class NoiseGradientLambdaOracul(GradientLambdaOracul):
     def __init__(self, func: Callable[..., float], gradfunc: Callable[..., np.ndarray], start_noise: float,
                  end_noise: float):

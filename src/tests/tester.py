@@ -8,6 +8,7 @@ from scipy.optimize import minimize
 
 from ..common import Point, LambdaOracul, PointFigure
 from ..common.method import OptimizationMethod, Oracul
+from ..common.oracul import MultiLambdaOracul
 from ..lab1.method_processor import MethodProcessor
 from ..lab1.stop_condition import PrecisionCondition
 from ..metric import CallCount, GradientCount, StepCountBeforePrecision
@@ -61,12 +62,13 @@ class SimpleTester(Tester):
 
 
 class ScipyTester(Tester):
-    def __init__(self, methods: [str], oraculs: list[tuple[LambdaOracul, LambdaOracul]],
-                 start_point: Point = Point(np.array([100, 200])), eps: float = 1e-3):
+    def __init__(self, methods: [str], oraculs: list[tuple[LambdaOracul | MultiLambdaOracul, LambdaOracul | MultiLambdaOracul]],
+                 start_point: Point = Point(np.array([100, 200])), eps: float = 1e-3, visualize: bool = True):
         self.methods = methods
         self.oraculs = oraculs
         self.start_point = start_point
         self.eps = eps
+        self.visualize = visualize
 
     def test(self) -> tuple[list[list[list[list[Point]]]], list[list[list[list[Any]]]], list[None]]:
         points = []
@@ -79,12 +81,13 @@ class ScipyTester(Tester):
                 res = minimize(method="Nelder-Mead", fun=oracul[0].func, x0=self.start_point.coordinates,
                                options={"return_all": True, "disp": True, "xatol": True, "fatol": True}, tol=self.eps)
                 point = res.x
-                figures = []
-                for point in res.allvecs:
-                    figures.append(PointFigure([*point, oracul[1].evaluate(Point(point))]))
-                Animator.animate([figures], oracul[1], oracul[1].get_dimension(), step=0.01, start=[-100, -100],
-                                 end=[200, 200])
-                plt.show()
+                if self.visualize:
+                    figures = []
+                    for point in res.allvecs:
+                        figures.append(PointFigure([*point, oracul[1].evaluate(Point(point))]))
+                    Animator.animate([figures], oracul[1], oracul[1].get_dimension(), step=0.01, start=[-100, -100],
+                                     end=[200, 200])
+                    plt.show()
                 part_points.append([Point(point)])
                 part_metrics.append([res.nfev])
             points.append([part_points])

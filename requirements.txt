@@ -2,3 +2,5 @@ numpy
 matplotlib
 jupyter
 jupyter-book
+scipy
+ipympl
