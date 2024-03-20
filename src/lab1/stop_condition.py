@@ -42,3 +42,15 @@ class PrecisionCondition(StopCondition):
         if state is not None:
             return self.eps > state.eps
         return False
+
+
+class PrecisionOrCountCondition(CountCondition):
+    def __init__(self, trust_precision, max_count):
+        self.eps = trust_precision
+        super().__init__(max_count)
+
+    def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
+        self.count += 1
+        if state is not None:
+            return self.eps > state.eps or self.count > self.max_count
+        return False

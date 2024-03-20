@@ -88,6 +88,36 @@ class StepCountBeforePrecision(Metric):
     def get_result(self, **params) -> float:
         return float(self.step_count)
 
+class TrueGradientCount(Metric):
+
+    def __init__(self, real_point, eps):
+        self.count = 0
+        self.real_point = real_point
+        self.eps = eps
+        self.flag = False
+    def process_oracul(self, oracul: Oracul) -> Oracul:
+        class CountingOracul(Oracul):
+            def evaluate(self_oracul, point: Point) -> np.floating:
+                if not self.flag and np.sqrt(np.sum(np.square(point.coordinates - self.real_point))) < self.eps:
+                    self.flag = True
+                elif not self.flag:
+                    self.count += 1
+                return oracul.evaluate(point)
+
+            def get_dimension(self_oracul) -> int:
+                return oracul.get_dimension()
+
+            def evaluate_gradient(self_oracul, point: Point):
+                return oracul.evaluate_gradient(point)
+
+        return CountingOracul()
+
+    def detect_step(self, point: Point, state: State) -> None:
+        pass
+
+    def get_result(self, **params) -> float:
+        return float(self.count)
+
 
 class UniqueCallCount(Metric):
     """Metric counting count of unique calls of oracul"""

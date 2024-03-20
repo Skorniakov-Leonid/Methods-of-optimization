@@ -127,25 +127,25 @@ class BaseGradientDescent(OptimizationMethod):
         return self.get_temp_res(), self.get_state()
 
     def get_precision(self):
-        return float("inf") if self.prev_x is None else np.linalg.norm(self.x - self.prev_x)
+        return float("inf") if self.prev_x is None else np.sqrt(np.sum(np.square(self.x-self.prev_x)))
 
 
 class GradientDescent(BaseGradientDescent):
 
-    def __init__(self, aprox_count = 20, method=GoldenRatioMethod()):
+    def __init__(self, aprox_dec=0.0001, method=GoldenRatioMethod()):
         super().__init__()
         self.method = method
-        self.aprox_count = aprox_count
+        self.eps = aprox_dec
 
     def get_learning_rate(self, ray, oracul):
         point, metrics, anim = MethodProcessor.process(self.method,
                                                        LambdaOracul(lambda rate: oracul.evaluate(
                                                            Point(np.array(self.x) - rate * ray))),
-                                                       CountCondition(self.aprox_count),
+                                                       PrecisionCondition(self.eps),
                                                        metrics=None, method_params={"a": 0,
                                                                                     "b": self.learning_rate},
                                                        visualize=False)
-        return point.coordinates[0]
+        return np.float64(point.coordinates[0])
 
 
 class CoordinateDescent(OptimizationMethod):
