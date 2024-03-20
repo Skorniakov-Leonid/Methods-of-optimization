@@ -78,7 +78,7 @@ class ScipyTester(Tester):
             part_metrics = []
             for oracul in self.oraculs:
                 plt.figure()
-                res = minimize(method="Nelder-Mead", fun=oracul[0].func, x0=self.start_point.coordinates,
+                res = minimize(method=method, fun=oracul[0].func, x0=self.start_point.coordinates,
                                options={"return_all": True, "disp": True, "xatol": True, "fatol": True}, tol=self.eps)
                 point = res.x
                 if self.visualize:
