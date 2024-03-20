@@ -113,6 +113,7 @@ class BaseGradientDescent(OptimizationMethod):
     def initial_step(self, oracul: GradientOracul, **params) -> tuple[Point, State]:
         self.learning_rate = params["learning_rate"]
         self.x: list[float] = params["x"]
+        self.prev_x = None
         self.y: float = oracul.evaluate(
             Point(np.array(self.x, dtype=np.float64)))  # вообще говоря, может и не вычислять
         return self.get_temp_res(), self.get_state()

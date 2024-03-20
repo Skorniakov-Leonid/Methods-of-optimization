@@ -96,7 +96,8 @@ class PoweredSumOracul(GradientOracul):
 
 
 class NoiseGradientLambdaOracul(GradientLambdaOracul):
-    def __init__(self, func: Callable[..., float], gradfunc: Callable[..., np.ndarray], start_noise: float, end_noise: float):
+    def __init__(self, func: Callable[..., float], gradfunc: Callable[..., np.ndarray], start_noise: float,
+                 end_noise: float):
         super().__init__(func, gradfunc)
         self.start_noise = start_noise
         self.end_noise = end_noise
@@ -104,3 +105,30 @@ class NoiseGradientLambdaOracul(GradientLambdaOracul):
     def evaluate(self, point: Point) -> float:
         return self.func(*(point.coordinates[:self.dimension - 1]) \
                           + random.uniform(self.start_noise, self.end_noise))
+
+
+class MultiLambdaOracul(Oracul):
+    def __init__(self, func: Callable[[np.ndarray, int], float], n: int, start_sum: int = 0):
+        self.func = func
+        self.n = n
+        self.dimension = len(signature(func).parameters) + 1
+        self.start_sum = start_sum
+
+    def evaluate(self, point: Point) -> float:
+        res = 0
+        for i in range(self.start_sum, self.n):
+            res += self.func(point.coordinates, i)
+        return res
+
+    def get_dimension(self) -> int:
+        return self.dimension
+
+
+class MultiGradientLambdaOracul(MultiLambdaOracul, GradientOracul):
+    def __init__(self, func: Callable[[np.ndarray, int], float], grad: Callable[[np.ndarray], np.ndarray], n: int,
+                 start_sum: int = 0):
+        super().__init__(func, n, start_sum)
+        self.grad = grad
+
+    def evaluate_gradient(self, point: Point) -> np.ndarray:
+        return self.grad(point.coordinates)
