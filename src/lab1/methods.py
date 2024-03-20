@@ -1,58 +1,22 @@
-import random
-from abc import ABC, abstractmethod
-from functools import partial
-
 import numpy as np
+import typing as tp
 
 from .method_processor import MethodProcessor
-from .stop_condition import PrecisionCondition, CountCondition
+from .stop_condition import PrecisionCondition
 from ..common import Oracul, State, OptimizationMethod, Point, PointFigure, LineFigure
 from ..common.oracul import GradientOracul, LambdaOracul
 
 
-class RandomMethod(OptimizationMethod):
-    """Test method"""
-
-    def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
-        dimension = oracul.get_dimension()
-
-        coordinates = [0 for _ in range(dimension - 1)]
-        coordinates = coordinates + [oracul.evaluate(Point(np.array(coordinates)))]
-
-        point = Point(np.array(coordinates))
-        visual_point = PointFigure(coordinates)
-
-        oracul.evaluate(point)
-
-        state = State(visual_state=[visual_point], parameters=[point])
-        return point, state
-
-    def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
-        last_coordinates = state.parameters[0].coordinates
-        new_coordinates = [i + random.randint(-20, 20) for i in last_coordinates[:-1]]
-
-        new_coordinates = new_coordinates + [oracul.evaluate(Point(np.array(new_coordinates)))]
-
-        point = Point(np.array(new_coordinates))
-        visual_point = PointFigure(new_coordinates)
-        visual_line = LineFigure(last_coordinates, new_coordinates)
-
-        oracul.evaluate(point)  # просто так
-
-        state = State(visual_state=[visual_point, visual_line], parameters=[point])
-        return point, state
-
-
 class GoldenRatioMethod(OptimizationMethod):
+    """Optimization method using golden ratio"""
     _PROPORTION = (1 + np.sqrt(5)) / 2
 
-    def __init__(self):
-        self.right_intermediate_dec = None
-        self.right_intermediate = None
-        self.left_intermediate_dec = None
-        self.left_intermediate = None
-        self.left_border = None
-        self.right_border = None
+    right_intermediate_dec: tp.Optional[float] = None
+    right_intermediate: tp.Optional[float] = None
+    left_intermediate_dec: tp.Optional[float] = None
+    left_intermediate: tp.Optional[float] = None
+    left_border: tp.Optional[float] = None
+    right_border: tp.Optional[float] = None
 
     def calc_left_intermediate(self) -> float:
         return self.left_border + (self.right_border - self.left_border) / (GoldenRatioMethod._PROPORTION + 1)
@@ -64,13 +28,22 @@ class GoldenRatioMethod(OptimizationMethod):
         return Point(np.array([(self.right_border + self.left_border) / 2, 0]))
 
     def get_state(self):
-        return State([LineFigure([self.left_border, 0], [self.right_border, 0]), PointFigure([self.left_border, 0]),
-                      PointFigure([self.right_border, 0])], [None],
-                     self.right_border - self.left_border)
+        return State(
+            [
+                LineFigure(
+                    [self.left_border, 0],
+                    [self.right_border, 0]
+                ),
+                PointFigure([self.left_border, 0]),
+                PointFigure([self.right_border, 0])
+            ],
+            [],
+            self.right_border - self.left_border
+        )
 
     def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
-        self.left_border = params["a"]
-        self.right_border = params["b"]
+        self.left_border = params["left"]
+        self.right_border = params["right"]
         self.left_intermediate = self.calc_left_intermediate()
         self.right_intermediate = self.calc_right_intermediate()
         self.left_intermediate_dec = oracul.evaluate(Point(np.array([self.left_intermediate])))
@@ -94,15 +67,18 @@ class GoldenRatioMethod(OptimizationMethod):
 
 
 class BaseGradientDescent(OptimizationMethod):
-    def __init__(self):
-        self.prev_x = None
-        self.x = None
-        self.y = None
-        self.learning_rate = None
+    """Class for gradient method with fixed rate"""
+    learning_rate: tp.Optional[float] = None
+    prev_x: tp.Optional[list[float]] = None
+    x: tp.Optional[list[float]] = None
+    y: tp.Optional[float] = None
 
     def get_state(self) -> State:
-        return State([PointFigure(np.array(self.x).tolist() + [self.y])], [],
-                     self.get_precision())
+        return State(
+            [PointFigure(np.array(self.x).tolist() + [self.y])],
+            [],
+            self.get_precision()
+        )
 
     def get_learning_rate(self, ray, oracul) -> float:
         return self.learning_rate
@@ -112,10 +88,11 @@ class BaseGradientDescent(OptimizationMethod):
 
     def initial_step(self, oracul: GradientOracul, **params) -> tuple[Point, State]:
         self.learning_rate = params["learning_rate"]
-        self.x: list[float] = params["x"]
+        self.x = params["x"]
         self.prev_x = None
-        self.y: float = oracul.evaluate(
-            Point(np.array(self.x, dtype=np.float64)))  # вообще говоря, может и не вычислять
+        self.y = oracul.evaluate(
+            Point(np.array(self.x, dtype=np.float64))
+        )  # вообще говоря, может и не вычислять
         return self.get_temp_res(), self.get_state()
 
     def step(self, oracul: GradientOracul, state: State) -> tuple[Point, State]:
@@ -132,6 +109,7 @@ class BaseGradientDescent(OptimizationMethod):
 
 
 class GradientDescent(BaseGradientDescent):
+    """Class for gradient method"""
 
     def __init__(self, aprox_dec=0.0001, method=GoldenRatioMethod()):
         super().__init__()
@@ -139,28 +117,33 @@ class GradientDescent(BaseGradientDescent):
         self.eps = aprox_dec
 
     def get_learning_rate(self, ray, oracul):
-        point, metrics, anim = MethodProcessor.process(self.method,
-                                                       LambdaOracul(lambda rate: oracul.evaluate(
-                                                           Point(np.array(self.x) - rate * ray))),
-                                                       PrecisionCondition(self.eps),
-                                                       metrics=None, method_params={"a": 0,
-                                                                                    "b": self.learning_rate},
-                                                       visualize=False)
+        point, _, _ = MethodProcessor.process(
+            self.method,
+            LambdaOracul(
+                lambda rate: oracul.evaluate(Point(np.array(self.x) - rate * ray))
+            ),
+            PrecisionCondition(self.eps),
+            metrics=None,
+            method_params={"left": 0, "right": self.learning_rate},
+            visualize=False)
         return np.float64(point.coordinates[0])
 
 
 class CoordinateDescent(OptimizationMethod):
-    def __init__(self):
-        self.step_len = None
-        self.x_dec = None
-        self.precision = None
-        self.dim_num = None
-        self.x = None
-        self.temp_dim = 0
+    """Class for coordinate descent method"""
+    step_len: tp.Optional[float] = None
+    x_dec: tp.Optional[float] = None
+    precision: tp.Optional[float] = None
+    dim_num: tp.Optional[int] = None
+    x: tp.Optional[np.ndarray] = None
+    temp_dim: int = 0
 
     def get_state(self) -> State:
-        return State([PointFigure(np.array(self.x).tolist() + [self.x_dec])], [],
-                     self.step_len)
+        return State(
+            [PointFigure(np.array(self.x).tolist() + [self.x_dec])],
+            [],
+            self.step_len
+        )
 
     def get_temp_res(self):
         return Point(np.append(np.array(self.x), np.array([self.x_dec])))
@@ -171,6 +154,7 @@ class CoordinateDescent(OptimizationMethod):
         self.precision = params["eps"]
         self.x_dec = oracul.evaluate(Point(self.x))
         self.dim_num = len(self.x)
+        self.temp_dim = 0
         return self.get_temp_res(), self.get_state()
 
     def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
@@ -199,29 +183,38 @@ class CoordinateDescent(OptimizationMethod):
 
 
 class DichotomyMethod(OptimizationMethod):
-    def __init__(self):
-        self.left_border = None
-        self.right_border = None
-        self.eps = None
+    """Class for dichotomy method"""
+    left_border = None
+    right_border = None
+    eps = None
 
     def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
-        self.left_border = params["a"]
-        self.right_border = params["b"]
+        self.left_border = params["left"]
+        self.right_border = params["right"]
         self.eps = 1e-6
         return self.calc(), self.get_state()
 
     def get_state(self) -> State:
-        return State([LineFigure([self.left_border, 0], [self.right_border, 0]), PointFigure([self.left_border, 0]),
-                      PointFigure([self.right_border, 0])], [None],
-                     self.right_border - self.left_border)
+        return State(
+            [
+                LineFigure(
+                    [self.left_border, 0],
+                    [self.right_border, 0]
+                ),
+                PointFigure([self.left_border, 0]),
+                PointFigure([self.right_border, 0])
+            ],
+            [None],
+            self.right_border - self.left_border)
 
     def calc(self) -> Point:
         return Point(np.array([(self.left_border + self.right_border) / 2]))
 
     def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
         c = (self.left_border + self.right_border) / 2
-        if oracul.evaluate(Point(np.array([c - self.eps], dtype=np.float64))) \
-                < oracul.evaluate(Point(np.array([c + self.eps], dtype=np.float64))):
+        if oracul.evaluate(
+                Point(np.array([c - self.eps], dtype=np.float64))
+        ) < oracul.evaluate(Point(np.array([c + self.eps], dtype=np.float64))):
             self.right_border = c
         else:
             self.left_border = c

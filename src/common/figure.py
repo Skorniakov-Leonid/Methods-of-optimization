@@ -98,6 +98,7 @@ class VectorFigure(Figure):
         """
         Constructor for vector
         :param start:       point of start vector
+        :param direction:   direction of vector
         :param end:         point of end vector
         :param params:      optional parameters
         """

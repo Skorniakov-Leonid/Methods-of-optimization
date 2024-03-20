@@ -11,7 +11,7 @@ from ..common.method import OptimizationMethod, Oracul
 from ..common.oracul import MultiLambdaOracul
 from ..lab1.method_processor import MethodProcessor
 from ..lab1.stop_condition import PrecisionCondition
-from ..metric import CallCount, GradientCount, StepCountBeforePrecision
+from ..metric import CallCount, GradientCount, PrecisionCount
 from ..visualization import Animator
 
 
@@ -45,7 +45,7 @@ class SimpleTester(Tester):
             for oracul in self.oraculs:
                 point, metric, animation = MethodProcessor.process(method, oracul, PrecisionCondition(self.eps),
                                                                    metrics=[CallCount(), GradientCount(),
-                                                                            StepCountBeforePrecision(self.eps)],
+                                                                            PrecisionCount(self.eps)],
                                                                    method_params={
                                                                        "x": self.start_point,
                                                                        "learning_rate": self.learning_rate,

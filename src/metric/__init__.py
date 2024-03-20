@@ -1,5 +1,5 @@
 from .metric import Metric, MetricMethod
-from .default_metrics import default_metrics, CallCount, UniqueCallCount, GradientCount, StepCountBeforePrecision, TrueGradientCount
+from .default_metrics import default_metrics, CallCount, UniqueCallCount, GradientCount, PrecisionCount, AbsolutePrecisionCount
 
 __all__ = ['Metric',
            'MetricMethod',
@@ -7,6 +7,6 @@ __all__ = ['Metric',
            'CallCount',
            'UniqueCallCount',
            'GradientCount',
-           'StepCountBeforePrecision',
-           'TrueGradientCount'
+           'PrecisionCount',
+           'AbsolutePrecisionCount'
            ]

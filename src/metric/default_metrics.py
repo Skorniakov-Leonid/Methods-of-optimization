@@ -2,7 +2,7 @@ import numpy as np
 
 from .metric import Metric
 from ..common import State
-from ..common.oracul import Oracul, Point
+from ..common.oracul import Oracul, Point, GradientOracul
 
 
 def default_metrics() -> list[Metric]:
@@ -15,14 +15,14 @@ class CallCount(Metric):
 
     def process_oracul(self, oracul: Oracul) -> Oracul:
         class CountingOracul(Oracul):
-            def evaluate(self_oracul, point: Point) -> np.floating:
+            def evaluate(self_oracul, point: Point) -> float:
                 self.calls_count += 1
                 return oracul.evaluate(point)
 
             def get_dimension(self_oracul) -> int:
                 return oracul.get_dimension()
 
-            def evaluate_gradient(self_oracul, point: Point):
+            def evaluate_gradient(self_oracul, point: Point) -> np.ndarray:
                 return oracul.evaluate_gradient(point)
 
         return CountingOracul()
@@ -38,15 +38,15 @@ class GradientCount(Metric):
     """Metric counting count of calls of oracul's gradient"""
     calls_count = 0
 
-    def process_oracul(self, oracul: Oracul) -> Oracul:
-        class CountingOracul(Oracul):
-            def evaluate(self_oracul, point: Point) -> np.floating:
+    def process_oracul(self, oracul: GradientOracul) -> Oracul:
+        class CountingOracul(GradientOracul):
+            def evaluate(self_oracul, point: Point) -> float:
                 return oracul.evaluate(point)
 
             def get_dimension(self_oracul) -> int:
                 return oracul.get_dimension()
 
-            def evaluate_gradient(self_oracul, point: Point):
+            def evaluate_gradient(self_oracul, point: Point) -> np.ndarray:
                 self.calls_count += 1
                 return oracul.evaluate_gradient(point)
 
@@ -59,55 +59,48 @@ class GradientCount(Metric):
         return float(self.calls_count)
 
 
-class StepCountBeforePrecision(Metric):
+class PrecisionCount(Metric):
+    """Metric counting count of calls before reaching the required accuracy"""
     step_count = 0
+    stopped = False
 
-    def __init__(self, precision):
+    def __init__(self, precision) -> None:
+        """Constructor of precision count metric
+        :param precision:   required accuracy
+        """
         self.control_precision = precision
-        self.stop_flag = False
 
     def process_oracul(self, oracul: Oracul) -> Oracul:
-        class CountingOracul(Oracul):
-            def evaluate(self_oracul, point: Point) -> np.floating:
-                return oracul.evaluate(point)
-
-            def get_dimension(self_oracul) -> int:
-                return oracul.get_dimension()
-
-            def evaluate_gradient(self_oracul, point: Point):
-                return oracul.evaluate_gradient(point)
-
-        return CountingOracul()
+        return oracul
 
     def detect_step(self, point: Point, state: State) -> None:
-        if state.eps > self.control_precision and not self.stop_flag:
-            self.step_count += 1
-        else:
-            self.stop_flag = True
+        self.stopped |= state.eps > self.control_precision
+        self.step_count += not self.stopped
 
     def get_result(self, **params) -> float:
         return float(self.step_count)
 
-class TrueGradientCount(Metric):
 
-    def __init__(self, real_point, eps):
-        self.count = 0
+class AbsolutePrecisionCount(Metric):
+    """Metric counting count of calls before reaching accuracy relative absolute minimum"""
+    count = 0
+    stopped = False
+
+    def __init__(self, real_point: Point, eps: float) -> None:
         self.real_point = real_point
         self.eps = eps
-        self.flag = False
+
     def process_oracul(self, oracul: Oracul) -> Oracul:
         class CountingOracul(Oracul):
-            def evaluate(self_oracul, point: Point) -> np.floating:
-                if not self.flag and np.sqrt(np.sum(np.square(point.coordinates - self.real_point))) < self.eps:
-                    self.flag = True
-                elif not self.flag:
-                    self.count += 1
+            def evaluate(self_oracul, point: Point) -> float:
+                self.stopped |= self.real_point.distance(point)
+                self.count += not self.stopped
                 return oracul.evaluate(point)
 
             def get_dimension(self_oracul) -> int:
                 return oracul.get_dimension()
 
-            def evaluate_gradient(self_oracul, point: Point):
+            def evaluate_gradient(self_oracul, point: Point) -> np.ndarray:
                 return oracul.evaluate_gradient(point)
 
         return CountingOracul()
@@ -126,7 +119,7 @@ class UniqueCallCount(Metric):
 
     def process_oracul(self, oracul: Oracul) -> Oracul:
         class CountingOracul(Oracul):
-            def evaluate(self_oracul, point: Point) -> np.floating:
+            def evaluate(self_oracul, point: Point) -> float:
                 if (oracul, point) not in self.calls_from:
                     self.unique_calls_count += 1
                     self.calls_from.add((oracul, point))
@@ -135,6 +128,9 @@ class UniqueCallCount(Metric):
 
             def get_dimension(self_oracul) -> int:
                 return oracul.get_dimension()
+
+            def evaluate_gradient(self_oracul, point: Point) -> np.ndarray:
+                return oracul.evaluate_gradient(point)
 
         return CountingOracul()
 

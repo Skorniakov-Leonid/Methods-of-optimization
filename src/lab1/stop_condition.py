@@ -35,22 +35,50 @@ class CountCondition(StopCondition):
 
 
 class PrecisionCondition(StopCondition):
-    def __init__(self, trust_decision) -> None:
-        self.eps = trust_decision
+    """Condition of stop after reaching the required accuracy"""
+
+    def __init__(self, precision) -> None:
+        """
+        Constructor for precision condition
+        :param precision:   required accuracy
+        """
+        self.precision = precision
 
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
         if state is not None:
-            return self.eps > state.eps
+            return self.precision > state.eps
         return False
 
 
-class PrecisionOrCountCondition(CountCondition):
-    def __init__(self, trust_precision, max_count):
-        self.eps = trust_precision
-        super().__init__(max_count)
+class AndCondition(StopCondition):
+    """Condition of step when both conditions are true"""
+
+    def __init__(self, first_condition: StopCondition, second_condition: StopCondition):
+        """
+        Constructor for and condition
+        :param first_condition:     first condition
+        :param second_condition:    second condition
+        """
+        self.first_condition = first_condition
+        self.second_condition = second_condition
 
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
-        self.count += 1
-        if state is not None:
-            return self.eps > state.eps or self.count > self.max_count
-        return False
+        return self.first_condition.stop(point, state) and self.second_condition.stop(point, state)
+
+
+class OrCondition(StopCondition):
+    """Condition of step when one of two conditions is true"""
+
+    def __init__(self, first_condition: StopCondition, second_condition: StopCondition):
+        """
+        Constructor for or condition
+        :param first_condition:     first condition
+        :param second_condition:    second condition
+        """
+        self.first_condition = first_condition
+        self.second_condition = second_condition
+
+    def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
+        first_result = self.first_condition.stop(point, state)
+        second_result = self.second_condition.stop(point, state)
+        return first_result or second_result
