@@ -119,7 +119,7 @@ class BaseGradientDescent(OptimizationMethod):
 
     def step(self, oracul: GradientOracul, state: State) -> tuple[Point, State]:
         gradient_at_x = oracul.evaluate_gradient(Point(np.array(self.x, np.float64)))
-        gradient_at_x = gradient_at_x / np.linalg.norm(gradient_at_x, ord=2)
+        gradient_at_x = np.float64(gradient_at_x) / np.linalg.norm(gradient_at_x, ord=2)
         self.prev_x = self.x
         self.x = np.array(self.x) - gradient_at_x * self.get_learning_rate(
             gradient_at_x, oracul)
@@ -127,7 +127,7 @@ class BaseGradientDescent(OptimizationMethod):
         return self.get_temp_res(), self.get_state()
 
     def get_precision(self):
-        return float("inf") if self.prev_x is None else np.sqrt(np.sum(np.square(self.x-self.prev_x)))
+        return float("inf") if self.prev_x is None else np.sqrt(np.sum(np.square(self.x - self.prev_x)))
 
 
 class GradientDescent(BaseGradientDescent):
