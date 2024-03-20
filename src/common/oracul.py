@@ -96,7 +96,8 @@ class PoweredSumOracul(GradientOracul):
 
 
 class NoiseGradientLambdaOracul(GradientLambdaOracul):
-    def __init__(self, start_noise: float, end_noise: float):
+    def __init__(self, func: Callable[..., float], gradfunc: Callable[..., np.ndarray], start_noise: float, end_noise: float):
+        super().__init__(func, gradfunc)
         self.start_noise = start_noise
         self.end_noise = end_noise
 
