@@ -13,7 +13,7 @@ class Point:
     coordinates: np.ndarray
 
     def distance(self, point: "Point") -> float:
-        return np.linalg.norm(np.array(self.coordinates) - np.array(point.coordinates))
+        return np.linalg.norm(np.array(self.coordinates[:-1]) - np.array(point.coordinates[:-1]))
 
 
 class Oracul(ABC):

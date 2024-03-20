@@ -1,6 +1,8 @@
 import numpy as np
 import typing as tp
 
+from scipy.optimize import minimize
+
 from .method_processor import MethodProcessor
 from .stop_condition import PrecisionCondition
 from ..common import Oracul, State, OptimizationMethod, Point, PointFigure, LineFigure
@@ -219,3 +221,56 @@ class DichotomyMethod(OptimizationMethod):
         else:
             self.left_border = c
         return self.calc(), self.get_state()
+
+
+class NMMethod(OptimizationMethod):
+    """Class for Nelder Mead method"""
+    points: tp.Optional[list[np.ndarray]] = None
+    iterator: int = 0
+
+    def __init__(self, eps: float) -> None:
+        """
+        Constructor for Nelder Mead method
+        :param eps:     required eps
+        """
+        self.eps: float = eps
+
+    def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
+        def func(coordinates: list[float]) -> float:
+            return oracul.evaluate(Point(np.array(coordinates)))
+
+        self.points = minimize(
+            method="Nelder-Mead",
+            fun=func,
+            x0=params["start_point"] or [0 for _ in range(oracul.get_dimension())],
+            options={"return_all": True, "disp": True, "xatol": True, "fatol": True},
+            tol=self.eps
+        ).allvecs
+
+        self.iterator = min(self.iterator + 1, len(self.points) - 1)
+        point_coordinates = self.points[self.iterator].tolist()
+        point_coordinates += [oracul.evaluate(Point(point_coordinates))]
+        state = State(
+            [PointFigure(point_coordinates)],
+            [],
+            None
+        )
+        return Point(point_coordinates), state
+
+    def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
+        self.iterator = min(self.iterator + 1, len(self.points) - 1)
+        last_point_coordinates = self.points[max(0, self.iterator - 1)]
+        point_coordinates = self.points[self.iterator].tolist()
+        point_coordinates += [oracul.evaluate(Point(point_coordinates))]
+        state = State(
+            [
+                LineFigure(
+                    last_point_coordinates.tolist() + [oracul.evaluate(Point(last_point_coordinates))],
+                    point_coordinates
+                ),
+                PointFigure(point_coordinates)
+            ],
+            [],
+            None
+        )
+        return Point(point_coordinates), state

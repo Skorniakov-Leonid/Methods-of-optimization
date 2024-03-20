@@ -1,4 +1,5 @@
 import itertools
+import math
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -30,7 +31,12 @@ class Animator:
                                                                   **params) if oracul is not None else []
 
         frames: list[list[Artist]] = []
-        for index, main_figures in enumerate(figures):
+
+        show_skip = math.ceil(len(figures) / 50)
+
+        for index in range(0, len(figures), show_skip):
+            print(index)
+            main_figures = figures[index]
             if index == 0:
                 current_frame = oracul_surface.copy()
                 current_frame += Animator.figures_to_artists(main_figures, axes, color=main_color)
