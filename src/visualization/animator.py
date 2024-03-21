@@ -25,8 +25,9 @@ class Animator:
         if dimension not in [2, 3]:
             raise ValueError("Animator support only 2 and 3 dimensions. Current:", dimension)
         figure = plt.figure()
-        axes = figure.add_subplot() if dimension == 2 else figure.add_subplot(projection='3d')
-
+        figc = plt.figure()
+        axes = [figure.add_subplot() if dimension == 2 else figure.add_subplot(projection='3d'),
+                figc.add_subplot()]
         oracul_surface: list[Artist] = Animator.oracul_to_surface(axes, oracul, start, end, step,
                                                                   **params) if oracul is not None else []
 
@@ -48,10 +49,10 @@ class Animator:
                 current_frame += Animator.figures_to_artists(main_figures, axes, color=main_color)
                 frames.append(current_frame)
 
-        axes.set_xlabel("x")
-        axes.set_ylabel("y")
+        axes[0].set_xlabel("x")
+        axes[0].set_ylabel("y")
         if dimension == 3:
-            axes.set_zlabel("z")
+            axes[0].set_zlabel("z")
         return ArtistAnimation(
             figure,
             frames,
@@ -61,12 +62,21 @@ class Animator:
         )
 
     @staticmethod
-    def figures_to_artists(figures: list[Figure], axes: Axes, color: tp.Optional[str] = None) -> list[Artist]:
-        return list(itertools.chain(*[figure.visualize(axes, color=color) for figure in figures]))
+    def figures_to_artists(figures: list[Figure], axes: list[Axes], color: tp.Optional[str] = None) -> list[Artist]:
+        main_ax = axes[0]
+        cont_ax = axes[1]
+        result = []
+        result += list(itertools.chain(*[figure.visualize(main_ax, color=color) for figure in figures]))
+        result += list(itertools.chain(*[figure.visualize_contur(cont_ax, color=color) for figure in figures]))
+        return result
 
     @staticmethod
-    def oracul_to_surface(axes: Axes, oracul: Oracul, start=None, end=None, step: float = 0.01, **params) -> list[
+    def oracul_to_surface(axes: list[Axes], oracul: Oracul, start=None, end=None, step: float = 0.01, **params) -> list[
         Artist]:
+        main_ax = axes[0]
+        contur_ax = axes[1]
+
+        result = []
         if start is None:
             start = [-5.0, -5.0]
         if end is None:
@@ -76,15 +86,20 @@ class Animator:
         if oracul.get_dimension() == 2:
             x = np.arange(start[0], end[0], (end[0] - start[0]) * step)
             y = np.array([oracul.evaluate(Point(np.array([xval]))) for xval in x])
-            return axes.plot(x, y, alpha=0.8, **params)
+
+            result += [main_ax.plot(x, y, alpha=0.8, **params)]
         elif oracul.get_dimension() == 3:
             x = np.arange(start[0], end[0], (end[0] - start[0]) * step)
             y = np.arange(start[1], end[1], (end[1] - start[1]) * step)
             xgrid, ygrid = np.meshgrid(x, y)
             zgrid = np.array([[oracul.evaluate(Point(np.array([xval, yval]))) for xval in x] for yval in y])
-            return [
-                axes.plot_surface(xgrid, ygrid, zgrid, rstride=4, cstride=4, shade=False, alpha=0.5, **params),
-                axes.plot_wireframe(xgrid, ygrid, zgrid, rstride=4, cstride=4, alpha=0.65)
+
+            result += [
+                main_ax.plot_surface(xgrid, ygrid, zgrid, rstride=4, cstride=4, shade=False, alpha=0.5, **params),
+                main_ax.plot_wireframe(xgrid, ygrid, zgrid, rstride=4, cstride=4, alpha=0.65),
+                contur_ax.contour(xgrid, ygrid, zgrid, rstride=4, cstride=4)
             ]
         else:
             raise ValueError("Supported oraculs only with 2 or 3 dimensions")
+
+        return result

@@ -22,6 +22,16 @@ class Figure(ABC):
         """
         pass
 
+    @abstractmethod
+    def visualize_contur(self, axes: Axes, **params) -> list[Artist]:
+        """
+        Visualize contour of figure on axes
+        :param axes:        axes where figure is visualizing
+        :param params:      optional parameters for visualizing
+        :return:            visualized lines
+        """
+        pass
+
 
 class PointFigure(Figure):
     """Figure - point"""
@@ -40,6 +50,12 @@ class PointFigure(Figure):
         merged_parameters.update(params)
 
         return axes.plot(*self.coordinates, 'o', **merged_parameters)
+
+    def visualize_contur(self, axes: Axes, **params) -> list[Artist]:
+        merged_parameters = self.params.copy()
+        merged_parameters.update(params)
+
+        return axes.plot(*(self.coordinates[:-1]), 'o', **merged_parameters)
 
 
 class LineFigure(Figure):
@@ -61,6 +77,13 @@ class LineFigure(Figure):
         merged_parameters.update(params)
 
         transposed_points = [list(i) for i in zip(*[self.start, self.end])]
+        return axes.plot(*transposed_points, **merged_parameters)
+
+    def visualize_contur(self, axes: Axes, **params) -> list[Artist]:
+        merged_parameters = self.params.copy()
+        merged_parameters.update(params)
+
+        transposed_points = [list(i) for i in zip(*[self.start[:-1], self.end[:-1]])]
         return axes.plot(*transposed_points, **merged_parameters)
 
 
