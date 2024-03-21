@@ -278,10 +278,12 @@ class NMMethod(OptimizationMethod):
         def func(coordinates: list[float]) -> float:
             return oracul.evaluate(Point(np.array(coordinates)))
 
+        start_point = params["start_point"] if 'start_point' in params else [0 for _ in range(oracul.get_dimension() - 1)]
+
         self.points = minimize(
             method="Nelder-Mead",
             fun=func,
-            x0=params["start_point"] or [0 for _ in range(oracul.get_dimension() - 1)],
+            x0=start_point,
             options={"return_all": True, "disp": False, "xatol": True, "fatol": True},
             tol=self.eps
         ).allvecs
