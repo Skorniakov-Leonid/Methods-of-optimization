@@ -14,7 +14,7 @@ from ..common import Oracul, Point, Figure
 class Animator:
     @staticmethod
     def animate(figures: list[list[Figure]], oracul: tp.Optional[Oracul] = None,
-                dimension: tp.Optional[int] = 2, interval: int = 400,
+                dimension: tp.Optional[int] = 2, interval: int = 150,
                 main_color: str = 'red', common_color: str = 'green',
                 start=None, end=None, step: float = 0.01, **params) -> Animation:
         if dimension is None and oracul is None:
@@ -35,6 +35,8 @@ class Animator:
         show_skip = math.ceil(len(figures) / 50)
 
         for index in itertools.chain(range(10), range(10, len(figures), show_skip)):
+            if index >= len(figures):
+                break
             main_figures = figures[index]
             if index == 0:
                 current_frame = oracul_surface.copy()

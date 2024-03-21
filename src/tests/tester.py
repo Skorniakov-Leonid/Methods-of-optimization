@@ -23,8 +23,10 @@ class Tester:
     @staticmethod
     def test(methods: list[OptimizationMethod], oraculs: list[Oracul], metrics: list[Metric],
              stop_condition: StopCondition, start_point: tp.Optional[list[float]] = None,
-             learning_rate: float = 300, visualize: bool = True, noise: float = 0.0):
+             learning_rate: float = 300, visualize: bool = False, noise: float = 0.0) \
+            -> tuple[list[Point], list[Animation]]:
         all_points = []
+        anims = []
         for index, oracul in enumerate(oraculs):
             header = [metric.name() for metric in metrics]
             row_header = [method.name() for method in methods]
@@ -37,16 +39,17 @@ class Tester:
                 oracul = NoiseOracul(oracul, -noise, noise)
             for method in methods:
                 method = copy.copy(method)
-                point, results, _ = MethodProcessor.process(method, oracul, stop_condition, metrics,
-                                                            visualize=False,
-                                                            method_params={"start_point": start_point,
-                                                                           "learning_rate": learning_rate})
+                point, results, anim = MethodProcessor.process(method, oracul, stop_condition, metrics,
+                                                               visualize=visualize,
+                                                               method_params={"start_point": start_point,
+                                                                              "learning_rate": learning_rate})
                 metric_results += [results]
                 points += [point]
                 columns += [[res.result for res in results]]
+                anims += [anim]
 
             N = len(methods)
-            fig, ax = plt.subplots(figsize=(17, 3 + N / 2.5))
+            fig, ax = plt.subplots(figsize=(3 * (len(header) + 1) + 2, 1 + N / 1.5))
 
             table = plt.table(cellText=columns,
                               rowLabels=row_header,
@@ -59,9 +62,9 @@ class Tester:
             ax.axis('off')
             ax.set_title(index + 1, weight='bold', size=14, color='k')
             all_points += [points]
-            plt.savefig("table.png", dpi=200, bbox_inches='tight')
+            plt.savefig("table.png", dpi=400, bbox_inches='tight')
 
-        return all_points
+        return all_points, anims
 
 
 class OldTester(ABC):
