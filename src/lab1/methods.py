@@ -29,7 +29,13 @@ class GoldenRatioMethod(OptimizationMethod):
     def calc_temp_res(self) -> Point:
         return Point(np.array([(self.right_border + self.left_border) / 2, 0]))
 
-    def get_state(self):
+    def get_state(self, visualize: bool = False):
+        if not visualize:
+            return State(
+                [],
+                [],
+                self.right_border - self.left_border
+            )
         return State(
             [
                 LineFigure(
@@ -43,16 +49,16 @@ class GoldenRatioMethod(OptimizationMethod):
             self.right_border - self.left_border
         )
 
-    def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
+    def initial_step(self, oracul: Oracul, visualize: bool = False, **params) -> tuple[Point, State]:
         self.left_border = params["left"]
         self.right_border = params["right"]
         self.left_intermediate = self.calc_left_intermediate()
         self.right_intermediate = self.calc_right_intermediate()
         self.left_intermediate_dec = oracul.evaluate(Point(np.array([self.left_intermediate])))
         self.right_intermediate_dec = oracul.evaluate(Point(np.array([self.right_intermediate])))
-        return self.calc_temp_res(), self.get_state()
+        return self.calc_temp_res(), self.get_state(visualize)
 
-    def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
+    def step(self, oracul: Oracul, state: State, visualize: bool = False) -> tuple[Point, State]:
         if self.left_intermediate_dec < self.right_intermediate_dec:
             self.right_border = self.right_intermediate
             self.right_intermediate = self.left_intermediate
@@ -65,17 +71,26 @@ class GoldenRatioMethod(OptimizationMethod):
             self.right_intermediate = self.calc_right_intermediate()
             self.left_intermediate_dec = self.right_intermediate_dec
             self.right_intermediate_dec = oracul.evaluate(Point(np.array([self.right_intermediate])))
-        return self.calc_temp_res(), self.get_state()
+        return self.calc_temp_res(), self.get_state(visualize)
+
+    def name(self) -> str:
+        return "GoldenRation"
 
 
 class BaseGradientDescent(OptimizationMethod):
-    """Class for gradient method with fixed rate"""
+    """Class for gradient descent method with fixed rate"""
     learning_rate: tp.Optional[float] = None
     prev_x: tp.Optional[list[float]] = None
     x: tp.Optional[list[float]] = None
     y: tp.Optional[float] = None
 
-    def get_state(self) -> State:
+    def get_state(self, visualize: bool = False) -> State:
+        if not visualize:
+            return State(
+                [],
+                [],
+                self.get_precision()
+            )
         return State(
             [PointFigure(np.array(self.x).tolist() + [self.y])],
             [],
@@ -88,30 +103,33 @@ class BaseGradientDescent(OptimizationMethod):
     def get_temp_res(self):
         return Point(np.append(np.array(self.x), np.array([self.y])))
 
-    def initial_step(self, oracul: GradientOracul, **params) -> tuple[Point, State]:
+    def initial_step(self, oracul: GradientOracul, visualize: bool = False, **params) -> tuple[Point, State]:
         self.learning_rate = params["learning_rate"]
-        self.x = params["x"]
+        self.x = params["start_point"]
         self.prev_x = None
         self.y = oracul.evaluate(
             Point(np.array(self.x, dtype=np.float64))
         )  # вообще говоря, может и не вычислять
-        return self.get_temp_res(), self.get_state()
+        return self.get_temp_res(), self.get_state(visualize)
 
-    def step(self, oracul: GradientOracul, state: State) -> tuple[Point, State]:
+    def step(self, oracul: GradientOracul, state: State, visualize: bool = False) -> tuple[Point, State]:
         gradient_at_x = oracul.evaluate_gradient(Point(np.array(self.x, np.float64)))
         gradient_at_x = np.float64(gradient_at_x) / np.linalg.norm(gradient_at_x, ord=2)
         self.prev_x = self.x
         self.x = np.array(self.x) - gradient_at_x * self.get_learning_rate(
             gradient_at_x, oracul)
         self.y = oracul.evaluate(Point(np.array(self.x, dtype=np.float64)))
-        return self.get_temp_res(), self.get_state()
+        return self.get_temp_res(), self.get_state(visualize)
 
     def get_precision(self):
         return float("inf") if self.prev_x is None else np.sqrt(np.sum(np.square(self.x - self.prev_x)))
 
+    def name(self) -> str:
+        return "BaseGradient({})".format(self.learning_rate)
+
 
 class GradientDescent(BaseGradientDescent):
-    """Class for gradient method"""
+    """Class for gradient descent method"""
 
     def __init__(self, aprox_dec=0.0001, method=GoldenRatioMethod()):
         super().__init__()
@@ -130,17 +148,29 @@ class GradientDescent(BaseGradientDescent):
             visualize=False)
         return np.float64(point.coordinates[0])
 
+    def name(self) -> str:
+        return "Gradient({})".format(self.method.name()[0])
+
 
 class CoordinateDescent(OptimizationMethod):
     """Class for coordinate descent method"""
-    step_len: tp.Optional[float] = None
     x_dec: tp.Optional[float] = None
-    precision: tp.Optional[float] = None
     dim_num: tp.Optional[int] = None
     x: tp.Optional[np.ndarray] = None
     temp_dim: int = 0
 
-    def get_state(self) -> State:
+    def __init__(self, learning_rate: float = 300, eps: float = 0.01) -> None:
+        self.learning_rate = learning_rate
+        self.step_len = learning_rate
+        self.precision = eps
+
+    def get_state(self, visualize: bool = False) -> State:
+        if not visualize:
+            return State(
+                [],
+                [],
+                self.step_len
+            )
         return State(
             [PointFigure(np.array(self.x).tolist() + [self.x_dec])],
             [],
@@ -150,16 +180,14 @@ class CoordinateDescent(OptimizationMethod):
     def get_temp_res(self):
         return Point(np.append(np.array(self.x), np.array([self.x_dec])))
 
-    def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
-        self.x = np.array(params["x"], np.float64)
-        self.step_len = params["learning_rate"]
-        self.precision = params["eps"]
+    def initial_step(self, oracul: Oracul, visualize: bool = False, **params) -> tuple[Point, State]:
+        self.x = np.array(params["start_point"], np.float64)
         self.x_dec = oracul.evaluate(Point(self.x))
         self.dim_num = len(self.x)
         self.temp_dim = 0
-        return self.get_temp_res(), self.get_state()
+        return self.get_temp_res(), self.get_state(visualize)
 
-    def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
+    def step(self, oracul: Oracul, state: State, visualize: bool = False) -> tuple[Point, State]:
         success = False
         checked_dim = 0
         while self.step_len > self.precision and not success:
@@ -181,7 +209,10 @@ class CoordinateDescent(OptimizationMethod):
             checked_dim = (checked_dim + 1) % self.dim_num
             if checked_dim == 0 and not success:
                 self.step_len /= 2
-        return self.get_temp_res(), self.get_state()
+        return self.get_temp_res(), self.get_state(visualize)
+
+    def name(self) -> str:
+        return "Coordinate({})".format(self.learning_rate)
 
 
 class DichotomyMethod(OptimizationMethod):
@@ -190,13 +221,18 @@ class DichotomyMethod(OptimizationMethod):
     right_border = None
     eps = None
 
-    def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
+    def initial_step(self, oracul: Oracul, visualize: bool = False, **params) -> tuple[Point, State]:
         self.left_border = params["left"]
         self.right_border = params["right"]
         self.eps = 1e-6
-        return self.calc(), self.get_state()
+        return self.calc(), self.get_state(visualize)
 
-    def get_state(self) -> State:
+    def get_state(self, visualize: bool = False) -> State:
+        if not visualize:
+            return State(
+                [],
+                [None],
+                self.right_border - self.left_border)
         return State(
             [
                 LineFigure(
@@ -212,7 +248,7 @@ class DichotomyMethod(OptimizationMethod):
     def calc(self) -> Point:
         return Point(np.array([(self.left_border + self.right_border) / 2]))
 
-    def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
+    def step(self, oracul: Oracul, state: State, visualize: bool = False) -> tuple[Point, State]:
         c = (self.left_border + self.right_border) / 2
         if oracul.evaluate(
                 Point(np.array([c - self.eps], dtype=np.float64))
@@ -220,7 +256,10 @@ class DichotomyMethod(OptimizationMethod):
             self.right_border = c
         else:
             self.left_border = c
-        return self.calc(), self.get_state()
+        return self.calc(), self.get_state(visualize)
+
+    def name(self) -> str:
+        return "Dichotomy"
 
 
 class NMMethod(OptimizationMethod):
@@ -235,42 +274,51 @@ class NMMethod(OptimizationMethod):
         """
         self.eps: float = eps
 
-    def initial_step(self, oracul: Oracul, **params) -> tuple[Point, State]:
+    def initial_step(self, oracul: Oracul, visualize: bool = False, **params) -> tuple[Point, State]:
         def func(coordinates: list[float]) -> float:
             return oracul.evaluate(Point(np.array(coordinates)))
 
         self.points = minimize(
             method="Nelder-Mead",
             fun=func,
-            x0=params["start_point"] or [0 for _ in range(oracul.get_dimension())],
-            options={"return_all": True, "disp": True, "xatol": True, "fatol": True},
+            x0=params["start_point"] or [0 for _ in range(oracul.get_dimension() - 1)],
+            options={"return_all": True, "disp": False, "xatol": True, "fatol": True},
             tol=self.eps
         ).allvecs
 
         self.iterator = min(self.iterator + 1, len(self.points) - 1)
         point_coordinates = self.points[self.iterator].tolist()
         point_coordinates += [oracul.evaluate(Point(point_coordinates))]
-        state = State(
-            [PointFigure(point_coordinates)],
-            [],
-            None
-        )
+        if visualize:
+            state = State(
+                [PointFigure(point_coordinates)],
+                [],
+                None
+            )
+        else:
+            state = State([], [], None)
         return Point(point_coordinates), state
 
-    def step(self, oracul: Oracul, state: State) -> tuple[Point, State]:
+    def step(self, oracul: Oracul, state: State, visualize: bool = False) -> tuple[Point, State]:
         self.iterator = min(self.iterator + 1, len(self.points) - 1)
         last_point_coordinates = self.points[max(0, self.iterator - 1)]
         point_coordinates = self.points[self.iterator].tolist()
         point_coordinates += [oracul.evaluate(Point(point_coordinates))]
-        state = State(
-            [
-                LineFigure(
-                    last_point_coordinates.tolist() + [oracul.evaluate(Point(last_point_coordinates))],
-                    point_coordinates
-                ),
-                PointFigure(point_coordinates)
-            ],
-            [],
-            None
-        )
+        if visualize:
+            state = State(
+                [
+                    LineFigure(
+                        last_point_coordinates.tolist() + [oracul.evaluate(Point(last_point_coordinates))],
+                        point_coordinates
+                    ),
+                    PointFigure(point_coordinates)
+                ],
+                [],
+                None
+            )
+        else:
+            state = State([], [], None)
         return Point(point_coordinates), state
+
+    def name(self) -> str:
+        return "NM({})".format(self.eps)

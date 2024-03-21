@@ -1,3 +1,3 @@
-from .tester import Tester
+from .tester import OldTester
 
-__all__ = ['Tester']
+__all__ = ['OldTester']

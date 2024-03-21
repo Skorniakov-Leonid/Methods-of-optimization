@@ -1,6 +1,6 @@
 import numpy as np
 
-from .metric import Metric
+from .metric import Metric, MetricResult
 from ..common import State
 from ..common.oracul import Oracul, Point, GradientOracul
 
@@ -30,8 +30,15 @@ class CallCount(Metric):
     def detect_step(self, point: Point, state: State) -> None:
         pass
 
-    def get_result(self, **params) -> float:
-        return float(self.calls_count)
+    def get_result(self, method_name: str = "", **params) -> MetricResult:
+        return MetricResult(
+            metric_name=self.name(),
+            method_name=method_name,
+            result=float(self.calls_count)
+        )
+
+    def name(self) -> str:
+        return "Calls"
 
 
 class GradientCount(Metric):
@@ -55,8 +62,15 @@ class GradientCount(Metric):
     def detect_step(self, point: Point, state: State) -> None:
         pass
 
-    def get_result(self, **params) -> float:
-        return float(self.calls_count)
+    def get_result(self, method_name: str = "", **params) -> MetricResult:
+        return MetricResult(
+            metric_name=self.name(),
+            method_name=method_name,
+            result=float(self.calls_count)
+        )
+
+    def name(self) -> str:
+        return "Gradients"
 
 
 class PrecisionCount(Metric):
@@ -74,11 +88,18 @@ class PrecisionCount(Metric):
         return oracul
 
     def detect_step(self, point: Point, state: State) -> None:
-        self.stopped |= state.eps > self.control_precision
+        self.stopped |= state.eps is not None and state.eps < self.control_precision
         self.step_count += not self.stopped
 
-    def get_result(self, **params) -> float:
-        return float(self.step_count)
+    def get_result(self, method_name: str = "", **params) -> MetricResult:
+        return MetricResult(
+            metric_name=self.name(),
+            method_name=method_name,
+            result=float(self.step_count)
+        )
+
+    def name(self) -> str:
+        return "Precision({})".format(self.control_precision)
 
 
 class AbsolutePrecisionCount(Metric):
@@ -91,25 +112,21 @@ class AbsolutePrecisionCount(Metric):
         self.eps = eps
 
     def process_oracul(self, oracul: Oracul) -> Oracul:
-        class CountingOracul(Oracul):
-            def evaluate(self_oracul, point: Point) -> float:
-                self.stopped |= self.real_point.distance(point)
-                self.count += not self.stopped
-                return oracul.evaluate(point)
-
-            def get_dimension(self_oracul) -> int:
-                return oracul.get_dimension()
-
-            def evaluate_gradient(self_oracul, point: Point) -> np.ndarray:
-                return oracul.evaluate_gradient(point)
-
-        return CountingOracul()
+        return oracul
 
     def detect_step(self, point: Point, state: State) -> None:
-        pass
+        self.stopped |= self.real_point.distance(point) < self.eps
+        self.count += not self.stopped
 
-    def get_result(self, **params) -> float:
-        return float(self.count)
+    def get_result(self, method_name: str = "", **params) -> MetricResult:
+        return MetricResult(
+            metric_name=self.name(),
+            method_name=method_name,
+            result=float(self.count)
+        )
+
+    def name(self) -> str:
+        return "Absolute({})".format(self.eps)
 
 
 class UniqueCallCount(Metric):
@@ -139,3 +156,13 @@ class UniqueCallCount(Metric):
 
     def get_result(self, **params) -> float:
         return self.unique_calls_count
+
+    def get_result(self, method_name: str = "", **params) -> MetricResult:
+        return MetricResult(
+            metric_name=self.name(),
+            method_name=method_name,
+            result=float(self.unique_calls_count)
+        )
+
+    def name(self) -> str:
+        return "Unique"

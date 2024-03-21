@@ -1,5 +1,6 @@
+import copy
 from abc import ABC, abstractmethod
-from typing import Tuple, List, Any
+import typing as tp
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -8,20 +9,65 @@ from scipy.optimize import minimize
 
 from ..common import Point, LambdaOracul, PointFigure
 from ..common.method import OptimizationMethod, Oracul
-from ..common.oracul import MultiLambdaOracul
+from ..common.oracul import MultiLambdaOracul, NoiseOracul
 from ..lab1.method_processor import MethodProcessor
-from ..lab1.stop_condition import PrecisionCondition
-from ..metric import CallCount, GradientCount, PrecisionCount
+from ..lab1.stop_condition import PrecisionCondition, StopCondition
+from ..metric import CallCount, GradientCount, PrecisionCount, Metric
+from ..metric.metric import MetricResult
 from ..visualization import Animator
 
 
-class Tester(ABC):
+class Tester:
+    @staticmethod
+    def test(methods: list[OptimizationMethod], oraculs: list[Oracul], metrics: list[Metric],
+             stop_condition: StopCondition, start_point: tp.Optional[list[float]] = None,
+             learning_rate: float = 300, visualize: bool = True, noise: float = 0.0):
+        for index, oracul in enumerate(oraculs):
+            header = [metric.name() for metric in metrics]
+            row_header = [method.name() for method in methods]
+            columns: list[list[tp.Any]] = []
+
+            metric_results: list[list[MetricResult]] = []
+            points: list[list[float]] = []
+
+
+            oracul = NoiseOracul(oracul, -noise, noise)
+            for method in methods:
+                method = copy.copy(method)
+                point, results, _ = MethodProcessor.process(method, oracul, stop_condition, metrics,
+                                                            visualize=False,
+                                                            method_params={"start_point": start_point,
+                                                                           "learning_rate": learning_rate})
+                metric_results += [results]
+                points += [point]
+                columns += [[res.result for res in results]]
+
+            N = len(methods)
+            fig, ax = plt.subplots(figsize=(10, 2 + N / 2.5))
+
+            table = plt.table(cellText=columns,
+                              rowLabels=row_header,
+                              colLabels=header,
+                              cellLoc='center',
+                              loc='center right')
+
+            table.scale(1, 2)
+            table.auto_set_font_size(False)
+            table.set_fontsize(16)
+            ax.axis('off')
+            ax.set_title(index + 1, weight='bold', size=14, color='k')
+
+            plt.show()
+
+
+
+class OldTester(ABC):
     @abstractmethod
     def test(self) -> tuple[list[list[Point | None]], list[list[list[float] | None]], list[Animation | None]]:
         pass
 
 
-class SimpleTester(Tester):
+class SimpleOldTester(OldTester):
     def __init__(self, methods: list[OptimizationMethod], oraculs: list[Oracul],
                  start_point: Point = Point(np.array([100, 200])), eps: float = 0.001, learning_rate: float = 300,
                  visualize: bool = True, low_bracket: list[float] = None, high_bracket: list[float] = None):
@@ -61,8 +107,9 @@ class SimpleTester(Tester):
         return points, metrics, animations
 
 
-class ScipyTester(Tester):
-    def __init__(self, methods: [str], oraculs: list[tuple[LambdaOracul | MultiLambdaOracul, LambdaOracul | MultiLambdaOracul]],
+class ScipyOldTester(OldTester):
+    def __init__(self, methods: [str],
+                 oraculs: list[tuple[LambdaOracul | MultiLambdaOracul, LambdaOracul | MultiLambdaOracul]],
                  start_point: Point = Point(np.array([100, 200])), eps: float = 1e-3, visualize: bool = True):
         self.methods = methods
         self.oraculs = oraculs
@@ -70,7 +117,7 @@ class ScipyTester(Tester):
         self.eps = eps
         self.visualize = visualize
 
-    def test(self) -> tuple[list[list[list[list[Point]]]], list[list[list[list[Any]]]], list[None]]:
+    def test(self) -> tuple[list[list[list[list[Point]]]], list[list[list[list[tp.Any]]]], list[None]]:
         points = []
         metrics = []
         for method in self.methods:
