@@ -33,7 +33,7 @@ class Animator:
 
         frames: list[list[Artist]] = []
 
-        show_skip = math.ceil(len(figures) / 50)
+        show_skip = math.ceil((len(figures) + 1) / 50)
 
         for index in itertools.chain(range(10), range(10, len(figures), show_skip)):
             if index >= len(figures):
