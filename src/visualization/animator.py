@@ -34,7 +34,7 @@ class Animator:
 
         show_skip = math.ceil(len(figures) / 50)
 
-        for index in range(0, len(figures), show_skip):
+        for index in itertools.chain(range(10), range(10, len(figures), show_skip)):
             main_figures = figures[index]
             if index == 0:
                 current_frame = oracul_surface.copy()
