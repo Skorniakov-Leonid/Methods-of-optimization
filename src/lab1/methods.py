@@ -289,14 +289,15 @@ class NMMethod(OptimizationMethod):
         self.iterator = min(self.iterator + 1, len(self.points) - 1)
         point_coordinates = self.points[self.iterator].tolist()
         point_coordinates += [oracul.evaluate(Point(point_coordinates))]
+        eps = 0 if self.iterator == (len(self.points) - 1) else float('inf')
         if visualize:
             state = State(
                 [PointFigure(point_coordinates)],
                 [],
-                None
+                eps
             )
         else:
-            state = State([], [], None)
+            state = State([], [], eps)
         return Point(point_coordinates), state
 
     def step(self, oracul: Oracul, state: State, visualize: bool = False) -> tuple[Point, State]:
@@ -304,6 +305,7 @@ class NMMethod(OptimizationMethod):
         last_point_coordinates = self.points[max(0, self.iterator - 1)]
         point_coordinates = self.points[self.iterator].tolist()
         point_coordinates += [oracul.evaluate(Point(point_coordinates))]
+        eps = 0 if self.iterator == (len(self.points) - 1) else float('inf')
         if visualize:
             state = State(
                 [
@@ -314,10 +316,10 @@ class NMMethod(OptimizationMethod):
                     PointFigure(point_coordinates)
                 ],
                 [],
-                None
+                eps
             )
         else:
-            state = State([], [], None)
+            state = State([], [], eps)
         return Point(point_coordinates), state
 
     def name(self) -> str:
