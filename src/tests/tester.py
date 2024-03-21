@@ -46,21 +46,20 @@ class Tester:
                 columns += [[res.result for res in results]]
 
             N = len(methods)
-            fig, ax = plt.subplots(figsize=(10, 2 + N / 2.5))
+            fig, ax = plt.subplots(figsize=(17, 3 + N / 2.5))
 
             table = plt.table(cellText=columns,
                               rowLabels=row_header,
                               colLabels=header,
                               cellLoc='center',
                               loc='center right')
-
-            table.scale(1, 2)
+            table.scale(0.95, 2.5)
             table.auto_set_font_size(False)
             table.set_fontsize(16)
             ax.axis('off')
             ax.set_title(index + 1, weight='bold', size=14, color='k')
             all_points += [points]
-            plt.show()
+            plt.savefig("table.png", dpi=200, bbox_inches='tight')
 
         return all_points
 
