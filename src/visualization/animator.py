@@ -71,7 +71,7 @@ class Animator:
         return result
 
     @staticmethod
-    def oracul_to_surface(axes: list[Axes], oracul: Oracul, start=None, end=None, step: float = 0.01, **params) -> list[
+    def oracul_to_surface(axes: list[Axes], oracul: Oracul, start=None, end=None, step: float = 0.005, **params) -> list[
         Artist]:
         main_ax = axes[0]
         contur_ax = axes[1]
