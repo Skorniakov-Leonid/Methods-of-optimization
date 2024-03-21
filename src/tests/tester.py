@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import copy
 from abc import ABC, abstractmethod
 import typing as tp
@@ -22,6 +24,7 @@ class Tester:
     def test(methods: list[OptimizationMethod], oraculs: list[Oracul], metrics: list[Metric],
              stop_condition: StopCondition, start_point: tp.Optional[list[float]] = None,
              learning_rate: float = 300, visualize: bool = True, noise: float = 0.0):
+        all_points = []
         for index, oracul in enumerate(oraculs):
             header = [metric.name() for metric in metrics]
             row_header = [method.name() for method in methods]
@@ -30,8 +33,8 @@ class Tester:
             metric_results: list[list[MetricResult]] = []
             points: list[list[float]] = []
 
-
-            oracul = NoiseOracul(oracul, -noise, noise)
+            if noise > 10 ** -10:
+                oracul = NoiseOracul(oracul, -noise, noise)
             for method in methods:
                 method = copy.copy(method)
                 point, results, _ = MethodProcessor.process(method, oracul, stop_condition, metrics,
@@ -56,9 +59,10 @@ class Tester:
             table.set_fontsize(16)
             ax.axis('off')
             ax.set_title(index + 1, weight='bold', size=14, color='k')
-
+            all_points += [points]
             plt.show()
 
+        return all_points
 
 
 class OldTester(ABC):

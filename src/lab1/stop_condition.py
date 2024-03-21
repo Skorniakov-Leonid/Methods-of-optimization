@@ -45,7 +45,7 @@ class PrecisionCondition(StopCondition):
         self.precision = precision
 
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
-        if state is not None:
+        if state is not None and state.eps is not None:
             return self.precision > state.eps
         return False
 
