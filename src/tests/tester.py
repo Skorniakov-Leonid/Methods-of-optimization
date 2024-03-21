@@ -49,7 +49,7 @@ class Tester:
                 anims += [anim]
 
             N = len(methods)
-            fig, ax = plt.subplots(figsize=(3 * (len(header) + 1) + 2, 1 + N / 1.5))
+            fig, ax = plt.subplots(figsize=(3 * (len(header) + 3) + 2, 1 + N / 2))
 
             table = plt.table(cellText=columns,
                               rowLabels=row_header,
