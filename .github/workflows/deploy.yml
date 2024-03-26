@@ -28,7 +28,7 @@ jobs:
           key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
 
       - name: Build the book
-        run: jupyter-book build presentation/lab-1/test.ipynb
+        run: jupyter-book build presentation/lab-1/отчёт.ipynb
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2

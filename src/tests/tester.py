@@ -62,7 +62,7 @@ class Tester:
             ax.axis('off')
             ax.set_title(index + 1, weight='bold', size=14, color='k')
             all_points += [points]
-            plt.savefig("table.png", dpi=400, bbox_inches='tight')
+            plt.show()
 
         return all_points, anims
 
