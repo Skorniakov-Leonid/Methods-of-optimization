@@ -27,7 +27,7 @@ class MethodProcessor:
         if metrics is not None:
             method = MetricMethod(method, metrics)
 
-        condition = copy.copy(condition)
+        condition = copy.deepcopy(condition)
         if condition.stop(None, None):
             metric_results, anim = MethodProcessor.stop(method, oracul, [], visualize, metric_params)
             return None, metric_results, anim

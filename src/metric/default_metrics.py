@@ -116,13 +116,14 @@ class AbsolutePrecisionCount(Metric):
 
     def detect_step(self, point: Point, state: State) -> None:
         self.stopped |= self.real_point.distance(point) < self.eps
+        print(self.stopped)
         self.count += not self.stopped
 
     def get_result(self, method_name: str = "", **params) -> MetricResult:
         return MetricResult(
             metric_name=self.name(),
             method_name=method_name,
-            result=float(self.count)
+            result=float(self.count) if self.stopped else None
         )
 
     def name(self) -> str:

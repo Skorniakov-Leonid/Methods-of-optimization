@@ -13,6 +13,7 @@ class Point:
     coordinates: np.ndarray
 
     def distance(self, point: "Point") -> float:
+        print(self.coordinates[:-1], point.coordinates[:-1], np.linalg.norm(np.array(self.coordinates[:-1]) - np.array(point.coordinates[:-1])))
         return np.linalg.norm(np.array(self.coordinates[:-1]) - np.array(point.coordinates[:-1]))
 
 

@@ -57,7 +57,7 @@ class MetricMethod(OptimizationMethod):
         :param metrics:         collecting metrics
         """
         self.method = method
-        self.metrics = [copy.copy(metric) for metric in metrics]
+        self.metrics = [copy.deepcopy(metric) for metric in metrics]
 
     def get_result(self, **params) -> list[MetricResult]:
         """

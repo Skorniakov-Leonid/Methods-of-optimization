@@ -38,7 +38,7 @@ class Tester:
             if noise > 10 ** -10:
                 oracul = NoiseOracul(oracul, -noise, noise)
             for method in methods:
-                method = copy.copy(method)
+                method = copy.deepcopy(method)
                 point, results, anim = MethodProcessor.process(method, oracul, stop_condition, metrics,
                                                                visualize=visualize,
                                                                method_params={"start_point": start_point,

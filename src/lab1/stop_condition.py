@@ -21,6 +21,7 @@ class StopCondition(ABC):
 
 class CountCondition(StopCondition):
     """Condition of stop after n-count"""
+    count = 0
 
     def __init__(self, max_count: int) -> None:
         """
@@ -28,9 +29,9 @@ class CountCondition(StopCondition):
         :param max_count:   count of steps before stop
         """
         self.max_count = max_count
-        self.count = 0
 
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
+        print(self.count)
         self.count += 1
         return self.count > self.max_count
 
@@ -60,8 +61,8 @@ class AndCondition(StopCondition):
         :param first_condition:     first condition
         :param second_condition:    second condition
         """
-        self.first_condition = copy.copy(first_condition)
-        self.second_condition = copy.copy(second_condition)
+        self.first_condition = copy.deepcopy(first_condition)
+        self.second_condition = copy.deepcopy(second_condition)
 
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
         return self.first_condition.stop(point, state) and self.second_condition.stop(point, state)
@@ -76,8 +77,8 @@ class OrCondition(StopCondition):
         :param first_condition:     first condition
         :param second_condition:    second condition
         """
-        self.first_condition = copy.copy(first_condition)
-        self.second_condition = copy.copy(second_condition)
+        self.first_condition = copy.deepcopy(first_condition)
+        self.second_condition = copy.deepcopy(second_condition)
 
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
         first_result = self.first_condition.stop(point, state)
