@@ -31,7 +31,6 @@ class CountCondition(StopCondition):
         self.max_count = max_count
 
     def stop(self, point: tp.Optional[Point] = None, state: tp.Optional[State] = None) -> bool:
-        print(self.count)
         self.count += 1
         return self.count > self.max_count
 
