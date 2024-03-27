@@ -99,7 +99,7 @@ class PrecisionCount(Metric):
         )
 
     def name(self) -> str:
-        return "Precision({})".format(self.control_precision)
+        return "Steps count({})".format(self.control_precision)
 
 
 class AbsolutePrecisionCount(Metric):
