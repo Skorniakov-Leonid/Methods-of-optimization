@@ -5,6 +5,7 @@ from inspect import signature
 from typing import Callable
 
 import numpy as np
+import sympy
 
 
 @dataclass
@@ -38,7 +39,7 @@ class Oracul(ABC):
 
 
 class GradientOracul(Oracul):
-    """Interface for oracul that can calculate gradient in point"""
+    """Interface for oracul that can calculate gradient in point multiple times"""
 
     @abstractmethod
     def evaluate_gradient(self, point: Point) -> np.ndarray:
@@ -48,6 +49,59 @@ class GradientOracul(Oracul):
         :return:            calculated gradient
         """
         pass
+
+
+class HessianOracul(GradientOracul):
+    """Interface for oracul that can calculate gradient in point"""
+
+    @abstractmethod
+    def evaluate_hessian(self, point: Point) -> np.ndarray:
+        """
+        Get hessian in point
+        :param point:       point for calculating gradient
+        :return:            calculated hessian
+        """
+        pass
+
+
+class SymbolOracul(HessianOracul):
+    """Oracul that automatically calculates gradients and hessians through sympy"""
+
+    def __init__(self, func, dimensions_order: list[str]):
+        self.func = func
+        self.dimensions_order = dimensions_order
+        self.grad = np.array([])
+        for i in self.dimensions_order:
+            self.grad = np.append(self.grad, sympy.diff(self.func, i))
+        self.hes = []
+        for i in self.dimensions_order:
+            row_res = []
+            for j in self.dimensions_order:
+                row_res.append(sympy.diff(sympy.diff(self.func, i), j))
+            self.hes.append(np.array(row_res))
+        self.hes = np.array(self.hes)
+
+    def map_dim_to_point(self, point: Point) -> dict:
+        return dict(zip(self.dimensions_order, point.coordinates))
+
+    def evaluate(self, point: Point) -> float:
+        return np.float64(self.func.subs(self.map_dim_to_point(point)))
+
+    def get_dimension(self) -> int:
+        return len(self.dimensions_order) + 1
+
+    def evaluate_gradient(self, point: Point) -> np.ndarray:
+        res = [np.float64(i.subs(self.map_dim_to_point(point))) for i in self.grad]
+        return np.array(res, dtype=np.float64)
+
+    def evaluate_hessian(self, point: Point) -> np.ndarray:
+        res = []
+        for i in self.hes:
+            row_res = []
+            for j in i:
+                row_res.append(np.float64(j.subs(self.map_dim_to_point(point))))
+            res.append(np.array(row_res))
+        return np.array(res)
 
 
 class LambdaOracul(Oracul):

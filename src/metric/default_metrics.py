@@ -24,6 +24,8 @@ class CallCount(Metric):
 
             def evaluate_gradient(self_oracul, point: Point) -> np.ndarray:
                 return oracul.evaluate_gradient(point)
+            def evaluate_hessian(self_oracul, point: Point) -> np.ndarray:
+                return oracul.evaluate_hessian(point)
 
         return CountingOracul()
 
@@ -56,6 +58,9 @@ class GradientCount(Metric):
             def evaluate_gradient(self_oracul, point: Point) -> np.ndarray:
                 self.calls_count += 1
                 return oracul.evaluate_gradient(point)
+
+            def evaluate_hessian(self_oracul, point: Point) -> np.ndarray:
+                return oracul.evaluate_hessian(point)
 
         return CountingOracul()
 
@@ -148,6 +153,9 @@ class UniqueCallCount(Metric):
 
             def evaluate_gradient(self_oracul, point: Point) -> np.ndarray:
                 return oracul.evaluate_gradient(point)
+
+            def evaluate_hessian(self_oracul, point: Point) -> np.ndarray:
+                return oracul.evaluate_hessian(point)
 
         return CountingOracul()
 
