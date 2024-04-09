@@ -64,7 +64,9 @@ class Runner:
     @staticmethod
     def run_pipeline(method: OptimizationMethod, oracul: Oracul, point: np.ndarray,
                      modules: list[PipelineModule], **params) -> list[tuple[str, Any]]:
-        print(f"============ Testing {method.meta().full_name()} ============")
+        info = params.get("info", False)
+        if info:
+            print(f"============ Testing {method.meta().full_name()} ============")
         if params.get("debug_method"):
             method = DebugMethod(method)
 
@@ -79,7 +81,8 @@ class Runner:
             state.index += 1
             state = method.step(prepared_oracul, state, **params)
 
-        print(f"[INFO][Method][{method.meta().full_name()}] Completed!")
+        if info:
+            print(f"[INFO][Method][{method.meta().full_name()}] Completed!")
         return ([("no_show_value", state.point), ("Method name", method.meta().full_name())]
                 + pipeline.get_result(**params))
 
