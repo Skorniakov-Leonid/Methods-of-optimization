@@ -13,7 +13,8 @@ class StepCountCondition(StopConditionModule):
     def process_step(self, state: State, meta: Meta, **params) -> bool:
         self.count += 1
         cond = self.max_count > self.count
-        if not cond:
+        info = params.get("info", False)
+        if not cond and info:
             print(f"[INFO][Condition][{self.meta().full_name()}] Condition reached!")
         return cond
 
@@ -29,7 +30,8 @@ class PrecisionCondition(StopConditionModule):
 
     def process_step(self, state: State, meta: Meta, **params) -> bool:
         cond = self.precision < state.eps
-        if not cond:
+        info = params.get("info", False)
+        if not cond and info:
             print(f"[INFO][Condition][{self.meta().full_name()}] Condition reached!")
         return cond
 
@@ -46,7 +48,8 @@ class AbsolutePrecisionCondition(StopConditionModule):
 
     def process_step(self, state: State, meta: Meta, **params) -> bool:
         cond = self.precision < np.linalg.norm(self.point - state.point)
-        if not cond:
+        info = params.get("info", False)
+        if not cond and info:
             print(f"[INFO][Condition][{self.meta().full_name()}] Condition reached!")
         return cond
 

@@ -42,7 +42,9 @@ class Animator(VisualizationModule):
     @staticmethod
     def visualize(oracul: Oracul, points: list[np.ndarray], **params) -> list[Animation]:
         dimension = oracul.get_dimension()
-        print(f"[INFO][Animator] Started {dimension}d visualization")
+        info = params.get("info", False)
+        if info:
+            print(f"[INFO][Animator] Started {dimension}d visualization")
         animations: list[Animation] = []
 
         default_low_bracket = params.get("animation_low_bracket")
