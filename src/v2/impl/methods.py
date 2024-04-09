@@ -1,7 +1,8 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 import numpy as np
+from scipy.optimize import minimize
 
 from src.v2.impl.conditions import PrecisionCondition
 from src.v2.impl.oraculs import LambdaOracul
@@ -12,6 +13,7 @@ from src.v2.runner.runner import Runner
 
 @dataclass
 class CoordinateDescentState(State):
+    precision: float = 1.0e-3
     dim_num: int = 0
     temp_dim: int = 0
     dec: float = 0
@@ -20,12 +22,12 @@ class CoordinateDescentState(State):
 class CoordinateDescent(OptimizationMethod):
     """Class for coordinate descent method"""
 
-    def __init__(self, learning_rate: float = 300, eps: float = 0.01) -> None:
+    def __init__(self, learning_rate: float = 300) -> None:
         self.learning_rate = learning_rate
-        self.precision = eps
 
     def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> CoordinateDescentState:
         state = CoordinateDescentState(point, self.learning_rate)
+        state.precision = params.get("precision", 1.0e-3)
         state.dim_num = len(point)
         state.temp_dim = 0
         state.dec = oracul.evaluate(point)
@@ -34,7 +36,7 @@ class CoordinateDescent(OptimizationMethod):
     def step(self, oracul: Oracul, state: CoordinateDescentState, **params) -> CoordinateDescentState:
         success = False
         checked_dim = 0
-        while state.eps > self.precision and not success:
+        while state.eps > state.precision and not success:
             temp_step = np.zeros(state.dim_num, np.float64)
             temp_step[state.temp_dim] = state.eps
             temp_dec = oracul.evaluate(state.point + temp_step)
@@ -162,3 +164,45 @@ class GradientDescent(OptimizationMethod):
         return MethodMeta(name="GradientDescent",
                           version=f"({self.learning_rate},{self.method.meta().full_name()},eps={self.eps})",
                           description="Method of optimization using gradient descent")
+
+
+@dataclass
+class ScipyMethodState(State):
+    precision: float = 1.0e-3
+    points: Optional[list[np.ndarray]] = None
+    index: int = 0
+
+
+class ScipyMethod(OptimizationMethod):
+    def __init__(self, method: str, **options) -> None:
+        self.method = method.lower()
+        self.options = {"options": {"return_all": True}}
+        self.options.update(options)
+
+    def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> ScipyMethodState:
+        state = ScipyMethodState(point, float('inf'))
+        state.precision = params.get("precision", 1e-3)
+        state.points = minimize(
+            method=self.method,
+            fun=oracul.evaluate,
+            x0=point,
+            tol=state.precision,
+            jac=oracul.evaluate_gradient if self.method not in ('nelder-mead', 'powell', 'cobyla') else None,
+            hess=oracul.evaluate_hessian if self.method in (
+                'newton-cg', 'dogleg', 'trust-ncg', 'trust-constr', 'trust-krylov', 'trust-exact', '_custom') else None,
+            **self.options
+        ).allvecs
+        state.index = -1
+        return state
+
+    def step(self, oracul: Oracul, state: ScipyMethodState, **params) -> ScipyMethodState:
+        state.index = min(state.index + 1, len(state.points) - 1)
+        state.point = state.points[state.index]
+        if state.index == len(state.points) - 1:
+            state.eps = state.precision
+        return state
+
+    def meta(self, **params) -> MethodMeta:
+        return MethodMeta(name="ScipyMethod",
+                          version=f"({self.method})",
+                          description="Method of optimization using scipy.optimize")

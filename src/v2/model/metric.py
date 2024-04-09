@@ -13,6 +13,10 @@ class MetricMeta(Meta):
     debug: bool = True
     display: bool = True
 
+    def full_name(self, **params) -> str:
+        tokens = ["no_show_" if not self.display else None, self.name, self.type, self.version]
+        return ''.join([token for token in tokens if token is not None])
+
 
 class MetricModule(PipelineModule):
     def get_result(self, **params) -> list[tuple[str, Any]]:

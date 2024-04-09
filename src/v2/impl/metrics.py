@@ -133,7 +133,7 @@ class HessianCallCount(MetricModule):
             def get_dimension(self_oracul) -> int:
                 return oracul.get_dimension()
 
-            def evaluate_hessian(self, point: np.ndarray, **params) -> np.ndarray:
+            def evaluate_hessian(self_oracul, point: np.ndarray, **params) -> np.ndarray:
                 self.calls_count += 1
                 return oracul.evaluate_hessian(point, **params)
 
@@ -190,6 +190,22 @@ class AbsolutePrecisionCount(MetricModule):
                           debug=False)
 
 
+class Precision(MetricModule):
+    def __init__(self) -> None:
+        self.precision = float('inf')
+
+    def process_step(self, state: State, meta: Meta, **params) -> bool:
+        self.precision = state.eps
+        return True
+
+    def meta(self, **params) -> MetricMeta:
+        return MetricMeta(name="Precision",
+                          result=self.precision,
+                          description="Precision",
+                          debug=True,
+                          display=False)
+
+
 class AbsolutePrecision(MetricModule):
 
     def __init__(self, point: np.ndarray) -> None:
@@ -212,7 +228,6 @@ class MinAbsolutePrecision(MetricModule):
     def __init__(self, point: np.ndarray) -> None:
         self.point = point
         self.min_precision = float('inf')
-
 
     def process_step(self, state: State, meta: Meta, **params) -> bool:
         self.min_precision = min(self.min_precision, np.linalg.norm(self.point - state.point))
