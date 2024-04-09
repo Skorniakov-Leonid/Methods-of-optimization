@@ -1,6 +1,8 @@
-numpy
-matplotlib
+numpy~=1.26.4
+matplotlib~=3.8.4
 jupyter
 jupyter-book
-scipy
+scipy~=1.13.0
 ipympl
+numdifftools~=0.9.41
+sympy~=1.12
