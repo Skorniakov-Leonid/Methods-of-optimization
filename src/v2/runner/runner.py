@@ -14,6 +14,9 @@ from src.v2.visualization.visualization import VisualizationModule
 FULL_VISUALIZE = {"animate": True,
                   "visualize": True}
 
+NO_VISUALIZE = {"animate": False,
+                "visualize": True}
+
 TABLE = {"show_table": True}
 
 

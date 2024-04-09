@@ -162,3 +162,72 @@ class GradientDescent(OptimizationMethod):
         return MethodMeta(name="GradientDescent",
                           version=f"({self.learning_rate},{self.method.meta().full_name()},eps={self.eps})",
                           description="Method of optimization using gradient descent")
+
+
+@dataclass
+class NewtonState(State):
+    prev_point: Optional[np.ndarray] = None
+
+
+class NewtonBase(OptimizationMethod):
+    """Newton method. Fixed learning rate"""
+
+    learning_rate = None
+
+    def __init__(self, learning_rate: float = 1) -> None:
+        self.learning_rate = learning_rate
+
+    def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> NewtonState:
+        state = NewtonState(point=point, eps=float('inf'))
+        state.prev_point = None
+        return state
+
+    def step(self, oracul: Oracul, state: NewtonState, **params) -> NewtonState:
+        state.prev_point = state.point
+        ray = np.dot(np.linalg.inv(oracul.evaluate_hessian(state.point)),
+                     oracul.evaluate_gradient(state.point))
+        state.point = (np.array(state.point, dtype=np.float64) - self.get_learning_rate(state.point, ray, oracul)
+                       * ray)
+        return state
+
+    def meta(self, **params) -> MethodMeta:
+        return MethodMeta(name="NewtonBase",
+                          version=f"({self.learning_rate})",
+                          description="Method of optimization using Newton with fixed rate")
+
+    def get_learning_rate(self, point: np.ndarray, ray: np.ndarray, oracul: Oracul):
+        return self.learning_rate
+
+    @staticmethod
+    def get_precision(state: NewtonState):
+        return float("inf") if state.prev_point is None else np.sqrt(np.sum(np.square(state.point - state.prev_point)))
+
+
+@dataclass
+class NewtonState(State):
+    prev_point: Optional[np.ndarray] = None
+
+
+class Newton(NewtonBase):
+
+    def __init__(self, learning_rate: float = 3, method=GoldenRatioMethod(), aprox_dec=0.0001) -> None:
+        super().__init__(learning_rate)
+        self.method = method
+        self.eps = aprox_dec
+
+    def get_learning_rate(self, point: np.ndarray, ray: np.ndarray, oracul: Oracul) -> float:
+        data = Runner.run_pipeline(
+            self.method,
+            LambdaOracul(
+                lambda rate: oracul.evaluate(point - rate * ray)
+            ),
+            np.array([0]),
+            [PrecisionCondition(self.eps)],
+            left=0,
+            right=self.learning_rate)
+        return data[0][1]
+
+    def meta(self, **params) -> MethodMeta:
+        return MethodMeta(name="Newton",
+                          version=f"({self.learning_rate},{self.method.meta().full_name()},eps={self.eps})",
+                          description="Method of optimization using Newton with changing rate ")

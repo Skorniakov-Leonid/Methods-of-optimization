@@ -133,7 +133,7 @@ class HessianCallCount(MetricModule):
             def get_dimension(self_oracul) -> int:
                 return oracul.get_dimension()
 
-            def evaluate_hessian(self, point: np.ndarray, **params) -> np.ndarray:
+            def evaluate_hessian(self_oracul, point: np.ndarray, **params) -> np.ndarray:
                 self.calls_count += 1
                 return oracul.evaluate_hessian(point, **params)
 
