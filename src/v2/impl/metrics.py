@@ -8,7 +8,7 @@ from src.v2.model.oracul import Oracul, OraculMeta
 
 class StepCount(MetricModule):
     def __init__(self) -> None:
-        self.step_count = 0
+        self.step_count = -1
 
     def process_step(self, state: State, meta: Meta, **params) -> bool:
         self.step_count += 1
