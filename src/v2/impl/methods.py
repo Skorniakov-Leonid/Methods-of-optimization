@@ -22,8 +22,9 @@ class CoordinateDescentState(State):
 class CoordinateDescent(OptimizationMethod):
     """Class for coordinate descent method"""
 
-    def __init__(self, learning_rate: float = 300) -> None:
+    def __init__(self, learning_rate: float = 300, aprox_dec: float = 1e-4) -> None:
         self.learning_rate = learning_rate
+        self.precision = aprox_dec
 
     def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> CoordinateDescentState:
         state = CoordinateDescentState(point, self.learning_rate)
@@ -36,7 +37,7 @@ class CoordinateDescent(OptimizationMethod):
     def step(self, oracul: Oracul, state: CoordinateDescentState, **params) -> CoordinateDescentState:
         success = False
         checked_dim = 0
-        while state.eps > state.precision and not success:
+        while state.eps > self.precision and not success:
             temp_step = np.zeros(state.dim_num, np.float64)
             temp_step[state.temp_dim] = state.eps
             temp_dec = oracul.evaluate(state.point + temp_step)
@@ -232,6 +233,7 @@ class NewtonBase(OptimizationMethod):
                      oracul.evaluate_gradient(state.point))
         state.point = (np.array(state.point, dtype=np.float64) - self.get_learning_rate(state.point, ray, oracul)
                        * ray)
+        state.eps = self.get_precision(state)
         return state
 
     def meta(self, **params) -> MethodMeta:
@@ -245,12 +247,6 @@ class NewtonBase(OptimizationMethod):
     @staticmethod
     def get_precision(state: NewtonState):
         return float("inf") if state.prev_point is None else np.sqrt(np.sum(np.square(state.point - state.prev_point)))
-
-
-@dataclass
-class NewtonState(State):
-    prev_point: Optional[np.ndarray] = None
-
 
 class Newton(NewtonBase):
 
