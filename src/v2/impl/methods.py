@@ -248,6 +248,7 @@ class NewtonBase(OptimizationMethod):
     def get_precision(state: NewtonState):
         return float("inf") if state.prev_point is None else np.sqrt(np.sum(np.square(state.point - state.prev_point)))
 
+
 class Newton(NewtonBase):
 
     def __init__(self, learning_rate: float = 3, method=GoldenRatioMethod(), aprox_dec=0.0001) -> None:
@@ -271,3 +272,86 @@ class Newton(NewtonBase):
         return MethodMeta(name="Newton",
                           version=f"({self.learning_rate},{self.method.meta().full_name()},eps={self.eps})",
                           description="Method of optimization using Newton with changing rate ")
+
+
+@dataclass
+class SteepestDescentState(State):
+    prev_point: Optional[np.ndarray] = None
+
+
+class SteepestDescent(OptimizationMethod):
+    max_iters: int
+    eps: float
+    c1: float = None
+    c2: float = None
+
+    def __init__(self, **params):
+        self.c1 = params.get("c1", 1e-4)
+        self.c2 = params.get("c2", 0.9)
+        self.eps = params["aprox_dec"]
+        self.max_iters = params["max_iters"]
+
+    def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> SteepestDescentState:
+        state = SteepestDescentState(point=point, eps=float('inf'))
+        state.prev_point = None
+        return state
+
+    def step(self, oracul: Oracul, state: SteepestDescentState, **params) -> SteepestDescentState:
+        grad = oracul.evaluate_gradient(state.point)
+        state.eps = np.sqrt(np.dot(grad, grad))
+        if np.sqrt(np.dot(grad, grad)) < self.eps:
+            return state
+        pk = -grad / np.sqrt(np.dot(grad, grad))
+        alpha = self.wolfe(oracul, state.point, pk, self.c1, self.c2, 1.0, 100.0, self.max_iters)
+        state.point = state.point + alpha * pk
+        return state
+
+    def meta(self, **params) -> MethodMeta:
+        return MethodMeta(name="Wolfe",
+                          version=f"({self.c1},{self.c2},eps={self.eps})",
+                          description="Wolfes method to finding minimum on the ray ")
+
+    def wolfe(self, oracul: Oracul, x, pk, c1, c2, alpha, alpha_max, max_iters):
+        fk = oracul.evaluate(x)
+        gk = oracul.evaluate_gradient(x)
+        proj_gk = np.dot(gk, pk)
+        fj_old = fk
+        alpha_old = 0
+        for j in range(max_iters):
+            fj = oracul.evaluate(x + alpha * pk)
+            gj = oracul.evaluate_gradient(x + alpha * pk)
+            proj_gj = np.dot(gj, pk)
+            if fj > fk + c1 * alpha * proj_gk or j > 0 and fj > fj_old:
+                return self.zoom(oracul, fj_old, alpha_old, alpha, x, fk, gk, pk, c1, c2,
+                                 max_iters)
+            if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
+                return alpha
+            if proj_gj >= 0.0:
+                return self.zoom(oracul, fj, alpha, alpha_old, x, fk, gk, pk, c1, c2,
+                                 max_iters)
+            fj_old = fj
+            alpha_old = alpha
+            alpha = min(2.0 * alpha, alpha_max)
+            if alpha >= alpha_max:
+                return None
+        return alpha
+
+    def zoom(self, oracul: Oracul, f_low, alpha_low, alpha_high, x, fk, gk, pk, c1, c2, max_iters):
+        alpha_j = 0
+        proj_gk = np.dot(pk, gk)
+        for j in range(max_iters):
+            alpha_j = 0.5 * (alpha_low + alpha_high)
+            fj = oracul.evaluate(x + alpha_j * pk)
+            if fj > fk + c1 * alpha_j or fj >= f_low:
+                alpha_high = alpha_j
+                oracul.evaluate_gradient(x + alpha_j * pk)
+            else:
+                gj = oracul.evaluate_gradient(x + alpha_j * pk)
+                proj_gj = np.dot(gj, pk)
+                if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
+                    return alpha_j
+                if proj_gj * (alpha_high - alpha_low) >= 0.0:
+                    alpha_high = alpha_j
+                alpha_low = alpha_j
+                f_low = fj
+        return alpha_j
