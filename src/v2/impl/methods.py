@@ -229,7 +229,12 @@ class NewtonBase(OptimizationMethod):
 
     def step(self, oracul: Oracul, state: NewtonState, **params) -> NewtonState:
         state.prev_point = state.point
-        ray = np.dot(np.linalg.inv(oracul.evaluate_hessian(state.point)),
+        hess = oracul.evaluate_hessian(state.point)
+        try:
+            inverted = np.linalg.inv(hess)
+        except np.linalg.LinAlgError:
+            inverted = np.linalg.inv(hess + np.eye(hess.shape[0]) * 1e-11)
+        ray = np.dot(inverted,
                      oracul.evaluate_gradient(state.point))
         state.point = (np.array(state.point, dtype=np.float64) - self.get_learning_rate(state.point, ray, oracul)
                        * ray)
