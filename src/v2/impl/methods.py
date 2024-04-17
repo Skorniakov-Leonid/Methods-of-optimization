@@ -314,10 +314,12 @@ class Wolfe(OptimizationMethod):
 
     def step(self, oracul: Oracul, state: SteepestDescentState, **params) -> SteepestDescentState:
         grad = oracul.evaluate_gradient(self.alpha)
-        state.eps = np.sqrt(np.dot(grad, grad))
+        state.eps = np.linalg.norm(self.fk - oracul.evaluate(state.point))
+        print(state.eps)
         if state.eps < self.eps:
             return state
         state.point = self.wolfe(oracul, self.c1, self.c2, state.point, 100.0, self.max_iters)
+        print(state.point)
         return state
 
     def meta(self, **params) -> MethodMeta:
@@ -344,7 +346,6 @@ class Wolfe(OptimizationMethod):
         alpha = min(2.0 * alpha, alpha_max)
         if alpha >= alpha_max:
             return None
-        print(alpha)
         return alpha
 
     def zoom(self, oracul: Oracul, f_low, alpha_low, alpha_high, fk, gk, c1, c2, max_iters):
