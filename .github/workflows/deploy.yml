@@ -1,64 +1,43 @@
-#name: deploy
-#
-#on:
-#  push:
-#    branches: [main]
-#
-#jobs:
-#  deploy:
-#    runs-on: ubuntu-latest
-#    permissions:
-#      pages: write
-#      id-token: write
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: Install Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: 3.11
-#
-#      - name: Install dependencies
-#        run: pip install -r requirements.txt
-#
-#      - name: cache executed notebooks
-#        uses: actions/cache@v3
-#        with:
-#          path: _build/.jupyter_cache
-#          key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
-#
-#      - name: Build the book
-#        run: jupyter-book build presentation/lab-2/test.ipynb
-#
-#      - name: Upload artifact
-#        uses: actions/upload-pages-artifact@v2
-#        with:
-#          path: "presentation/lab-2/_build/_page/test/html"
-#
-#      - name: Deploy
-#        id: deployment
-#        uses: actions/deploy-pages@v2
+name: deploy
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
-      - master
-permissions:
-  contents: write
+    branches: [main]
 
 jobs:
-  build-documentation:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
-      - name: Publish Jupyter Notebooks as Github pages
-        uses: dada-public/jupyter-to-pages@v1
+      - name: Install Python
+        uses: actions/setup-python@v4
         with:
-          source: presentation/lab-2
-          dependencies: requirements.txt
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install local modules
+        run: pip -e src
+
+      - name: cache executed notebooks
+        uses: actions/cache@v3
+        with:
+          path: _build/.jupyter_cache
+          key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
+
+      - name: Build the book
+        run: jupyter-book build presentation/lab-2/test.ipynb
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: "presentation/lab-2/_build/_page/test/html"
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v2
