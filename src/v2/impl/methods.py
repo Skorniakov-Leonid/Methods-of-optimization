@@ -282,6 +282,12 @@ class Newton(NewtonBase):
 @dataclass
 class SteepestDescentState(State):
     prev_point: Optional[np.ndarray] = None
+    fj_old: Optional[float] = None
+    fk: Optional[float] = None
+    alpha_old: Optional[float] = None
+    first: Optional[bool] = None
+    gk: Optional[np.ndarray] = None
+    alpha: Optional[np.ndarray] = np.array([1.0], dtype=np.float64)
 
 
 class Wolfe(OptimizationMethod):
@@ -289,12 +295,6 @@ class Wolfe(OptimizationMethod):
     eps: float
     c1: float = None
     c2: float = None
-    fj_old: float = None
-    fk: float = None
-    alpha_old: float = None
-    first: bool = None
-    gk: np.ndarray = None
-    alpha: np.ndarray = np.array([1.0], dtype=np.float64)
 
     def __init__(self, **params):
         self.c1 = params.get("c1", 1e-4)
@@ -305,20 +305,19 @@ class Wolfe(OptimizationMethod):
     def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> SteepestDescentState:
         state = SteepestDescentState(point=point, eps=float('inf'))
         state.prev_point = None
-        self.fk = oracul.evaluate(state.point)
-        self.fj_old = self.fk
-        self.alpha_old = 0
-        self.first = True
-        self.gk = oracul.evaluate_gradient(state.point)
+        state.fk = oracul.evaluate(state.point)
+        state.fj_old = state.fk
+        state.alpha_old = 0
+        state.first = True
+        state.gk = oracul.evaluate_gradient(state.point)
         return state
 
     def step(self, oracul: Oracul, state: SteepestDescentState, **params) -> SteepestDescentState:
-        grad = oracul.evaluate_gradient(self.alpha)
-        state.eps = np.linalg.norm(self.fk - oracul.evaluate(state.point))
-        print(state.eps)
+        state.eps = np.linalg.norm(state.fk - oracul.evaluate(state.point))
         if state.eps < self.eps:
             return state
-        state.point = self.wolfe(oracul, self.c1, self.c2, state.point, 100.0, self.max_iters)
+        state.point, state = self.wolfe(oracul, self.c1, self.c2, state.point, 100.0, self.max_iters, state)
+
         print(state.point)
         return state
 
@@ -327,26 +326,27 @@ class Wolfe(OptimizationMethod):
                           version=f"({self.c1},{self.c2},eps={self.eps})",
                           description="Wolfes method to finding minimum on the ray ")
 
-    def wolfe(self, oracul: Oracul, c1, c2, alpha, alpha_max, max_iters):
-        proj_gk = self.gk
+    def wolfe(self, oracul: Oracul, c1, c2, alpha, alpha_max, max_iters, state: SteepestDescentState) \
+            -> tuple[float, SteepestDescentState]:
+        proj_gk = state.gk
         fj = oracul.evaluate(alpha)
         gj = oracul.evaluate_gradient(alpha)
         proj_gj = gj
-        if fj > self.fk + c1 * alpha * proj_gk or not self.first and fj > self.fj_old:
-            return self.zoom(oracul, self.fj_old, self.alpha_old, alpha, self.fk, self.gk, c1, c2,
+        if fj > state.fk + c1 * alpha * proj_gk or not state.first and fj > state.fj_old:
+            return self.zoom(oracul, state.fj_old, state.alpha_old, alpha, state.fk, state.gk, c1, c2,
                              max_iters)
-        self.first = False
+        state.first = False
         if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
             return alpha
         if proj_gj >= 0.0:
-            return self.zoom(oracul, fj, alpha, self.alpha_old, self.fk, self.gk, c1, c2,
+            return self.zoom(oracul, fj, alpha, state.alpha_old, state.fk, state.gk, c1, c2,
                              max_iters)
-        self.fj_old = fj
-        self.alpha_old = alpha
+        state.fj_old = fj
+        state.alpha_old = alpha
         alpha = min(2.0 * alpha, alpha_max)
         if alpha >= alpha_max:
-            return None
-        return alpha
+            return 0, state
+        return alpha, state
 
     def zoom(self, oracul: Oracul, f_low, alpha_low, alpha_high, fk, gk, c1, c2, max_iters):
         alpha_j = 0
