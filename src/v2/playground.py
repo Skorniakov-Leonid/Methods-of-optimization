@@ -7,11 +7,8 @@ from src.v2.impl.metrics import StepCount, CallCount, GradientCallCount, Hessian
     AbsolutePrecisionCount, MinAbsolutePrecision, AbsolutePrecision, Precision
 from src.v2.impl.oraculs import LambdaOracul
 from src.v2.runner.debug import FULL_DEBUG
-from src.v2.runner.runner import Runner, TABLE
-from src.v2.visualization.animation import Animator, FULL_ANIMATION
-
-
-# Этот файл нужно удалить
+from src.v2.runner.runner import Runner, TABLE, FULL_VISUALIZE
+from src.v2.visualization.animation import Animator
 
 def test():
     lmb = lambda x, y: (x - 10) ** 2 + (y - 5) ** 2
@@ -30,15 +27,15 @@ def test():
 
     methods = [  # GoldenRatioMethod(),
         CoordinateDescent(),
-        GradientDescent(),
-        ScipyMethod("Newton-CG"),
-        ScipyMethod("Nelder-Mead"),
-        ScipyMethod("BFGS")
+        # GradientDescent(),
+        # ScipyMethod("Newton-CG"),
+        # ScipyMethod("Nelder-Mead"),
+        # ScipyMethod("BFGS")
     ]
     oraculs = [oracul]
     point = np.array([20, 20])
 
-    result = Runner.run(methods, oraculs, point, modules, info=True, **FULL_DEBUG, **TABLE, precision=1e-7)
+    result = Runner.run(methods, oraculs, point, modules, info=True, **FULL_DEBUG, **FULL_VISUALIZE, **TABLE, precision=1e-7)
 
     plt.show()
 

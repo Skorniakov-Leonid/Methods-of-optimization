@@ -3,16 +3,24 @@ from typing import Any
 from tabulate import tabulate
 import numpy as np
 
-from src.v2.model.method import OptimizationMethod, State
+from src.v2.model.method import OptimizationMethod
 from src.v2.model.metric import MetricModule
 from src.v2.model.oracul import Oracul
 from src.v2.runner.debug import DebugMetricModule, DebugOracul, DebugMethod
 from src.v2.runner.pipeline import PipelineModule, Pipeline
-from src.v2.visualization.animation import Animator
 from src.v2.visualization.visualization import VisualizationModule
 
 FULL_VISUALIZE = {"animate": True,
-                  "visualize": True}
+                  "visualize": True,
+                  "animate_main": True,
+                  "animate_contour": True,
+                  "animation_main_only_last": True,
+                  "animation_contour_only_last": True
+                  }
+
+FULL_ANIMATION = {"animation_main_only_last": False,
+                  "animation_contour_only_last": False
+                  }
 
 NO_VISUALIZE = {"animate": False,
                 "visualize": True}
@@ -24,7 +32,6 @@ class PipelineBuilder:
     @staticmethod
     def build(modules: list[PipelineModule], **params) -> Pipeline:
         debug_metric = params.get("debug_metric")
-        animate = params.get("animate")
         visualize = params.get("visualize")
 
         prepared_modules: list[PipelineModule] = []
@@ -32,9 +39,6 @@ class PipelineBuilder:
             module = copy.deepcopy(module)
             if debug_metric and isinstance(module, MetricModule):
                 prepared_modules += [DebugMetricModule(module)]
-            elif isinstance(module, Animator):
-                if animate:
-                    prepared_modules += [module]
             elif isinstance(module, VisualizationModule):
                 if visualize:
                     prepared_modules += [module]

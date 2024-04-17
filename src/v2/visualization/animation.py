@@ -2,7 +2,7 @@ import itertools
 from typing import Optional, Any, Union
 
 import numpy as np
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt, colors
 from matplotlib.animation import Animation, ArtistAnimation
 from matplotlib.artist import Artist
 from matplotlib.axes import Axes
@@ -12,8 +12,8 @@ from src.v2.model.method import State
 from src.v2.model.oracul import Oracul
 from src.v2.visualization.visualization import VisualizationModule, VisualizationMeta
 
-FULL_ANIMATION = {"animate_main": True,
-                  "animate_contour": True}
+ONLY_LAST = {"animation_main_only_last": True,
+             "animation_contour_only_last": True}
 
 
 class Animator(VisualizationModule):
@@ -90,6 +90,9 @@ class Animator(VisualizationModule):
                 frames.append(current_frame)
                 last_point = point
 
+            if params.get("animation_contour_only_last", True):
+                frames = frames[-2:]
+
             animations.append(ArtistAnimation(
                 figure_contour,
                 frames,
@@ -99,9 +102,6 @@ class Animator(VisualizationModule):
             ))
 
         if params.get("animate_main"):
-            interval = params.get("animation_main_interval", 250)
-            frames: list[list[Artist]] = []
-
             figure_main = plt.figure()
             axes = figure_main.add_subplot() if dimension == 2 else figure_main.add_subplot(projection='3d')
             axes.set_xlabel("x")
@@ -110,6 +110,9 @@ class Animator(VisualizationModule):
                 axes.set_zlabel("z")
 
             surface_main = Animator.surface(axes, oracul, low_bracket, high_bracket, **params)
+
+            interval = params.get("animation_main_interval", 250)
+            frames: list[list[Artist]] = []
 
             last_point: Optional[np.ndarray] = None
             for index in itertools.chain(range(start_point_count),
@@ -129,6 +132,8 @@ class Animator(VisualizationModule):
                 frames.append(current_frame)
                 last_point = evaluated_point
 
+            if params.get("animation_main_only_last", True):
+                frames = frames[-2:]
             animations.append(ArtistAnimation(
                 figure_main,
                 frames,
@@ -156,8 +161,9 @@ class Animator(VisualizationModule):
             x_grid, y_grid = np.meshgrid(x_stamps, y_stamps)
             z_grid = np.array([[oracul.evaluate(np.array([x_val, y_val])) for x_val in x_stamps] for y_val in y_stamps])
 
-            return [axes.plot_surface(x_grid, y_grid, z_grid, rstride=4, cstride=4, shade=False, alpha=0.5),
-                    axes.plot_wireframe(x_grid, y_grid, z_grid, rstride=4, cstride=4, alpha=0.65)]
+            return [axes.plot_surface(x_grid, y_grid, z_grid, rstride=4, cstride=4, shade=False, alpha=0.8,
+                                      cmap="plasma", norm=colors.CenteredNorm()),
+                    axes.plot_wireframe(x_grid, y_grid, z_grid, rstride=4, cstride=4, alpha=0.4, color='white')]
 
     @staticmethod
     def contour(axes: Axes, oracul: Oracul, low_bracket: np.ndarray, high_bracket: np.ndarray,
@@ -170,4 +176,7 @@ class Animator(VisualizationModule):
         x_grid, y_grid = np.meshgrid(x_stamps, y_stamps)
         z_grid = np.array([[oracul.evaluate(np.array([x_val, y_val])) for x_val in x_stamps] for y_val in y_stamps])
 
-        return [axes.contour(x_grid, y_grid, z_grid)]
+        levels = 30
+        cmap = "plasma"
+        return [axes.contour(x_grid, y_grid, z_grid, levels, cmap=cmap, norm=colors.CenteredNorm()),
+                axes.contourf(x_grid, y_grid, z_grid, levels, cmap=cmap, alpha=0.85, norm=colors.CenteredNorm())]
