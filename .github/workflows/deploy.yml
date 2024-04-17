@@ -1,40 +1,64 @@
-name: deploy
+#name: deploy
+#
+#on:
+#  push:
+#    branches: [main]
+#
+#jobs:
+#  deploy:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      pages: write
+#      id-token: write
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: Install Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: 3.11
+#
+#      - name: Install dependencies
+#        run: pip install -r requirements.txt
+#
+#      - name: cache executed notebooks
+#        uses: actions/cache@v3
+#        with:
+#          path: _build/.jupyter_cache
+#          key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
+#
+#      - name: Build the book
+#        run: jupyter-book build presentation/lab-2/test.ipynb
+#
+#      - name: Upload artifact
+#        uses: actions/upload-pages-artifact@v2
+#        with:
+#          path: "presentation/lab-2/_build/_page/test/html"
+#
+#      - name: Deploy
+#        id: deployment
+#        uses: actions/deploy-pages@v2
 
 on:
+  workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - main
+      - master
+permissions:
+  contents: write
 
 jobs:
-  deploy:
+  build-documentation:
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Install Python
-        uses: actions/setup-python@v4
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          python-version: 3.11
+          fetch-depth: 0
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: cache executed notebooks
-        uses: actions/cache@v3
+      - name: Publish Jupyter Notebooks as Github pages
+        uses: dada-public/jupyter-to-pages@v1
         with:
-          path: _build/.jupyter_cache
-          key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
-
-      - name: Build the book
-        run: jupyter-book build presentation/lab-2/test.ipynb
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: "presentation/lab-2/_build/_page/test/html"
-
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v2
+          source: presentation/lab-2
+          dependencies: requirements.txt
