@@ -22,7 +22,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Install local modules
-        run: pip -e src
+        run: pip install -e src
 
       - name: cache executed notebooks
         uses: actions/cache@v3
