@@ -284,7 +284,7 @@ class SteepestDescentState(State):
     prev_point: Optional[np.ndarray] = None
     fj_old: Optional[float] = None
     fk: Optional[float] = None
-    alpha_old: Optional[float] = None
+    alpha_old: Optional[np.ndarray] = None
     first: Optional[bool] = None
     gk: Optional[np.ndarray] = None
     alpha: Optional[np.ndarray] = np.array([1.0], dtype=np.float64)
@@ -307,18 +307,18 @@ class Wolfe(OptimizationMethod):
         state.prev_point = None
         state.fk = oracul.evaluate(state.point)
         state.fj_old = state.fk
-        state.alpha_old = 0
+        state.alpha_old = np.array([1.0], dtype=np.float64)
         state.first = True
         state.gk = oracul.evaluate_gradient(state.point)
         return state
 
     def step(self, oracul: Oracul, state: SteepestDescentState, **params) -> SteepestDescentState:
-        state.eps = np.linalg.norm(state.fk - oracul.evaluate(state.point))
+        state.gk = oracul.evaluate_gradient(state.point)
+        state.eps = np.linalg.norm(state.point - state.alpha_old)
+        print(state.eps)
         if state.eps < self.eps:
             return state
         state.point, state = self.wolfe(oracul, self.c1, self.c2, state.point, 100.0, self.max_iters, state)
-
-        print(state.point)
         return state
 
     def meta(self, **params) -> MethodMeta:
@@ -334,13 +334,13 @@ class Wolfe(OptimizationMethod):
         proj_gj = gj
         if fj > state.fk + c1 * alpha * proj_gk or not state.first and fj > state.fj_old:
             return self.zoom(oracul, state.fj_old, state.alpha_old, alpha, state.fk, state.gk, c1, c2,
-                             max_iters)
+                             max_iters), state
         state.first = False
         if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
-            return alpha
+            return alpha, state
         if proj_gj >= 0.0:
             return self.zoom(oracul, fj, alpha, state.alpha_old, state.fk, state.gk, c1, c2,
-                             max_iters)
+                             max_iters), state
         state.fj_old = fj
         state.alpha_old = alpha
         alpha = min(2.0 * alpha, alpha_max)
