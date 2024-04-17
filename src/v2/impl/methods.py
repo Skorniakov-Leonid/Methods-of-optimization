@@ -313,6 +313,7 @@ class Wolfe(OptimizationMethod):
 
     def step(self, oracul: Oracul, state: SteepestDescentState, **params) -> SteepestDescentState:
         state.gk = oracul.evaluate_gradient(state.point)
+        state.fk = oracul.evaluate(state.point)
         state.eps = np.linalg.norm(state.point - state.alpha_old)
         if state.eps < self.eps:
             return state
