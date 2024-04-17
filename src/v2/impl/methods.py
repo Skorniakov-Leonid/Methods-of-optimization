@@ -267,7 +267,7 @@ class Newton(NewtonBase):
             LambdaOracul(
                 lambda rate: oracul.evaluate(point - rate * ray)
             ),
-            np.array([0]),
+            np.array([1]),
             [PrecisionCondition(self.eps)],
             left=0,
             right=self.learning_rate)
@@ -294,9 +294,7 @@ class Wolfe(OptimizationMethod):
     alpha_old: float = None
     first: bool = None
     gk: np.ndarray = None
-    pk: np.ndarray = None
-    point: np.ndarray = None
-    alpha: float = 1.0
+    alpha: np.ndarray = np.array([1.0], dtype=np.float64)
 
     def __init__(self, **params):
         self.c1 = params.get("c1", 1e-4)
@@ -305,7 +303,6 @@ class Wolfe(OptimizationMethod):
         self.max_iters = params["max_iters"]
 
     def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> SteepestDescentState:
-        self.point = point
         state = SteepestDescentState(point=point, eps=float('inf'))
         state.prev_point = None
         self.fk = oracul.evaluate(state.point)
@@ -316,14 +313,11 @@ class Wolfe(OptimizationMethod):
         return state
 
     def step(self, oracul: Oracul, state: SteepestDescentState, **params) -> SteepestDescentState:
-        grad = oracul.evaluate_gradient(self.point)
+        grad = oracul.evaluate_gradient(self.alpha)
         state.eps = np.sqrt(np.dot(grad, grad))
-        if np.sqrt(np.dot(grad, grad)) < self.eps:
+        if state.eps < self.eps:
             return state
-        self.pk = np.sqrt(np.dot(grad, grad))
-        self.alpha = self.wolfe(oracul, self.point, self.pk, self.c1, self.c2, self.alpha, 100.0, self.max_iters)
-        state.point = np.array([self.alpha])
-        self.point = self.point + self.alpha * self.pk
+        state.point = self.wolfe(oracul, self.c1, self.c2, state.point, 100.0, self.max_iters)
         return state
 
     def meta(self, **params) -> MethodMeta:
@@ -331,39 +325,40 @@ class Wolfe(OptimizationMethod):
                           version=f"({self.c1},{self.c2},eps={self.eps})",
                           description="Wolfes method to finding minimum on the ray ")
 
-    def wolfe(self, oracul: Oracul, x, pk, c1, c2, alpha, alpha_max, max_iters):
-        proj_gk = np.dot(self.gk, pk)
-        fj = oracul.evaluate(x + alpha * pk)
-        gj = oracul.evaluate_gradient(x + alpha * pk)
-        proj_gj = np.dot(gj, pk)
+    def wolfe(self, oracul: Oracul, c1, c2, alpha, alpha_max, max_iters):
+        proj_gk = self.gk
+        fj = oracul.evaluate(alpha)
+        gj = oracul.evaluate_gradient(alpha)
+        proj_gj = gj
         if fj > self.fk + c1 * alpha * proj_gk or not self.first and fj > self.fj_old:
-            return self.zoom(oracul, self.fj_old, self.alpha_old, alpha, x, self.fk, self.gk, pk, c1, c2,
+            return self.zoom(oracul, self.fj_old, self.alpha_old, alpha, self.fk, self.gk, c1, c2,
                              max_iters)
         self.first = False
         if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
             return alpha
         if proj_gj >= 0.0:
-            return self.zoom(oracul, fj, alpha, self.alpha_old, x, self.fk, self.gk, pk, c1, c2,
+            return self.zoom(oracul, fj, alpha, self.alpha_old, self.fk, self.gk, c1, c2,
                              max_iters)
         self.fj_old = fj
         self.alpha_old = alpha
         alpha = min(2.0 * alpha, alpha_max)
         if alpha >= alpha_max:
             return None
+        print(alpha)
         return alpha
 
-    def zoom(self, oracul: Oracul, f_low, alpha_low, alpha_high, x, fk, gk, pk, c1, c2, max_iters):
+    def zoom(self, oracul: Oracul, f_low, alpha_low, alpha_high, fk, gk, c1, c2, max_iters):
         alpha_j = 0
-        proj_gk = np.dot(pk, gk)
+        proj_gk = gk
         for j in range(max_iters):
             alpha_j = 0.5 * (alpha_low + alpha_high)
-            fj = oracul.evaluate(x + alpha_j * pk)
+            fj = oracul.evaluate(alpha_j)
             if fj > fk + c1 * alpha_j or fj >= f_low:
                 alpha_high = alpha_j
-                oracul.evaluate_gradient(x + alpha_j * pk)
+                oracul.evaluate_gradient(alpha_j)
             else:
-                gj = oracul.evaluate_gradient(x + alpha_j * pk)
-                proj_gj = np.dot(gj, pk)
+                gj = oracul.evaluate_gradient(alpha_j)
+                proj_gj = gj
                 if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
                     return alpha_j
                 if proj_gj * (alpha_high - alpha_low) >= 0.0:
