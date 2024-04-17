@@ -5,7 +5,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from src.v2.impl.conditions import PrecisionCondition
-from src.v2.impl.oraculs import LambdaOracul
+from src.v2.impl.oraculs import LambdaOracul, LinearWrapper
 from src.v2.model.method import OptimizationMethod, State, MethodMeta
 from src.v2.model.oracul import Oracul
 from src.v2.runner.runner import Runner
@@ -229,7 +229,12 @@ class NewtonBase(OptimizationMethod):
 
     def step(self, oracul: Oracul, state: NewtonState, **params) -> NewtonState:
         state.prev_point = state.point
-        ray = np.dot(np.linalg.inv(oracul.evaluate_hessian(state.point)),
+        hess = oracul.evaluate_hessian(state.point)
+        try:
+            inverted = np.linalg.inv(hess)
+        except np.linalg.LinAlgError:
+            inverted = np.linalg.inv(hess + np.eye(hess.shape[0]) * 1e-11)
+        ray = np.dot(inverted,
                      oracul.evaluate_gradient(state.point))
         state.point = (np.array(state.point, dtype=np.float64) - self.get_learning_rate(state.point, ray, oracul)
                        * ray)
@@ -248,6 +253,7 @@ class NewtonBase(OptimizationMethod):
     def get_precision(state: NewtonState):
         return float("inf") if state.prev_point is None else np.sqrt(np.sum(np.square(state.point - state.prev_point)))
 
+
 class Newton(NewtonBase):
 
     def __init__(self, learning_rate: float = 3, method=GoldenRatioMethod(), aprox_dec=0.0001) -> None:
@@ -258,10 +264,8 @@ class Newton(NewtonBase):
     def get_learning_rate(self, point: np.ndarray, ray: np.ndarray, oracul: Oracul) -> float:
         data = Runner.run_pipeline(
             self.method,
-            LambdaOracul(
-                lambda rate: oracul.evaluate(point - rate * ray)
-            ),
-            np.array([0]),
+            LinearWrapper(oracul, point, ray),
+            np.array([1]),
             [PrecisionCondition(self.eps)],
             left=0,
             right=self.learning_rate)
@@ -271,3 +275,95 @@ class Newton(NewtonBase):
         return MethodMeta(name="Newton",
                           version=f"({self.learning_rate},{self.method.meta().full_name()},eps={self.eps})",
                           description="Method of optimization using Newton with changing rate ")
+
+
+@dataclass
+class WolfeState(State):
+    fj_old: Optional[float] = None
+    fk: Optional[float] = None
+    alpha_old: Optional[np.ndarray] = None
+    first: Optional[bool] = None
+    gk: Optional[np.ndarray] = None
+
+
+class NewtonWolfe(OptimizationMethod):
+    max_iters: int
+    eps: float
+    c1: float = None
+    c2: float = None
+
+    def __init__(self, **params):
+        self.c1 = params.get("c1", 1e-4)
+        self.c2 = params.get("c2", 0.9)
+        self.eps = params["aprox_dec"]
+        self.learning_rate = params.get("learning_rate", 100)
+        self.max_iters = params["max_iters"]
+
+    def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> WolfeState:
+        state = WolfeState(point=point, eps=float('inf'))
+        state.prev_point = None
+        state.fk = oracul.evaluate(state.point)
+        state.fj_old = state.fk
+        state.alpha_old = 0
+        state.first = True
+        state.gk = oracul.evaluate_gradient(state.point)
+        return state
+
+    def step(self, oracul: Oracul, state: WolfeState, **params) -> WolfeState:
+        grad = oracul.evaluate_gradient(state.point)
+        state.eps = np.sqrt(np.dot(grad, grad))
+        hess = oracul.evaluate_hessian(state.point)
+        try:
+            inverted = np.linalg.inv(hess)
+        except np.linalg.LinAlgError:
+            inverted = np.linalg.inv(hess + np.eye(hess.shape[0]) * 1e-11)
+        pk = -np.dot(inverted, grad)
+        alpha = self.wolfe(oracul, state.point, pk, self.c1, self.c2, 1.0, self.learning_rate, self.max_iters, state)
+        state.point = state.point + alpha * pk
+        return state
+
+    def meta(self, **params) -> MethodMeta:
+        return MethodMeta(name="Wolfe",
+                          version=f"({self.c1},{self.c2},eps={self.eps})",
+                          description="Wolfes method to finding minimum on the ray ")
+
+    def wolfe(self, oracul: Oracul, x, pk, c1, c2, alpha, alpha_max, max_iters, state):
+        proj_gk = np.dot(state.gk, pk)
+        fj = oracul.evaluate(x + alpha * pk)
+        gj = oracul.evaluate_gradient(x + alpha * pk)
+        proj_gj = np.dot(gj, pk)
+        if fj > state.fk + c1 * alpha * proj_gk or not state.first and fj > state.fj_old:
+            return self.zoom(oracul, state.fj_old, state.alpha_old, alpha, x, state.fk, state.gk, pk, c1, c2,
+                             max_iters)
+        state.first = False
+        if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
+            return alpha
+        if proj_gj >= 0.0:
+            return self.zoom(oracul, fj, alpha, state.alpha_old, x, state.fk, state.gk, pk, c1, c2,
+                             max_iters)
+        state.fj_old = fj
+        state.alpha_old = alpha
+        alpha = min(2.0 * alpha, alpha_max)
+        if alpha >= alpha_max:
+            return None
+        return alpha
+
+    def zoom(self, oracul: Oracul, f_low, alpha_low, alpha_high, x, fk, gk, pk, c1, c2, max_iters):
+        alpha_j = 0
+        proj_gk = np.dot(pk, gk)
+        for j in range(max_iters):
+            alpha_j = 0.5 * (alpha_low + alpha_high)
+            fj = oracul.evaluate(x + alpha_j * pk)
+            if fj > fk + c1 * alpha_j or fj >= f_low:
+                alpha_high = alpha_j
+                oracul.evaluate_gradient(x + alpha_j * pk)
+            else:
+                gj = oracul.evaluate_gradient(x + alpha_j * pk)
+                proj_gj = np.dot(gj, pk)
+                if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
+                    return alpha_j
+                if proj_gj * (alpha_high - alpha_low) >= 0.0:
+                    alpha_high = alpha_j
+                alpha_low = alpha_j
+                f_low = fj
+        return alpha_j

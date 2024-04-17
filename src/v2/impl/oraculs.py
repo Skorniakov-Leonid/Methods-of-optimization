@@ -3,8 +3,33 @@ from typing import Callable
 
 import numpy as np
 import sympy
+from numpy import ndarray
 
 from src.v2.model.oracul import Oracul, OraculMeta
+
+
+class LinearWrapper(Oracul):
+    def __init__(self, oracul: Oracul, x: np.ndarray, ray: np.ndarray) -> None:
+        """
+        Constructor for lambda oracul
+        :param func:        lambda that generate oracul
+        """
+        self.oracul = oracul
+        self.x = x
+        self.ray = ray
+
+    def evaluate(self, point: np.ndarray, **params) -> float:
+        return self.oracul.evaluate(self.x - point * self.ray)
+
+    def evaluate_gradient(self, point: np.ndarray, **params) -> ndarray:
+        return self.oracul.evaluate_gradient(self.x - point * self.ray)
+
+    def get_dimension(self) -> int:
+        return 2
+
+    def meta(self, **params) -> OraculMeta:
+        return OraculMeta(name="LambdaOracul",
+                          description="Oracul based on lambda")
 
 
 class LambdaOracul(Oracul):
