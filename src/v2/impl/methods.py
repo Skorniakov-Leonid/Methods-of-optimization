@@ -284,7 +284,7 @@ class SteepestDescentState(State):
     prev_point: Optional[np.ndarray] = None
 
 
-class SteepestDescent(OptimizationMethod):
+class Wolfe(OptimizationMethod):
     max_iters: int
     eps: float
     c1: float = None
@@ -294,6 +294,9 @@ class SteepestDescent(OptimizationMethod):
     alpha_old: float = None
     first: bool = None
     gk: np.ndarray = None
+    pk: np.ndarray = None
+    point: np.ndarray = None
+    alpha: float = 1.0
 
     def __init__(self, **params):
         self.c1 = params.get("c1", 1e-4)
@@ -302,6 +305,7 @@ class SteepestDescent(OptimizationMethod):
         self.max_iters = params["max_iters"]
 
     def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> SteepestDescentState:
+        self.point = point
         state = SteepestDescentState(point=point, eps=float('inf'))
         state.prev_point = None
         self.fk = oracul.evaluate(state.point)
@@ -312,13 +316,14 @@ class SteepestDescent(OptimizationMethod):
         return state
 
     def step(self, oracul: Oracul, state: SteepestDescentState, **params) -> SteepestDescentState:
-        grad = oracul.evaluate_gradient(state.point)
+        grad = oracul.evaluate_gradient(self.point)
         state.eps = np.sqrt(np.dot(grad, grad))
         if np.sqrt(np.dot(grad, grad)) < self.eps:
             return state
-        pk = -grad / np.sqrt(np.dot(grad, grad))
-        alpha = self.wolfe(oracul, state.point, pk, self.c1, self.c2, 1.0, 100.0, self.max_iters)
-        state.point = state.point + alpha * pk
+        self.pk = np.sqrt(np.dot(grad, grad))
+        self.alpha = self.wolfe(oracul, self.point, self.pk, self.c1, self.c2, self.alpha, 100.0, self.max_iters)
+        state.point = np.array([self.alpha])
+        self.point = self.point + self.alpha * self.pk
         return state
 
     def meta(self, **params) -> MethodMeta:
