@@ -289,6 +289,11 @@ class SteepestDescent(OptimizationMethod):
     eps: float
     c1: float = None
     c2: float = None
+    fj_old: float = None
+    fk: float = None
+    alpha_old: float = None
+    first: bool = None
+    gk: np.ndarray = None
 
     def __init__(self, **params):
         self.c1 = params.get("c1", 1e-4)
@@ -299,6 +304,11 @@ class SteepestDescent(OptimizationMethod):
     def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> SteepestDescentState:
         state = SteepestDescentState(point=point, eps=float('inf'))
         state.prev_point = None
+        self.fk = oracul.evaluate(state.point)
+        self.fj_old = self.fk
+        self.alpha_old = 0
+        self.first = True
+        self.gk = oracul.evaluate_gradient(state.point)
         return state
 
     def step(self, oracul: Oracul, state: SteepestDescentState, **params) -> SteepestDescentState:
@@ -317,28 +327,24 @@ class SteepestDescent(OptimizationMethod):
                           description="Wolfes method to finding minimum on the ray ")
 
     def wolfe(self, oracul: Oracul, x, pk, c1, c2, alpha, alpha_max, max_iters):
-        fk = oracul.evaluate(x)
-        gk = oracul.evaluate_gradient(x)
-        proj_gk = np.dot(gk, pk)
-        fj_old = fk
-        alpha_old = 0
-        for j in range(max_iters):
-            fj = oracul.evaluate(x + alpha * pk)
-            gj = oracul.evaluate_gradient(x + alpha * pk)
-            proj_gj = np.dot(gj, pk)
-            if fj > fk + c1 * alpha * proj_gk or j > 0 and fj > fj_old:
-                return self.zoom(oracul, fj_old, alpha_old, alpha, x, fk, gk, pk, c1, c2,
-                                 max_iters)
-            if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
-                return alpha
-            if proj_gj >= 0.0:
-                return self.zoom(oracul, fj, alpha, alpha_old, x, fk, gk, pk, c1, c2,
-                                 max_iters)
-            fj_old = fj
-            alpha_old = alpha
-            alpha = min(2.0 * alpha, alpha_max)
-            if alpha >= alpha_max:
-                return None
+        proj_gk = np.dot(self.gk, pk)
+        fj = oracul.evaluate(x + alpha * pk)
+        gj = oracul.evaluate_gradient(x + alpha * pk)
+        proj_gj = np.dot(gj, pk)
+        if fj > self.fk + c1 * alpha * proj_gk or not self.first and fj > self.fj_old:
+            return self.zoom(oracul, self.fj_old, self.alpha_old, alpha, x, self.fk, self.gk, pk, c1, c2,
+                             max_iters)
+        self.first = False
+        if np.fabs(proj_gj) <= c2 * np.fabs(proj_gk):
+            return alpha
+        if proj_gj >= 0.0:
+            return self.zoom(oracul, fj, alpha, self.alpha_old, x, self.fk, self.gk, pk, c1, c2,
+                             max_iters)
+        self.fj_old = fj
+        self.alpha_old = alpha
+        alpha = min(2.0 * alpha, alpha_max)
+        if alpha >= alpha_max:
+            return None
         return alpha
 
     def zoom(self, oracul: Oracul, f_low, alpha_low, alpha_high, x, fk, gk, pk, c1, c2, max_iters):
