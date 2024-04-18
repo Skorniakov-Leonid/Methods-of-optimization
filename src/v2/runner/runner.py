@@ -69,6 +69,7 @@ class Runner:
     @staticmethod
     def run_pipeline(method: OptimizationMethod, oracul: Oracul, point: np.ndarray,
                      modules: list[PipelineModule], **params) -> list[tuple[str, Any]]:
+        params["method_name"] = method.meta().full_name()
         info = params.get("info", False)
         if info:
             print(f"============ Testing {method.meta().full_name()} ============")
