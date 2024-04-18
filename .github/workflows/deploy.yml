@@ -13,30 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Install local modules
-        run: pip install -e src
-
-      - name: cache executed notebooks
-        uses: actions/cache@v3
-        with:
-          path: _build/.jupyter_cache
-          key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
-
-      - name: Build the book
-        run: jupyter-book build presentation/lab-2/test.ipynb
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: "presentation/lab-2/_build/_page/test/html"
+          path: "presentation/lab-2/build/index.html"
 
       - name: Deploy
         id: deployment
