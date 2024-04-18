@@ -61,6 +61,9 @@ class Animator(VisualizationModule):
 
         skip = max(len(points) // (point_count - start_point_count - end_point_count), 1)
 
+        title = "{oracul_name} | {method_name}".format(oracul_name=oracul.meta().full_name(),
+                                                       method_name=params["method_name"])
+
         if params.get("animate_contour") and dimension == 3:
             interval = params.get("animation_contour_interval", 250)
 
@@ -68,6 +71,7 @@ class Animator(VisualizationModule):
 
             figure_contour = plt.figure()
             axes = figure_contour.add_subplot()
+            axes.set_title(title)
 
             contour = Animator.contour(axes, oracul, low_bracket, high_bracket, **params)
             last_point: Optional[np.ndarray] = None
@@ -101,6 +105,7 @@ class Animator(VisualizationModule):
         if params.get("animate_main"):
             figure_main = plt.figure()
             axes = figure_main.add_subplot() if dimension == 2 else figure_main.add_subplot(projection='3d')
+            axes.set_title(title)
             axes.set_xlabel("x")
             axes.set_ylabel("y")
             if dimension == 3:
