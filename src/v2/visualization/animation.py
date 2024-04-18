@@ -12,9 +12,6 @@ from src.v2.model.method import State
 from src.v2.model.oracul import Oracul
 from src.v2.visualization.visualization import VisualizationModule, VisualizationMeta
 
-ONLY_LAST = {"animation_main_only_last": True,
-             "animation_contour_only_last": True}
-
 
 class Animator(VisualizationModule):
 
@@ -90,7 +87,7 @@ class Animator(VisualizationModule):
                 frames.append(current_frame)
                 last_point = point
 
-            if params.get("animation_contour_only_last", True):
+            if not params.get("animation_contour_full", False):
                 frames = frames[-2:]
 
             animations.append(ArtistAnimation(
@@ -98,7 +95,7 @@ class Animator(VisualizationModule):
                 frames,
                 interval=interval,
                 blit=True,
-                repeat=True
+                repeat=params.get("animation_contour_full", False)
             ))
 
         if params.get("animate_main"):
@@ -132,14 +129,14 @@ class Animator(VisualizationModule):
                 frames.append(current_frame)
                 last_point = evaluated_point
 
-            if params.get("animation_main_only_last", True):
+            if not params.get("animation_main_full", False):
                 frames = frames[-2:]
             animations.append(ArtistAnimation(
                 figure_main,
                 frames,
                 interval=interval,
                 blit=True,
-                repeat=True
+                repeat=params.get("animation_main_full", False)
             ))
 
         return animations

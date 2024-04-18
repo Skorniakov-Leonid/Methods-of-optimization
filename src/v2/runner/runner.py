@@ -13,13 +13,11 @@ from src.v2.visualization.visualization import VisualizationModule
 FULL_VISUALIZE = {"animate": True,
                   "visualize": True,
                   "animate_main": True,
-                  "animate_contour": True,
-                  "animation_main_only_last": True,
-                  "animation_contour_only_last": True
+                  "animate_contour": True
                   }
 
-FULL_ANIMATION = {"animation_main_only_last": False,
-                  "animation_contour_only_last": False
+FULL_ANIMATION = {"animation_main_full": True,
+                  "animation_contour_full": True
                   }
 
 NO_VISUALIZE = {"animate": False,
