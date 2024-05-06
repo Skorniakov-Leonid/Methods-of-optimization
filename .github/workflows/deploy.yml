@@ -16,7 +16,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: "presentation/website/index.html"
+          path: "presentation/website/"
 
       - name: Deploy
         id: deployment
