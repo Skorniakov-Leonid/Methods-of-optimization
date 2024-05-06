@@ -3,12 +3,12 @@ from typing import Any
 from tabulate import tabulate
 import numpy as np
 
-from src.v2.model.method import OptimizationMethod
-from src.v2.model.metric import MetricModule
-from src.v2.model.oracul import Oracul
-from src.v2.runner.debug import DebugMetricModule, DebugOracul, DebugMethod
-from src.v2.runner.pipeline import PipelineModule, Pipeline
-from src.v2.visualization.visualization import VisualizationModule
+from v2.model.method import OptimizationMethod
+from v2.model.metric import MetricModule
+from v2.model.oracul import Oracul
+from v2.runner.debug import DebugMetricModule, DebugOracul, DebugMethod
+from v2.runner.pipeline import PipelineModule, Pipeline
+from v2.visualization.visualization import VisualizationModule
 
 FULL_VISUALIZE = {"animate": True,
                   "visualize": True,

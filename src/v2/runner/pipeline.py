@@ -3,9 +3,9 @@ from typing import Optional, Any, Type
 
 import numpy as np
 
-from src.v2.model.meta import Meta
-from src.v2.model.method import State
-from src.v2.model.oracul import Oracul
+from v2.model.meta import Meta
+from v2.model.method import State
+from v2.model.oracul import Oracul
 
 
 class PipelineModule(ABC):

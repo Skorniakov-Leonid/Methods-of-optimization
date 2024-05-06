@@ -3,9 +3,9 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from src.v2.model.meta import Meta
-from src.v2.model.method import State
-from src.v2.runner.pipeline import PipelineModule
+from v2.model.meta import Meta
+from v2.model.method import State
+from v2.runner.pipeline import PipelineModule
 
 
 @dataclass

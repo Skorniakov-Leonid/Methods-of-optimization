@@ -1,14 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.v2.impl.conditions import StepCountCondition, PrecisionCondition, AbsolutePrecisionCondition
-from src.v2.impl.methods import CoordinateDescent, GoldenRatioMethod, GradientDescent, ScipyMethod
-from src.v2.impl.metrics import StepCount, CallCount, GradientCallCount, HessianCallCount, PrecisionCount, \
+from v2.impl.conditions import StepCountCondition, PrecisionCondition, AbsolutePrecisionCondition
+from v2.impl.methods import CoordinateDescent, GoldenRatioMethod, GradientDescent, ScipyMethod
+from v2.impl.metrics import StepCount, CallCount, GradientCallCount, HessianCallCount, PrecisionCount, \
     AbsolutePrecisionCount, MinAbsolutePrecision, AbsolutePrecision, Precision
-from src.v2.impl.oraculs import LambdaOracul
-from src.v2.runner.debug import FULL_DEBUG
-from src.v2.runner.runner import Runner, TABLE, FULL_VISUALIZE
-from src.v2.visualization.animation import Animator
+from v2.impl.oraculs import LambdaOracul
+from v2.runner.debug import FULL_DEBUG
+from v2.runner.runner import Runner, TABLE, FULL_VISUALIZE
+from v2.visualization.animation import Animator
 
 def test():
     lmb = lambda x, y: (x - 10) ** 2 + (y - 5) ** 2

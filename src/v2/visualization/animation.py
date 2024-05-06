@@ -7,10 +7,10 @@ from matplotlib.animation import Animation, ArtistAnimation
 from matplotlib.artist import Artist
 from matplotlib.axes import Axes
 
-from src.v2.model.meta import Meta
-from src.v2.model.method import State
-from src.v2.model.oracul import Oracul
-from src.v2.visualization.visualization import VisualizationModule, VisualizationMeta
+from v2.model.meta import Meta
+from v2.model.method import State
+from v2.model.oracul import Oracul
+from v2.visualization.visualization import VisualizationModule, VisualizationMeta
 
 
 class Animator(VisualizationModule):

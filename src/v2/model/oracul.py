@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import numpy as np
 import numdifftools as nd
 
-from src.v2.model.meta import Meta
+from v2.model.meta import Meta
 
 
 @dataclass

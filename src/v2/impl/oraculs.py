@@ -5,7 +5,7 @@ import numpy as np
 import sympy
 from numpy import ndarray
 
-from src.v2.model.oracul import Oracul, OraculMeta
+from v2.model.oracul import Oracul, OraculMeta
 
 
 class LinearWrapper(Oracul):

@@ -4,11 +4,11 @@ from typing import Optional
 import numpy as np
 from scipy.optimize import minimize
 
-from src.v2.impl.conditions import PrecisionCondition
-from src.v2.impl.oraculs import LambdaOracul, LinearWrapper
-from src.v2.model.method import OptimizationMethod, State, MethodMeta
-from src.v2.model.oracul import Oracul
-from src.v2.runner.runner import Runner
+from v2.impl.conditions import PrecisionCondition
+from v2.impl.oraculs import LambdaOracul, LinearWrapper
+from v2.model.method import OptimizationMethod, State, MethodMeta
+from v2.model.oracul import Oracul
+from v2.runner.runner import Runner
 
 
 @dataclass

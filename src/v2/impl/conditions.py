@@ -1,8 +1,8 @@
 import numpy as np
 
-from src.v2.model.condition import StopConditionModule, StopConditionMeta
-from src.v2.model.meta import Meta
-from src.v2.model.method import State
+from v2.model.condition import StopConditionModule, StopConditionMeta
+from v2.model.meta import Meta
+from v2.model.method import State
 
 
 class StepCountCondition(StopConditionModule):

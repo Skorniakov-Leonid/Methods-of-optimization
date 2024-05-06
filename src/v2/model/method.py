@@ -3,8 +3,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from src.v2.model.meta import Meta
-from src.v2.model.oracul import Oracul
+from v2.model.meta import Meta
+from v2.model.oracul import Oracul
 
 
 @dataclass

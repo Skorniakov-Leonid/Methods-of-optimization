@@ -1,9 +1,9 @@
 import numpy as np
 
-from src.v2.model.meta import Meta
-from src.v2.model.method import State
-from src.v2.model.metric import MetricModule, MetricMeta
-from src.v2.model.oracul import Oracul, OraculMeta
+from v2.model.meta import Meta
+from v2.model.method import State
+from v2.model.metric import MetricModule, MetricMeta
+from v2.model.oracul import Oracul, OraculMeta
 
 
 class StepCount(MetricModule):

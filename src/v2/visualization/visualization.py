@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 
-from src.v2.model.meta import Meta
-from src.v2.runner.pipeline import PipelineModule
+from v2.model.meta import Meta
+from v2.runner.pipeline import PipelineModule
 
 
 @dataclass

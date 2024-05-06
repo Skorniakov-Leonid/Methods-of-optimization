@@ -2,11 +2,11 @@ from typing import Optional, Any
 
 import numpy as np
 
-from src.v2.model.meta import Meta
-from src.v2.model.method import State, OptimizationMethod, MethodMeta
-from src.v2.model.metric import MetricModule, MetricMeta
-from src.v2.model.oracul import Oracul, OraculMeta
-from src.v2.runner.pipeline import PipelineModule
+from v2.model.meta import Meta
+from v2.model.method import State, OptimizationMethod, MethodMeta
+from v2.model.metric import MetricModule, MetricMeta
+from v2.model.oracul import Oracul, OraculMeta
+from v2.runner.pipeline import PipelineModule
 
 FULL_DEBUG = {'debug_oracul': True,
               'debug_metric': True,
