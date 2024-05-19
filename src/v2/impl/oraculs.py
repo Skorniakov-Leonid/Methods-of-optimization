@@ -1,15 +1,19 @@
+import random
 from inspect import signature
 from typing import Callable
 
 import numpy as np
+import typing as tp
 import sympy
 from numpy import ndarray
 
-from src.v2.model.oracul import Oracul, OraculMeta
+from src.v2.model.function_interpretation import FunctionInterpretation
+from src.v2.model.loss_function import LossFunction
+from src.v2.model.oracul import Oracul, OraculMeta, EpochState
 
 
 class LinearWrapper(Oracul):
-    def __init__(self, oracul: Oracul, x: np.ndarray, ray: np.ndarray) -> None:
+    def __init__(self, oracul: Oracul, x: np.ndarray, ray: np.ndarray, state: EpochState) -> None:
         """
         Constructor for lambda oracul
         :param func:        lambda that generate oracul
@@ -17,9 +21,10 @@ class LinearWrapper(Oracul):
         self.oracul = oracul
         self.x = x
         self.ray = ray
+        self.state = state
 
-    def evaluate(self, point: np.ndarray, **params) -> float:
-        return self.oracul.evaluate(self.x - point * self.ray)
+    def evaluate(self, point: np.ndarray, state: EpochState, **params) -> float:
+        return self.oracul.evaluate(self.x - point * self.ray, self.state)
 
     def evaluate_gradient(self, point: np.ndarray, **params) -> ndarray:
         return self.oracul.evaluate_gradient(self.x - point * self.ray)
@@ -43,7 +48,7 @@ class LambdaOracul(Oracul):
         self.func = func
         self.dimension = len(signature(func).parameters) + 1
 
-    def evaluate(self, point: np.ndarray, **params) -> float:
+    def evaluate(self, point: np.ndarray, state: EpochState, **params) -> float:
         return self.func(*point)
 
     def get_dimension(self) -> int:
@@ -74,14 +79,14 @@ class SymbolOracul(Oracul):
     def map_dim_to_point(self, point: np.ndarray) -> dict:
         return dict(zip(self.dimensions_order, point))
 
-    def evaluate(self, point: np.ndarray, **params) -> float:
+    def evaluate(self, point: np.ndarray, state: EpochState, **params) -> float:
         return np.float64(self.func.subs(self.map_dim_to_point(point)))
 
-    def evaluate_gradient(self, point: np.ndarray, **params) -> np.ndarray:
+    def evaluate_gradient(self, point: np.ndarray, state: EpochState, **params) -> np.ndarray:
         res = [np.float64(i.subs(self.map_dim_to_point(point))) for i in self.grad]
         return np.array(res, dtype=np.float64)
 
-    def evaluate_hessian(self, point: np.ndarray, **params) -> np.ndarray:
+    def evaluate_hessian(self, point: np.ndarray, state: EpochState, **params) -> np.ndarray:
         res = []
         for i in self.hes:
             row_res = []
@@ -108,7 +113,7 @@ class PoweredSumOracul(Oracul):
         """
         self.coefficients = coefficients
 
-    def evaluate(self, point: np.ndarray, **params) -> float:
+    def evaluate(self, point: np.ndarray, state: EpochState, **params) -> float:
         res = np.float64(0)
         for coordinate, coefficient, power in zip(point, self.coefficients):
             res += coefficient * (np.float64(coordinate) ** power)
@@ -116,7 +121,7 @@ class PoweredSumOracul(Oracul):
             res += self.coefficients[i][0] * (np.float64(point[i]) ** self.coefficients[i][1])
         return res
 
-    def evaluate_gradient(self, point: np.ndarray, **params) -> np.ndarray:
+    def evaluate_gradient(self, point: np.ndarray, state: EpochState, **params) -> np.ndarray:
         res = np.zeros(len(self.coefficients), dtype=np.float64)
         for i in range(len(self.coefficients)):
             res[i] = (np.float64(point[i]) ** np.float64(self.coefficients[i][1] - 1)) * \
@@ -130,3 +135,57 @@ class PoweredSumOracul(Oracul):
     def meta(self, **params) -> OraculMeta:
         return OraculMeta(name="PoweredSumOracul",
                           description="Oracul described by powers and coefficients")
+
+
+class MinimisingOracul(Oracul):
+    def __init__(self, minimization_function: LossFunction, interpretation: FunctionInterpretation, data: np.ndarray,
+                 crop_size: int, **params) -> None:
+        self.minimization_function = minimization_function
+        self.interpretation = interpretation
+        self.data = data
+        self.crop_size = crop_size
+
+    def evaluate(self, point: np.ndarray, state: EpochState, **params) -> float:
+        if state is None:
+            raise ValueError("State is None!")
+        points = np.array([self.data[i] for i in state.points])
+        return self.minimization_function.eval(points, self.interpretation.evaluate(point, points))
+
+    def next_state(self, state: EpochState = None, **params) -> EpochState:
+        if state is None:
+            return EpochState(0, 0, list(random.sample(range(len(self.data)), self.crop_size)), [])
+
+        all_points = set(range(len(self.data)))
+        processed_points = set(state.points + state.previous_points)
+
+        not_processed_points = list(all_points - processed_points)
+
+        epoch = state.epoch
+        step = state.step + 1
+        if len(not_processed_points) == 0:
+            epoch += 1
+            step = 0
+            processed_points = np.empty(0)
+            not_processed_points = list(all_points)
+
+        next_points = [not_processed_points[i] for i in random.sample(
+            range(len(not_processed_points)),
+            min(self.crop_size, len(not_processed_points)))]
+
+        return EpochState(epoch, step, next_points, list(processed_points))
+
+    def get_dimension(self) -> int:
+        return self.interpretation.get_dimension()
+
+    def all_points(self, **params) -> EpochState:
+        return EpochState(-1, -1, list(range(len(self.data))), [])
+
+    def meta(self, **params) -> OraculMeta:
+        return OraculMeta(name="MinimisingOracul",
+                          description="Oracul based on minimization and interpretation functions")
+
+    def get_interpretation(self) -> FunctionInterpretation:
+        return self.interpretation
+
+    def get_data(self) -> tp.Optional[np.ndarray]:
+        return self.data

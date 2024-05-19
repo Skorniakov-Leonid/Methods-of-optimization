@@ -1,20 +1,18 @@
-from typing import Optional, Any
+from typing import Optional, Any, Callable
 
 import numpy as np
+import typing as tp
 
+from src.v2.model.function_interpretation import FunctionInterpretation
 from src.v2.model.meta import Meta
 from src.v2.model.method import State, OptimizationMethod, MethodMeta
 from src.v2.model.metric import MetricModule, MetricMeta
-from src.v2.model.oracul import Oracul, OraculMeta
+from src.v2.model.oracul import Oracul, OraculMeta, EpochState, SpyOracul
 from src.v2.runner.pipeline import PipelineModule
 
 FULL_DEBUG = {'debug_oracul': True,
               'debug_metric': True,
               'debug_method': True}
-
-
-class DebugModule(PipelineModule):
-    pass
 
 
 class DebugMethod(OptimizationMethod):
@@ -41,7 +39,7 @@ class DebugMethod(OptimizationMethod):
         return self.method.meta()
 
 
-class DebugMetricModule(MetricModule, DebugModule):
+class DebugMetricModule(MetricModule):
     def __init__(self, metric: MetricModule) -> None:
         self.metric = metric
 
@@ -64,6 +62,9 @@ class DebugMetricModule(MetricModule, DebugModule):
 
         return return_value
 
+    def prepare_method(self, method: Callable, **params) -> Callable:
+        return self.metric.prepare_method(method)
+
     def get_result(self, **params) -> list[tuple[str, Any]]:
         metric_result = self.metric.get_result(**params)
 
@@ -77,31 +78,38 @@ class DebugMetricModule(MetricModule, DebugModule):
         return self.metric.meta()
 
 
-class DebugOracul(Oracul):
+class DebugOracul(SpyOracul):
     def __init__(self, oracul: Oracul) -> None:
         self.oracul = oracul
         print("[DEBUG][Oracul] Added debug to oracul")
 
-    def evaluate(self, point: np.ndarray, **params) -> float:
-        oracul_result = self.oracul.evaluate(point)
+    def evaluate(self, point: np.ndarray, state: EpochState, **params) -> float:
+        oracul_result = self.oracul.evaluate(point, state)
 
         print(f"[DEBUG][Oracul][Value] Evaluated at {point} - {oracul_result}")
 
         return oracul_result
 
-    def evaluate_gradient(self, point: np.ndarray, **params) -> np.ndarray:
-        oracul_result = self.oracul.evaluate_gradient(point)
+    def evaluate_gradient(self, point: np.ndarray, state: EpochState, **params) -> np.ndarray:
+        oracul_result = self.oracul.evaluate_gradient(point, state)
 
         print(f"[DEBUG][Oracul][Gradient] Evaluated at {point} - {oracul_result}")
 
         return oracul_result
 
-    def evaluate_hessian(self, point: np.ndarray, **params) -> np.ndarray:
-        oracul_result = self.oracul.evaluate_hessian(point)
+    def evaluate_hessian(self, point: np.ndarray, state: EpochState, **params) -> np.ndarray:
+        oracul_result = self.oracul.evaluate_hessian(point, state)
 
         print(f"[DEBUG][Oracul][Hessian] Evaluated at {point} - {oracul_result}")
 
         return oracul_result
+
+    def next_state(self, state: EpochState = None, **params) -> EpochState:
+        next_state = self.oracul.next_state(state, **params)
+
+        print(f"[DEBUG][Oracul][State] {next_state.epoch} {next_state.points}")
+
+        return next_state
 
     def get_dimension(self) -> int:
         return self.oracul.get_dimension()
