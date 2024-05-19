@@ -10,8 +10,11 @@ from src.v2.runner.debug import DebugMetricModule, DebugOracul, DebugMethod
 from src.v2.runner.pipeline import PipelineModule, Pipeline
 from src.v2.visualization.visualization import VisualizationModule
 
+VISUALIZE = {
+    "visualize": True,
+}
+
 FULL_VISUALIZE = {"animate": True,
-                  "visualize": True,
                   "animate_main": True,
                   "animate_contour": True
                   }
@@ -20,8 +23,10 @@ FULL_ANIMATION = {"animation_main_full": True,
                   "animation_contour_full": True
                   }
 
+VISUALIZE_FUNCTION = {"visualize_function": True}
+
 NO_VISUALIZE = {"animate": False,
-                "visualize": True}
+                "visualize": False}
 
 TABLE = {"show_table": True}
 
@@ -82,10 +87,15 @@ class Runner:
         if params.get("debug_oracul"):
             prepared_oracul = DebugOracul(prepared_oracul)
 
-        state = method.initial_step(prepared_oracul, copy.deepcopy(point), **params)
-        while pipeline.process_step(state, method.meta(), **params):
-            state.index += 1
-            state = method.step(prepared_oracul, state, **params)
+        def run_method():
+            state = method.initial_step(prepared_oracul, copy.deepcopy(point), **params)
+            while pipeline.process_step(state, method.meta(), **params):
+                state.index += 1
+                state.epoch_state = oracul.next_state(state.epoch_state, **params)
+                state = method.step(prepared_oracul, state, **params)
+            return state
+
+        state = pipeline.prepare_method(run_method)()
 
         if info:
             print(f"[INFO][Method][{method.meta().full_name()}] Completed!")

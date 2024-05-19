@@ -3,6 +3,7 @@ import numpy as np
 from src.v2.model.condition import StopConditionModule, StopConditionMeta
 from src.v2.model.meta import Meta
 from src.v2.model.method import State
+from src.v2.model.oracul import Oracul, SpyOracul, EpochState
 
 
 class StepCountCondition(StopConditionModule):
@@ -57,3 +58,22 @@ class AbsolutePrecisionCondition(StopConditionModule):
         return StopConditionMeta(name="AbsolutePrecisionCondition",
                                  version=f"(precision={self.precision})",
                                  description="Stop when the required absolute precision is reached")
+
+
+class EpochCountCondition(StopConditionModule):
+    def __init__(self, max_count: int) -> None:
+        self.max_count = max_count
+        self.epoch = 0
+        self.count = 0
+
+    def process_step(self, state: State, meta: Meta, **params) -> bool:
+        cond = self.max_count > self.epoch
+        info = params.get("info", False)
+        if not cond and info:
+            print(f"[INFO][Condition][{self.meta().full_name()}] Condition reached!")
+        return cond
+
+    def meta(self, **params) -> StopConditionMeta:
+        return StopConditionMeta(name="EpochCountCondition",
+                                 version=f"(max_count={self.max_count})",
+                                 description="Stop when the required number of epochs is reached")

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from src.v2.model.meta import Meta
-from src.v2.model.oracul import Oracul
+from src.v2.model.oracul import Oracul, EpochState
 
 
 @dataclass
@@ -13,6 +13,7 @@ class State:
     point: np.ndarray
     eps: float
     index: int = 1
+    epoch_state: EpochState = EpochState()
 
 
 @dataclass

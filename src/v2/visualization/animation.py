@@ -1,15 +1,18 @@
 import itertools
+from functools import partial
 from typing import Optional, Any, Union
 
 import numpy as np
+import typing as tp
 from matplotlib import pyplot as plt, colors
 from matplotlib.animation import Animation, ArtistAnimation
 from matplotlib.artist import Artist
 from matplotlib.axes import Axes
 
+from src.v2.model.function_interpretation import FunctionInterpretation
 from src.v2.model.meta import Meta
 from src.v2.model.method import State
-from src.v2.model.oracul import Oracul
+from src.v2.model.oracul import Oracul, OraculMeta, EpochState
 from src.v2.visualization.visualization import VisualizationModule, VisualizationMeta
 
 
@@ -18,6 +21,7 @@ class Animator(VisualizationModule):
     def __init__(self):
         self.oracul: Optional[Oracul] = None
         self.points: list[np.ndarray] = []
+        self.state: tp.Optional[State] = None
 
     def prepare_oracul(self, oracul: Oracul, **params) -> Oracul:
         self.oracul = oracul
@@ -25,19 +29,19 @@ class Animator(VisualizationModule):
 
     def process_step(self, state: State, meta: Meta, **params) -> bool:
         self.points.append(state.point.copy())
+        self.state = state
         return True
 
     def get_result(self, **params) -> list[tuple[str, Any]]:
         meta = self.meta()
-        return [("no_show_" + meta.full_name(), Animator.visualize(self.oracul, self.points, **params))]
+        return [("no_show_" + meta.full_name(), self.visualize(self.oracul, self.points, **params))]
 
     def meta(self) -> VisualizationMeta:
         return VisualizationMeta(name="Animator",
                                  version=f"({self.oracul.get_dimension()}d)",
                                  description="Animation of optimization method's work")
 
-    @staticmethod
-    def visualize(oracul: Oracul, points: list[np.ndarray], **params) -> list[Animation]:
+    def visualize(self, oracul: Oracul, points: list[np.ndarray], **params) -> list[Animation]:
         dimension = oracul.get_dimension()
         info = params.get("info", False)
         if info:
@@ -123,7 +127,7 @@ class Animator(VisualizationModule):
                 if index >= len(points):
                     break
                 point = points[index]
-                evaluated_point = np.concatenate((point, [oracul.evaluate(point)]))
+                evaluated_point = np.concatenate((point, [oracul.evaluate(point, oracul.all_points())]))
                 if index == 0:
                     current_frame = surface_main
                     current_frame += axes.plot(*evaluated_point, 'o', color="red")
@@ -144,6 +148,44 @@ class Animator(VisualizationModule):
                 repeat=params.get("animation_main_full", False)
             ))
 
+        if params.get("visualize_function", False):
+            fun: FunctionInterpretation = oracul.get_interpretation()
+            if fun.get_eval_dimension() == 2:
+                figure_main = plt.figure()
+                axes = figure_main.add_subplot()
+                axes.set_title(params["method_name"])
+                axes.set_xlabel("x")
+                axes.set_ylabel("y")
+
+                class FunctionOracul(Oracul):
+                    def evaluate(self_oracul, point: np.ndarray, state: EpochState, **params) -> float:
+                        return fun.evaluate(self.state.point, [point])[-1][-1]
+
+                    def get_dimension(self) -> int:
+                        return 2
+
+                    def meta(self, **params) -> OraculMeta:
+                        return None
+
+
+                points = np.transpose(oracul.get_data())
+
+                low_bracket = np.array([min(i) - 0.1 * abs(min(i)) for i in points])
+                high_bracket = np.array([max(i) + 0.1 * abs(max(i)) for i in points])
+
+                Animator.surface(axes, FunctionOracul(), low_bracket, high_bracket, **params)
+
+                animations.append(ArtistAnimation(
+                    figure_main,
+                    [
+                        axes.plot(*points, 'o', color="red",  ls='none')
+                    ],
+                    interval=0,
+                    blit=True,
+                    repeat=False
+                ))
+
+
         return animations
 
     @staticmethod
@@ -153,15 +195,16 @@ class Animator(VisualizationModule):
 
         if oracul.get_dimension() == 2:
             x_grid = np.arange(low_bracket[0], high_bracket[0], (high_bracket[0] - low_bracket[0]) * step)
-            y_grid = np.array([oracul.evaluate(np.array([x_val])) for x_val in x_grid])
+            y_grid = np.array([oracul.evaluate(np.array([x_val]), oracul.all_points()) for x_val in x_grid])
 
             return axes.plot(x_grid, y_grid, alpha=0.8)
         else:
             x_stamps = np.arange(low_bracket[0], high_bracket[0], (high_bracket[0] - low_bracket[0]) * step)
             y_stamps = np.arange(low_bracket[1], high_bracket[1], (high_bracket[1] - low_bracket[1]) * step)
 
+
             x_grid, y_grid = np.meshgrid(x_stamps, y_stamps)
-            z_grid = np.array([[oracul.evaluate(np.array([x_val, y_val])) for x_val in x_stamps] for y_val in y_stamps])
+            z_grid = np.array([[oracul.evaluate(np.array([x_val, y_val]), oracul.all_points()) for x_val in x_stamps] for y_val in y_stamps])
 
             return [axes.plot_surface(x_grid, y_grid, z_grid, rstride=4, cstride=4, shade=False, alpha=0.8,
                                       cmap="plasma", norm=colors.CenteredNorm()),
@@ -176,7 +219,7 @@ class Animator(VisualizationModule):
         y_stamps = np.arange(low_bracket[1], high_bracket[1], (high_bracket[1] - low_bracket[1]) * step)
 
         x_grid, y_grid = np.meshgrid(x_stamps, y_stamps)
-        z_grid = np.array([[oracul.evaluate(np.array([x_val, y_val])) for x_val in x_stamps] for y_val in y_stamps])
+        z_grid = np.array([[oracul.evaluate(np.array([x_val, y_val]), oracul.all_points()) for x_val in x_stamps] for y_val in y_stamps])
 
         levels = 30
         cmap = "plasma"
