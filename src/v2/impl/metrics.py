@@ -9,6 +9,8 @@ from typing import Callable
 
 import psutil
 from memory_profiler import memory_usage
+
+from src.v2.impl.oraculs import MinimisingOracul
 # если не заимпортировалось:
 # pip install -U memory_profiler
 
@@ -263,3 +265,67 @@ class RAMSize(MetricModule):
                           description="Busy ram",
                           debug=False)
 
+
+class OraculValue(MetricModule):
+    def __init__(self):
+        self.value: tp.Union[str, float] = "Undefined"
+
+    def prepare_oracul(self, oracul: Oracul, **params) -> Oracul:
+        class ValueOracul(SpyOracul):
+            def evaluate(self_oracul, point: np.ndarray, state: EpochState, **params) -> float:
+                self.value = self_oracul.oracul.evaluate(point, state, **params)
+                return self.value
+
+        return ValueOracul(oracul, **params)
+
+    def meta(self, **params) -> MetricMeta:
+        return MetricMeta(name="OraculValue",
+                          result=self.value,
+                          description="Value of oracul",
+                          debug=True)
+
+
+class LossValue(MetricModule):
+    def __init__(self):
+        self.oracul: tp.Optional[Oracul] = None
+        self.last_point: tp.Optional[np.ndarray] = None
+
+    def prepare_oracul(self, oracul: Oracul, **params) -> Oracul:
+        if oracul.get_data() is not None:
+            self.oracul = oracul
+        return oracul
+
+    def process_step(self, state: State, meta: Meta, **params) -> bool:
+        self.last_point = state.point
+        return True
+
+    def meta(self, **params) -> MetricMeta:
+        return MetricMeta(name="LossValue",
+                          result="Undefined" if self.oracul is None or self.last_point is None
+                          else self.oracul.evaluate(
+                              self.last_point,
+                              EpochState(
+                                  points=list(
+                                      range(
+                                          len(self.oracul.get_data())
+                                      )
+                                  )
+                              )
+                          ),
+                          description="Value of loss function",
+                          debug=True)
+
+
+class ResultValue(MetricModule):
+    def __init__(self):
+        self.point: tp.Union[str, float] = "Undefined"
+
+    def process_step(self, state: State, meta: Meta, **params) -> bool:
+        self.point = state.point
+        return True
+
+    def meta(self, **params) -> MetricMeta:
+        return MetricMeta(name="Result",
+                          result=self.point,
+                          description="Result point",
+                          debug=True)
