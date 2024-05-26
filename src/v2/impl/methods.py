@@ -147,7 +147,8 @@ class GradientDescent(OptimizationMethod):
 
     def step(self, oracul: Oracul, state: GradientDescentState, **params) -> GradientDescentState:
         gradient_at_x = oracul.evaluate_gradient(state.point, state.epoch_state)
-        gradient_at_x = gradient_at_x / np.linalg.norm(gradient_at_x, ord=2)
+        norm = np.linalg.norm(gradient_at_x, ord=2)
+        gradient_at_x = gradient_at_x / (norm if norm != 0 else 1)
         state.prev_point = state.point
         state.point = state.point - gradient_at_x * self.get_learning_rate(state, gradient_at_x, oracul)
         state.eps = GradientDescent.get_precision(state)

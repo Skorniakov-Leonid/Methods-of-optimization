@@ -1,4 +1,5 @@
 import random
+from functools import partial
 from inspect import signature
 from typing import Callable
 
@@ -6,6 +7,8 @@ import numpy as np
 import typing as tp
 import sympy
 from numpy import ndarray
+import numdifftools as nd
+
 
 from src.v2.model.function_interpretation import FunctionInterpretation
 from src.v2.model.loss_function import LossFunction
@@ -149,7 +152,13 @@ class MinimisingOracul(Oracul):
         if state is None:
             raise ValueError("State is None!")
         points = np.array([self.data[i] for i in state.points])
-        return self.minimization_function.eval(points, self.interpretation.evaluate(point, points))
+        interpreted_points = np.array([self.interpretation.interpretate_data(p) for p in points])
+        points = np.array([p[:-1] for p in points])
+        return self.minimization_function.eval(interpreted_points, self.interpretation.evaluate(point, points))
+
+    def evaluate_gradient(self, point: np.ndarray, state: EpochState, **params) -> np.ndarray:
+        gradients = [nd.Gradient(partial(self.evaluate, state=EpochState(points=[p])))(point) for p in state.points]
+        return np.array([sum(i) / len(gradients) for i in zip(*gradients)])
 
     def next_state(self, state: EpochState = None, **params) -> EpochState:
         if state is None:
