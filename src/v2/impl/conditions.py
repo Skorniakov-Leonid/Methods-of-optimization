@@ -63,11 +63,9 @@ class AbsolutePrecisionCondition(StopConditionModule):
 class EpochCountCondition(StopConditionModule):
     def __init__(self, max_count: int) -> None:
         self.max_count = max_count
-        self.epoch = 0
-        self.count = 0
 
     def process_step(self, state: State, meta: Meta, **params) -> bool:
-        cond = self.max_count > self.epoch
+        cond = self.max_count > state.epoch_state.epoch
         info = params.get("info", False)
         if not cond and info:
             print(f"[INFO][Condition][{self.meta().full_name()}] Condition reached!")
