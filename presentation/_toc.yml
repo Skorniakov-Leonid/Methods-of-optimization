@@ -3,3 +3,4 @@ root: index
 chapters:
   - file: lab-1/отчёт.ipynb
   - file: lab-2/отчёт.ipynb
+  - file: test/test.ipynb
