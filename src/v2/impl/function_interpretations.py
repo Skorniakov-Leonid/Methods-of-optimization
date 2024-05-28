@@ -41,6 +41,19 @@ class PolynomialInterpretation(FunctionInterpretation):
         return 2
 
 
+class HyperbolicInterpretation(FunctionInterpretation):
+    def interpret(self, arguments: np.ndarray, point: np.ndarray) -> np.ndarray:
+        return np.array([point[0],
+                         arguments[0] * point[0] ** 3 + arguments[1] * point[0] ** 2 + arguments[2] * point[0] +
+                         arguments[3]])
+
+    def get_dimension(self) -> int:
+        return 4
+
+    def get_eval_dimension(self) -> int:
+        return 2
+
+
 class MatrixInterpretation(FunctionInterpretation):
     def __init__(self, dim, eval_dim):
         self.dim = dim

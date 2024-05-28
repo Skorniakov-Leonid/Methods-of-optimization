@@ -129,14 +129,13 @@ class GradientDescentState(State):
     prev_point: Optional[np.ndarray] = None
 
 
-class GradientDescent(OptimizationMethod):
+class GradientDescentBase(OptimizationMethod):
     @staticmethod
     def get_precision(state: GradientDescentState):
         return float("inf") if state.prev_point is None else np.linalg.norm(state.point - state.prev_point)
 
-    def __init__(self, learning_rate: float = 300, method=GoldenRatioMethod(), aprox_dec=0.0001) -> None:
+    def __init__(self, learning_rate: float = 1, aprox_dec=0.0001) -> None:
         self.learning_rate = learning_rate
-        self.method = method
         self.eps = aprox_dec
 
     def initial_step(self, oracul: Oracul, point: np.ndarray, **params) -> GradientDescentState:
@@ -151,8 +150,22 @@ class GradientDescent(OptimizationMethod):
         gradient_at_x = gradient_at_x / (norm if norm != 0 else 1)
         state.prev_point = state.point
         state.point = state.point - gradient_at_x * self.get_learning_rate(state, gradient_at_x, oracul)
-        state.eps = GradientDescent.get_precision(state)
+        state.eps = self.get_precision(state)
         return state
+
+    def get_learning_rate(self, state: GradientDescentState, ray: np.ndarray, oracul: Oracul) -> float:
+        return self.learning_rate
+
+    def meta(self, **params) -> MethodMeta:
+        return MethodMeta(name="GradientDescentBase",
+                          version=f"({self.learning_rate}, eps={self.eps})",
+                          description="Method of optimization using gradient descent with fixed learning rate")
+
+
+class GradientDescent(GradientDescentBase):
+    def __init__(self, learning_rate: float = 300, method=GoldenRatioMethod(), aprox_dec=0.0001) -> None:
+        super().__init__(learning_rate, aprox_dec)
+        self.method = method
 
     def get_learning_rate(self, state: GradientDescentState, ray: np.ndarray, oracul: Oracul) -> float:
         data = Runner.run_pipeline(
@@ -170,6 +183,20 @@ class GradientDescent(OptimizationMethod):
         return MethodMeta(name="GradientDescent",
                           version=f"({self.learning_rate},{self.method.meta().full_name()},eps={self.eps})",
                           description="Method of optimization using gradient descent")
+
+
+class GradientDescentSheduled(GradientDescentBase):
+    def __init__(self, func, learning_rate: float = 1, aprox_dec=0.0001):
+        super().__init__(learning_rate, aprox_dec)
+        self.shedule_func = func
+
+    def get_learning_rate(self, state: GradientDescentState, ray: np.ndarray, oracul: Oracul) -> float:
+        return self.shedule_func(self.learning_rate, state.epoch_state)
+
+    def meta(self, **params) -> MethodMeta:
+        return MethodMeta(name="GradientDescentScheduled",
+                          version=f"({self.learning_rate},eps={self.eps})",
+                          description="Method of optimization using gradient descent with sheduled learning rate")
 
 
 @dataclass
@@ -195,7 +222,8 @@ class ScipyMethod(OptimizationMethod):
             x0=point,
             tol=state.precision,
             jac=partial(oracul.evaluate_gradient, state=state.epoch_state) if self.method not in
-                                                                              ('nelder-mead', 'powell', 'cobyla') else None,
+                                                                              ('nelder-mead', 'powell',
+                                                                               'cobyla') else None,
             hess=partial(oracul.evaluate_hessian, state=state.epoch_state) if self.method in (
                 'newton-cg', 'dogleg', 'trust-ncg', 'trust-constr', 'trust-krylov', 'trust-exact', '_custom') else None,
             **self.options

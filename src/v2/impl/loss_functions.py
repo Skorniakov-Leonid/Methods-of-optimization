@@ -23,4 +23,4 @@ class LineBinary(LossFunction):
         return float((1e-10
                       if ((data_point[2] == 1 and data_point[1] > input_point[1])
                           or (data_point[2] == 0 and data_point[1] < input_point[1]))
-                      else np.abs(data_point[1] - input_point[1])))
+                      else (data_point[1] - input_point[1])**2))
