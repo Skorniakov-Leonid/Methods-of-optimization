@@ -1,0 +1,1290 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Краткое описание методов: &#8212; My Jupyter Book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lab-2/отчёт';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="../test/test.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="../lab-1/%D0%BE%D1%82%D1%87%D1%91%D1%82.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">My Jupyter Book</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Labs
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Краткое описание методов:</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lab-2/отчёт.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Краткое описание методов:</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Краткое описание методов:</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Дополнительное задание 1</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Переходим к дополнительному заданию 2</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;savefig.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span> <span class="ow">or</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux2&quot;</span> <span class="ow">or</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../../&quot;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.conditions</span> <span class="kn">import</span> <span class="n">StepCountCondition</span><span class="p">,</span> <span class="n">PrecisionCondition</span><span class="p">,</span> <span class="n">AbsolutePrecisionCondition</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.methods</span> <span class="kn">import</span> <span class="n">CoordinateDescent</span><span class="p">,</span> <span class="n">GoldenRatioMethod</span><span class="p">,</span> <span class="n">NewtonWolfe</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.metrics</span> <span class="kn">import</span> <span class="n">StepCount</span><span class="p">,</span> <span class="n">CallCount</span><span class="p">,</span> <span class="n">GradientCallCount</span><span class="p">,</span> <span class="n">HessianCallCount</span><span class="p">,</span> <span class="n">PrecisionCount</span><span class="p">,</span> \
+    <span class="n">AbsolutePrecisionCount</span><span class="p">,</span> <span class="n">AbsolutePrecision</span><span class="p">,</span> <span class="n">MinAbsolutePrecision</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.oraculs</span> <span class="kn">import</span> <span class="n">LambdaOracul</span><span class="p">,</span> <span class="n">SymbolOracul</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.debug</span> <span class="kn">import</span> <span class="n">FULL_DEBUG</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span><span class="p">,</span> <span class="n">FULL_VISUALIZE</span><span class="p">,</span> <span class="n">NO_VISUALIZE</span><span class="p">,</span> <span class="n">FULL_ANIMATION</span>
+<span class="kn">from</span> <span class="nn">src.v2.visualization.animation</span> <span class="kn">import</span> <span class="n">Animator</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.runner</span> <span class="kn">import</span> <span class="n">TABLE</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.methods</span> <span class="kn">import</span> <span class="n">GradientDescent</span><span class="p">,</span> <span class="n">ScipyMethod</span><span class="p">,</span> <span class="n">Newton</span><span class="p">,</span> <span class="n">NewtonBase</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;pre { white-space: pre !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">print_points</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>pre { white-space: pre !important; }</style></div></div>
+</div>
+<p><strong>Задачей данной работы</strong> нам видится исследование эффективности методов на различных функциях с целью выявления сильных и слабых их сторон. Особое внимание, в силу тематики работы, уделяется методам Ньютона и квазиньютоновским методам</p>
+<p>Для начала, зададим тестовые функции. Согласно рекомендации к выполнению, конечно, среди тестовых функций, будет функция Розенброка. Кроме того, для проверки корректности поведения и базовой работоспособности, добавим в подборку базовую функцию - квадратичную и не представляющую трудностей для методов Ньютона (ожидаемое поведение - схождение за 2 шага с достижением минимума на первом) и чуть более сложный случай - функцию Била. В качестве неполиномиальных функций для рассмотрения возьмём, для разминки, сумму экспонент, более же содержательным экзепляром будет функция <em>hard_non_poly</em>.
+Также стоит обратить внимание на то, что многие функции дублированы. Это связано с реализациями различных способов вычисления. Функции, помеченнные _absolute производят вычисление производных символьно посредством библиотеки sympy. Это требует несколько большего времени при вычислении из-за необходимости подстановки значений в символьное выражение, однако даёт максимально возможную точность при вычислениях. Оракулы же без данной пометки производят вычисления производной и гессиана посредством средств numdifftools разностным методом, потому дают приближё.нное значение<p>
+<strong>Точки старта будут задаваться в каждом окне, запускающем вычисление в переменной point</strong>. В анализе результатов, дабы не загромождать их лишним текстом, повторяться выбор точки не будет</p>
+<p>Красной точкой на графиках отображена точка остановки алгоритма, анимации отключены для облегчения вопсриятия и повышения производительности. В случаях, когда визуализация включена, каждой функции соответствует 2 графика - 3d и линии уровня, расположенных в соответствии с порядком функций в таблице</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x, y, z&#39;</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">base_absolute</span> <span class="o">=</span> <span class="n">SymbolOracul</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">bute</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">bute_absolute</span> <span class="o">=</span> <span class="n">SymbolOracul</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">rosenbrok</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rosenbrok_absolute</span> <span class="o">=</span> <span class="n">SymbolOracul</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">bil</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.5</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.25</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span>  <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.625</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">hard_non_poly</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">macCormic</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">base_non_poly</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+
+<span class="n">min_bil</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="n">min1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">oraculs_rosenbrok</span> <span class="o">=</span> <span class="p">[</span><span class="n">rosenbrok</span><span class="p">]</span>
+<span class="n">min2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">oraculs_bute</span> <span class="o">=</span> <span class="p">[</span><span class="n">bute_absolute</span><span class="p">]</span>
+<span class="n">min3</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">oraculs_hard</span> <span class="o">=</span> <span class="p">[</span><span class="n">base_non_poly</span><span class="p">,</span> <span class="n">hard_non_poly</span><span class="p">]</span>
+<span class="n">min4</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>В качестве метрик для сравнения во всех последующих испытаниях будут использованы число шагов, совершённых алгоритмом до остановки(StepCount), число вызовов функции (CallCount), число вызовов градиента (GradientCallCount), число вызовов Гессиана (HessianCallCount), а также число шагов до достижения реальной требуемой точности (AbsolutePrecisionCount) и реальная точность на момент схождения алгоритма (AbsolutePrecision) - последние две метрики для рассчёта используют знание о реальном минимуме функции, потому стоит заметить, что метрики являются системами-наблюдателями и на работу методов не влияют.</p>
+<p>
+    Ещё одним важным замечанием является то, что ввиду некоторой инородности для нашей системы методов scipy, метрика AbsolutePrecisionCount работает для них не вполне корректно, выдавая в случае схождения 1. Данная особенность связана с деталями реализации. В отчёте же данная метрика оставлена в большей степени в качества маркера. Значение Undefined означает, что методу сойтись к истинному минимому не удалось
+<p>
+Говоря про точность, далее будут использованы 3 основном: minPrec=1e-5,  maxPrec=1e-11 и defPrec=1e-7. Именно последняя будет использована в большинстве случаев. Также здесь стоит упомянуть, что название maxPrec обусловлено не столько реальными возможностями алгоритмов, сколько тем фактом, что нецелочисленные типы хранят лишь 14 значащих цифр, потому достижение большей точности может вызывать чисто технические сложности, особенно если минимумы находятся в точках, значительно больших нуля.<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics_base</span> <span class="o">=</span> <span class="p">[</span><span class="n">StepCount</span><span class="p">(),</span> <span class="n">CallCount</span><span class="p">(),</span> <span class="n">GradientCallCount</span><span class="p">(),</span> <span class="n">HessianCallCount</span><span class="p">()]</span>
+
+<span class="n">minPrec</span><span class="o">=</span><span class="mf">1e-5</span>
+<span class="n">defPrec</span><span class="o">=</span><span class="mf">1e-7</span>
+<span class="n">maxPrec</span><span class="o">=</span><span class="mf">1e-11</span>
+
+<span class="n">abs_metrics1</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="n">defPrec</span><span class="p">,</span> <span class="n">min1</span><span class="p">),</span> <span class="n">AbsolutePrecision</span><span class="p">(</span><span class="n">min1</span><span class="p">)]</span>
+<span class="n">abs_metrics2</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="n">defPrec</span><span class="p">,</span> <span class="n">min2</span><span class="p">),</span> <span class="n">AbsolutePrecision</span><span class="p">(</span><span class="n">min2</span><span class="p">)]</span>
+<span class="n">abs_metrics3</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="n">defPrec</span><span class="p">,</span> <span class="n">min3</span><span class="p">),</span> <span class="n">AbsolutePrecision</span><span class="p">(</span><span class="n">min3</span><span class="p">)]</span>
+<span class="n">abs_metrics4</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="n">minPrec</span><span class="p">,</span> <span class="n">min4</span><span class="p">),</span> <span class="n">AbsolutePrecision</span><span class="p">(</span><span class="n">min4</span><span class="p">)]</span>
+<span class="n">abs_metr_bil</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="n">minPrec</span><span class="p">,</span> <span class="n">min_bil</span><span class="p">),</span> <span class="n">AbsolutePrecision</span><span class="p">(</span><span class="n">min_bil</span><span class="p">)]</span>
+
+<span class="n">animations</span> <span class="o">=</span> <span class="p">[</span><span class="n">Animator</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Остановка методов происходит по достижении искомой точности (PrecisionCondition) или лимита шагов (равного, как правило, 500)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="n">StepCountCondition</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span> <span class="n">PrecisionCondition</span><span class="p">(</span><span class="n">defPrec</span><span class="p">)]</span>
+
+<span class="n">modules1</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metrics1</span> <span class="o">+</span> <span class="n">conditions</span>
+<span class="n">modules2</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metrics2</span> <span class="o">+</span> <span class="n">conditions</span>
+<span class="n">modules3</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metrics3</span> <span class="o">+</span> <span class="n">conditions</span>
+<span class="n">modules4</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metrics4</span> <span class="o">+</span> <span class="p">[</span><span class="n">StepCountCondition</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span> <span class="n">PrecisionCondition</span><span class="p">(</span><span class="n">minPrec</span><span class="p">)]</span>
+<span class="n">modules_bil</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metr_bil</span> <span class="o">+</span> <span class="p">[</span><span class="n">StepCountCondition</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span> <span class="n">PrecisionCondition</span><span class="p">(</span><span class="n">minPrec</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Первая серия экспериментов будет представлять из себя сравнение метода Newton-CG, представленного в библиотеке scipi, и методов Ньютона, реализованных нами (с фиксированным и плавающим шагами. В методе с плавающим шагом использован метод золотого сечения, сравнение эффективности с методом Вольфе, предлагаемым к реализации в первом дополнительным задании представлено в последующих сериях, относящихся к дополнительному заданию 1</p>
+<section id="id1">
+<h1>Краткое описание методов:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<ol class="arabic simple">
+<li><p><em>NewtonBase</em> - классический метод Ньютона с фиксированным шагом. Параметризуется параметром learning_rate, отвечающим за длину шага по направлению предполагаемого минимума. Каждая следующая точка вычислется по правилу x = x_prev - hess^(-1)(x_prev)*grad(x_prev)*learning_rate, где grad - значение градиента функции в переданной точке, а hess - значение гессиана. В случае, если не существует hess^-1, значения на главной диагонали увеличиваются на eps=1e-7, что, как правило, приводит к выбору в качестве направления направление градиента<p></p></li>
+<li><p><em>Newton</em> - метод Ньютона с перменным шагом. Параметризуется параметрами learning_rate - максимальная длина шага, method - метод, используемый для поиска минимума на луче, aprox_dec - точность приближения для внуреннегоо метода. Луч выбирается аналогичным NewtonBase образом. В тестах в качестве метода используется метод золотого сечения. Это связано с тем, что метод Newton-CG использует в свой реализации правило Армихо, правило Вольфе же вынесено в дополнительное задание 1, потому, для более полного демонстрация различий (и без того не слишком явных, как будет заметно далее), зависящих от метода одномерного поиска была выбрана данная реализация</p></li>
+</ol>
+<p>
+3) *Newton-CG* - метод Ньютона, реализованный в библиотеке scipy. Внутренняя реализация для поиска по направлению использует правило Армихо, вычисление значения, обратного Гессиану, выполняется приближённо. В качестве параметризации имеются параметры c1 - для правила Армихо и c2 - для правила Кривизны
+    <p>
+4) *BFGS* - квазиньютоновский метод, представленный в библиотекке scipy. Параметризация и особенность реализации аналогичны методу Newton-CG. Отличие заключается в том, что вместо вычисления Гессиана вычислется его приближённое значение с использованием градиента<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">newton_methods</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">NewtonBase</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Newton</span><span class="p">(</span><span class="n">aprox_dec</span><span class="o">=</span><span class="n">maxPrec</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Newton-CG&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1021.2</span><span class="p">,</span> <span class="mf">3200.5</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">newton_methods</span><span class="p">,</span> <span class="p">[</span><span class="n">base_absolute</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules1</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SymbolOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-07) |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |           2 |           0 |                   2 |                  2 |                               1 |         0           |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(3,GoldenRatioMethod,eps=1e-11) |           2 |         114 |                   2 |                  2 |                               1 |         8.88178e-16 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |           2 |           2 |                   2 |                  2 |                               1 |         0           |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Вычисления производились на точных значениях производной. Поведение метода совпадает с ожидаемым: все реализации сошлись за 2 шага, достигнув точного минимума на первом (В случае с реализацией метода Ньютона на основе метода золотого сечения точный минимум достигнут не был, ведь вместо перемещения по шагу происходит поиск минимума на луче -&gt; приближённое значение. Хотя теоритически и возможно случачйное попадание в точное знаение минимума)
+Стоит заметить, что хотя</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">102.1</span><span class="p">,</span> <span class="mf">320.5</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">newton_methods</span><span class="p">,</span> <span class="n">oraculs_bute</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules3</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">NO_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SymbolOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-07) |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |           2 |           0 |                   2 |                  2 |                               1 |         0           |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(3,GoldenRatioMethod,eps=1e-11) |           2 |         114 |                   2 |                  2 |                               1 |         1.11022e-16 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |           5 |           9 |                   9 |                  9 |                               1 |         2.22045e-16 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Функция Бута так же не вызвала затруднений у методов. Хотя стоит заметить, что метод Ньютона с золотым сечением внутри сошёлся быстрее реализации scipy</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">102.1</span><span class="p">,</span> <span class="mf">320.5</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">newton_methods</span><span class="p">,</span> <span class="n">oraculs_rosenbrok</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules2</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-07) |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |           7 |           0 |                   7 |                  7 |                               6 |         5.70983e-14 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(3,GoldenRatioMethod,eps=1e-11) |         124 |        7068 |                 124 |                124 |                             123 |         7.4476e-16  |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |          75 |         276 |                 276 |                149 |                               1 |         7.06408e-11 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Данное тестирование проходило на функции Розенброка, производные вычислялись численными методами. Несложно заметить, что все методы сошлись до искомой точности. Как и в прошлом эксперименте, метод, делающий полный шаг сошёлся до точности более 14 знаков, притом потребовалось для этого лишь 7 шагов. Это обусловлено тем, что хотя функция и не в точности квадратичная, вид её крайне на неё похож, кроме того, функция полиномиальна. Вместе это позволяет получать подобную точность</p>
+<p>
+Другие реализации метода так же ожидаемым образом достигли искомой точности. Стоит заметить, что метод Ньютона как в данном, так и в предыдущем испытании сошёлся до несколько большей точности, чем было запрошено - это обусловлено спецификой раобты метода золотого сечения и является стабильной особенностью.
+<p>
+<p>
+Также стоит заметить, что на простых для метода функциях испольование подобного метода одномерного поиска излишне. Меньшая точность шага вынуждает делать большее число шагов, кроме того на каждом шаге запрашивается значительное число значений функции. В совокупности это ставит под сомнение вычислительную эффективность подобной реализации.<p>
+<p>Реализация scipi, в силу своих особенностей, запрашивает меньшее число значений, однако требует несколько большего числа вычислений градиента и гессиана. Но и потери в точности могут быть весьма весомы. Ниже приведён пример, когда реализованные с честным вычислением Гессиана метода сошлись к минимуму, в то время как Newton-CG ушёл от него<p><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mf">20.5</span><span class="p">])</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">NewtonBase</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Newton</span><span class="p">(</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="n">maxPrec</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Newton-CG&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">newton_methods</span><span class="p">,</span> <span class="n">oraculs_rosenbrok</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules2</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-07)   |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |           7 |           0 |                   7 |                  7 | 6                               |         4.97997e-14 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(3,GoldenRatioMethod,eps=1e-11) |         124 |        7068 |                 124 |                124 | 123                             |         6.75322e-15 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |         201 |         401 |                 401 |                400 | Undefined                       |        21.0484      |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Тесты на неполиномиальных функциях. Первая из функций - сумма экспонент, вторая же будет подробнее описана при разборе результатов</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mf">20.5</span><span class="p">])</span>
+<span class="n">newton_methods</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">NewtonBase</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Newton</span><span class="p">(</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="n">maxPrec</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Newton-CG&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">newton_methods</span><span class="p">,</span> <span class="n">oraculs_hard</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules4</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">minPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-05)   |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |         999 |           0 |                 999 |                999 | Undefined                       |         0.5         |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(5,GoldenRatioMethod,eps=1e-11) |           6 |         348 |                   6 |                  6 | 5                               |         1.93644e-15 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |          14 |          30 |                  30 |                 26 | 1                               |         3.55239e-06 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+
+LambdaOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-05)   |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |         999 |           0 |                 999 |                999 | Undefined                       |         1.31084e+11 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(5,GoldenRatioMethod,eps=1e-11) |           4 |         232 |                   4 |                  4 | Undefined                       |         7.49736     |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |           3 |           8 |                   8 |                  5 | Undefined                       |         7.49736     |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_points</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;no_show_value&#39;, array([ 2.76118285e-17, -5.00000000e-01]), &#39;Method name&#39;, &#39;NewtonBase(1)&#39;)
+(&#39;no_show_value&#39;, array([-1.10918614e-16,  1.93326242e-15]), &#39;Method name&#39;, &#39;Newton(5,GoldenRatioMethod,eps=1e-11)&#39;)
+(&#39;no_show_value&#39;, array([ 2.51191847e-06, -2.51191847e-06]), &#39;Method name&#39;, &#39;ScipyMethod(newton-cg)&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>На неполиномиальных функциях методы расккрываются уже с другой стороны.</strong> Безоговорочный лидер предыдущих испытний - метод Ньютона с шагом 1 на функции суммы экспонент не сумел даже сойтись за отведённое число шагов. Подобное поведение во многом ожидаемо. Функция в окресности нуля крайне плоская, кроме того, в виду своей неполиномиальности, её минимум не вычисляется столь грубым приближением.
+Наиболее же эффективным на простой неполиномиальной функции оказался метод Ньютона, основанный на золотом сечении, сойдясь всего за 4 итерации. Стоит заметить, что 4 итерации - это всего 4 вычисления Гессиана против 29 реализации scipy. Точность же практически в 2 раза превысила запрошенную.
+Функция <em>hard_non_poly</em> оказалась показательной в том отношении, что, хотя, как показала первая функция, методы способны работать с неполиномиальными функциями (при условии их унимодальности), даже небольшая неполиномиальность, особенно порождающая локальные минимумы, может оказаться непреодолимой для методов. Как несложно заметить, данная функция представляет собой воронку с единственным глобальным минимумом в точке (1, 1). За счёт члена sin(x + y) порождаются углубления. <em>NewtonBase</em> сойтись не сумел вовсе, оставшиеся методы сошлись к локальному минимуму (что примечательно, одному и тому же)</p>
+<p>Таким образом, на функциях простого вида наиболее эффективным является метод Ньютона шага 1, выдающий фактически аналитическое решение. На более сложных случаях (особенно для неполиномиальных функций) наилучшим образом себя показала реализация метода Ньютона, основанная на золотом сечении, хотя и стоит заметить, что для подобного результата требовалось большее количество значений функции. В промежуточных вариантах относительная эффективность методов может зависеть от конкретной функции. Кроме того, тесты, не включают в себя рассмотрение реальной вычислительной сложности алгоритмов из-за чего в некоторой степени не были раскрыты преимущества Newton-CG, ведь метод сопряжённых коэффициентов позволяет куда быстрее находить обратную к Гессиану матрицу, пусть и с понижением точности (так же этот плюс по сравнению с нашей реализацией мог раскрыться на существенно многомерных функцией - данные тесты не были включены как раз из-за отсутствия способов объективно замерить время выполнения методов, исключив внешние факторы)</p>
+<p><strong>Перейдём к сравнению методов Ньютона с другими методами оптимизации.</strong>. Параллельно в этом блоке будет рассматриваться изменение поведения методов в случае вычисления значений приближённо. Для сравнения будут использованы: scipy реализация методов Нелдера-Мида, покоординатный спуск и градиентный спуск на основе золотого сечения, представителем квазиньютоновских методов послужит scipy реализация BFGS
+Тестирование будет производиться на паре функций - первая рассчитывает приближённое значение производной(вычисленное посредством численных методов), вторая - точное</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">methods</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Nelder-Mead&quot;</span><span class="p">),</span>
+    <span class="n">CoordinateDescent</span><span class="p">(</span><span class="n">aprox_dec</span><span class="o">=</span><span class="n">maxPrec</span><span class="p">),</span>
+    <span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-11</span><span class="p">),</span>
+    <span class="n">NewtonBase</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Newton</span><span class="p">(</span><span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-11</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Newton-CG&quot;</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;BFGS&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Как и в прошлый раз, начнём рассмотрение с функций тривиального вида</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="p">[</span><span class="n">base</span><span class="p">,</span> <span class="n">base_absolute</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules1</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">NO_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                                      |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-07) |   AbsolutePrecision |
++==================================================+=============+=============+=====================+====================+=================================+=====================+
+| ScipyMethod(nelder-mead)                         |          39 |         145 |                   0 |                  0 |                              38 |         3.89735e-08 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| CoordinateDescent(300)                           |          31 |         192 |                   0 |                  0 |                              29 |         2.64895e-08 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-11) |           2 |         130 |                   2 |                  0 |                               1 |         1.52067e-12 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| NewtonBase(1)                                    |           2 |           0 |                   2 |                  2 |                               1 |         0           |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(1,GoldenRatioMethod,eps=1e-11)            |           2 |         110 |                   2 |                  2 |                               1 |         0           |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                           |           2 |           2 |                   2 |                  2 |                               1 |         8.96643e-13 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(bfgs)                                |           2 |           5 |                   5 |                  0 |                               2 |         2.30643e-12 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+
+SymbolOracul
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                                      |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-07) |   AbsolutePrecision |
++==================================================+=============+=============+=====================+====================+=================================+=====================+
+| ScipyMethod(nelder-mead)                         |          39 |         145 |                   0 |                  0 |                              38 |         3.89735e-08 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| CoordinateDescent(300)                           |          31 |         192 |                   0 |                  0 |                              29 |         2.64895e-08 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-11) |           2 |         130 |                   2 |                  0 |                               1 |         1.53655e-12 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| NewtonBase(1)                                    |           2 |           0 |                   2 |                  2 |                               1 |         0           |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(1,GoldenRatioMethod,eps=1e-11)            |           2 |         110 |                   2 |                  2 |                               1 |         0           |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                           |           2 |           2 |                   2 |                  2 |                               1 |         0           |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(bfgs)                                |           2 |           5 |                   5 |                  0 |                               2 |         2.51215e-15 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ожидаемо, все методы сошлись. Методам нулевого порядка потребовалось несоклько больше итераций, нежели другим, однако как заявлять об их вычислительной эффективности, так и неэффективности в данном случае было бы неправильно. Хотя им и потребовалось значительное число вычислений функции, в значениях Гессиана и Градиента они не нуждались. В случаях, когда производную вычислить затруднительно, подобная особенность весьма полезна.
+Так же стоит обратить внимание на то, что при вычислении производной разностным методом Newton-CG не сошёлся до абсолютной точности. Подобный эффект ожидаем, но продемонстрировать его явно всё же стоило (подобные же эффекты могли появиться и у других методов Ньютона)
+Кроме того, при вычислении производной приближённо точность BFGS упала на несколько порядков. Так же данный метод требует несколько большего количества вычислений функции и производной. Тем не менее, данная функция слишком проста, чтобы быть показательной и за ростом числа вызовов мы пронаблюдает в последующих функциях.
+Таким образом, уже наблдаются общие тенденции</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">102.1</span><span class="p">,</span> <span class="mf">320.5</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="p">[</span><span class="n">rosenbrok</span><span class="p">,</span> <span class="n">rosenbrok_absolute</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules2</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">NO_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                                      |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-07)   |   AbsolutePrecision |
++==================================================+=============+=============+=====================+====================+=================================+=====================+
+| ScipyMethod(nelder-mead)                         |         108 |         400 |                   0 |                  0 | Undefined                       |        61.3151      |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| CoordinateDescent(300)                           |         499 |        2039 |                   0 |                  0 | Undefined                       |     10423.9         |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-11) |         499 |       32435 |                 499 |                  0 | Undefined                       |       319.598       |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| NewtonBase(1)                                    |           7 |           0 |                   7 |                  7 | 6                               |         5.70983e-14 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(1,GoldenRatioMethod,eps=1e-11)            |         217 |       11935 |                 217 |                217 | 216                             |         1.04266e-14 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                           |          75 |         276 |                 276 |                149 | 1                               |         7.06408e-11 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(bfgs)                                |         195 |         488 |                 488 |                  0 | 195                             |         5.02925e-09 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+
+SymbolOracul
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                                      |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-07)   |   AbsolutePrecision |
++==================================================+=============+=============+=====================+====================+=================================+=====================+
+| ScipyMethod(nelder-mead)                         |         108 |         400 |                   0 |                  0 | Undefined                       |        61.3151      |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| CoordinateDescent(300)                           |         499 |        2039 |                   0 |                  0 | Undefined                       |     10423.9         |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-11) |         499 |       32435 |                 499 |                  0 | Undefined                       |       319.644       |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| NewtonBase(1)                                    |           5 |           0 |                   5 |                  5 | 4                               |         2.69107e-14 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(1,GoldenRatioMethod,eps=1e-11)            |         217 |       11935 |                 217 |                217 | 216                             |         1.98603e-14 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                           |          75 |         276 |                 276 |                149 | 1                               |         7.07371e-11 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(bfgs)                                |         196 |         503 |                 503 |                  0 | 196                             |         5.35269e-10 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Как и следовало ожидать, на функции более сложного вида методы нулевого порядка и Градиентный спуск показали себя не лучшим образом, не сумев сойтись к истинному минимуму. Таким образом, помимо меньшего числа итераций до схождения, плюсом ньтоновских и квазиньютоновских методов стоит признать их более широкуб применимость. Однако стоит обратить внимание на понижение точности BFGS при приближённом вычислении значений. Наиболее ярко влияение приближённых вычислений на результат функции может раскрыть пример ниже</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bad_defined_absolute</span> <span class="o">=</span> <span class="n">SymbolOracul</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">100</span><span class="p">)</span> <span class="o">**</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">20</span><span class="p">)</span> <span class="o">**</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">bad_defined</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">100</span><span class="p">)</span> <span class="o">**</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">20</span><span class="p">)</span> <span class="o">**</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">min_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">])</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">StepCount</span><span class="p">(),</span> <span class="n">CallCount</span><span class="p">(),</span> <span class="n">GradientCallCount</span><span class="p">(),</span> <span class="n">HessianCallCount</span><span class="p">(),</span>
+           <span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">min_point</span><span class="p">),</span>
+           <span class="n">MinAbsolutePrecision</span><span class="p">(</span><span class="n">min_point</span><span class="p">)]</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="n">StepCountCondition</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span> <span class="n">PrecisionCondition</span><span class="p">(</span><span class="mf">0.00001</span><span class="p">)]</span>
+
+
+<span class="n">modules</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">metrics</span> <span class="o">+</span> <span class="n">conditions</span>
+<span class="n">methods2</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">CoordinateDescent</span><span class="p">(),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Nelder-Mead&quot;</span><span class="p">),</span>
+    <span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">),</span>
+    <span class="n">NewtonBase</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Newton</span><span class="p">(</span><span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Newton-CG&quot;</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;BFGS&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">oraculs</span> <span class="o">=</span> <span class="p">[</span><span class="n">bad_defined</span><span class="p">,</span> <span class="n">bad_defined_absolute</span><span class="p">]</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">200</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods2</span><span class="p">,</span> <span class="n">oraculs</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">minPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">NO_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| Method name                                     |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(0.001)   |   MinAbsolutePrecision |
++=================================================+=============+=============+=====================+====================+=================================+========================+
+| CoordinateDescent(300)                          |         999 |         113 |                   0 |                  0 | Undefined                       |            1           |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| ScipyMethod(nelder-mead)                        |          35 |         130 |                   0 |                  0 | 25                              |            1.50394e-06 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| GradientDescent(10,GoldenRatioMethod,eps=1e-05) |          30 |         930 |                  30 |                  0 | 29                              |            1.41356e-06 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| NewtonBase(1)                                   |         345 |           0 |                 345 |                345 | Undefined                       |            0.0170733   |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| Newton(3,GoldenRatioMethod,eps=1e-14)           |         254 |       18288 |                 254 |                254 | Undefined                       |            0.0146697   |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| ScipyMethod(newton-cg)                          |          35 |          68 |                  68 |                 68 | Undefined                       |            0.120232    |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| ScipyMethod(bfgs)                               |          85 |         179 |                 179 |                  0 | Undefined                       |            0.0946655   |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+
+SymbolOracul
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| Method name                                     |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(0.001)   |   MinAbsolutePrecision |
++=================================================+=============+=============+=====================+====================+=================================+========================+
+| CoordinateDescent(300)                          |         999 |         113 |                   0 |                  0 | Undefined                       |            1           |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| ScipyMethod(nelder-mead)                        |          35 |         130 |                   0 |                  0 | 25                              |            1.50394e-06 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| GradientDescent(10,GoldenRatioMethod,eps=1e-05) |          30 |         930 |                  30 |                  0 | 29                              |            1.4231e-06  |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| NewtonBase(1)                                   |         128 |           0 |                 128 |                128 | 107                             |            7.62687e-05 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| Newton(3,GoldenRatioMethod,eps=1e-14)           |          41 |        2952 |                  41 |                 41 | 31                              |            1.62229e-05 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| ScipyMethod(newton-cg)                          |          35 |          68 |                  68 |                 68 | Undefined                       |            0.120224    |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+| ScipyMethod(bfgs)                               |          83 |         176 |                 176 |                  0 | Undefined                       |            0.130741    |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+------------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Методы, не использующие производные не изменили свои показатели, ведь для них . BFGS и NewtonCG не смогли вычислить реальный минимум в случае плохо определённой функции вовсе (стоит заметить, что они они находятся в окрестности минимума, функция весьма плоская там, потому как для Newton-CG, использующему в своей реализации приближение обратного Гессиана, так и для BFGS, исходно ищущего лишь приближение Гессиана, нахожденение минимума подобной функции может быть весьма проблематичным). Интереснее ситуация обстоит с NewtonBase(1) и Newton(3,GoldenRatioMethod,eps=1e-14) - найти минимум с искомой точностью они смогли лишь при точном вычислении значений. Объясняется это тем же образом, что и поведение BFGS/Newton-CG - для некоторых функций крайне важна точность вычислений градиента и Гессиана, потому в случае невозможности предоставления подобных гарантий может иметь смысл воспользоваться методами, не требующих производной/Гессиана</p>
+<p>Перейдём, наконец, к не полиномиальным функциям. Конечно, функция МакКормика в тестировании учавствовать не будет - как мы видели ранее, найти её минимум оказалось непосильной задачей даже для наиболее мощных(на текущий момент) наших методов, потому тестировать на ней заведоомо более слабые методы было бы не слишком целесообразно (если быть более точным, данное тестирование было проведено, однако ввиду малой информативности в отчёт включено не было). Чтобы не смотреть вновь на тривиальные случаи, сделаем тестируемую ранее не полиномиальную базовую функцию несколько более экстремальной, сохранив общий её вид</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="n">base_non_poly_absolute</span> <span class="o">=</span> <span class="n">SymbolOracul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="o">**</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="mf">0.54719</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="o">**</span><span class="p">((</span><span class="n">y</span><span class="o">+</span><span class="mf">1.54719</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">base_non_poly</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="o">**</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="mf">0.54719</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="o">**</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">((</span><span class="n">y</span><span class="o">+</span><span class="mf">1.54719</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">])</span>
+<span class="n">abs_metrics6</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="n">minPrec</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.54719</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.54719</span><span class="p">]),</span> <span class="n">AbsolutePrecision</span><span class="p">([</span><span class="o">-</span><span class="mf">0.54719</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.54719</span><span class="p">])]</span>
+<span class="n">modules6</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metrics6</span> <span class="o">+</span> <span class="n">conditions</span>
+<span class="n">methods</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-11</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="p">[</span><span class="n">base_non_poly</span><span class="p">,</span> <span class="n">base_non_poly_absolute</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules6</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">NO_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                                     |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-05) |   AbsolutePrecision |
++=================================================+=============+=============+=====================+====================+=================================+=====================+
+| ScipyMethod(nelder-mead)                        |          32 |         123 |                   0 |                  0 |                              22 |         2.04878e-08 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| CoordinateDescent(300)                          |          19 |         144 |                   0 |                  0 |                              18 |         5.98683e-06 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| GradientDescent(10,GoldenRatioMethod,eps=1e-11) |           7 |         420 |                   7 |                  0 |                               6 |         2.02609e-08 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| NewtonBase(1)                                   |          23 |           0 |                  23 |                 23 |                              22 |         1.21035e-14 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(1,GoldenRatioMethod,eps=1e-11)           |          23 |        1265 |                  23 |                 23 |                              22 |         4.49057e-15 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                          |          12 |          23 |                  23 |                 23 |                               1 |         2.34801e-10 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(bfgs)                               |          25 |          53 |                  53 |                  0 |                              24 |         2.22614e-08 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+
+SymbolOracul
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                                     |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-05) |   AbsolutePrecision |
++=================================================+=============+=============+=====================+====================+=================================+=====================+
+| ScipyMethod(nelder-mead)                        |          32 |         123 |                   0 |                  0 |                              22 |         2.04878e-08 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| CoordinateDescent(300)                          |          19 |         144 |                   0 |                  0 |                              18 |         5.98683e-06 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| GradientDescent(10,GoldenRatioMethod,eps=1e-11) |           7 |         420 |                   7 |                  0 |                               6 |         2.0259e-08  |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| NewtonBase(1)                                   |          23 |           0 |                  23 |                 23 |                              22 |         2.22045e-16 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(1,GoldenRatioMethod,eps=1e-11)           |          23 |        1265 |                  23 |                 23 |                              22 |         2.22045e-16 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                          |          12 |          23 |                  23 |                 23 |                               1 |         2.34807e-10 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(bfgs)                               |          25 |          53 |                  53 |                  0 |                              24 |         2.22615e-08 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Говоря про эффективность методов, в данном случае, вероятно, наиболее важным является тот факт, что всем удалось сойтись.
+Что важнее, здесь мы можем увидеть другую крайность: функция настолько экстремальна, что считались ли значения честно или приближённо не имеет значения вовсе.
+Таким образом, хотя и существуют ситуации, при которых приближение вовсе не окажет влияния на результат или будет незначительным, забывать о возможности ухудшения параметров метода при использовани приблиённых вычислений не стоит. На этом, полагаю, с анализом потенциального влияния приближённых вычислений стоит закончить, ведь основные выводы сделаны, а, как показала уже функция Розенброка, рассчёт точных значений может занимать существенное время. Рассмотрим вторуую не полиномиальную функцию в рамках сравнения эффективности методов</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="p">((</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="p">))))</span>
+<span class="n">test_min</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.4442042</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6663063</span><span class="p">]</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2200.1</span><span class="p">,</span> <span class="mf">200.5</span><span class="p">])</span>
+<span class="n">methods3</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">CoordinateDescent</span><span class="p">(),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Nelder-Mead&quot;</span><span class="p">),</span>
+    <span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">),</span>
+    <span class="n">NewtonBase</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Newton</span><span class="p">(),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Newton-CG&quot;</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;BFGS&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">abs_metrics_test</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="n">minPrec</span><span class="p">,</span> <span class="n">test_min</span><span class="p">),</span> <span class="n">AbsolutePrecision</span><span class="p">(</span><span class="n">test_min</span><span class="p">)]</span>
+<span class="n">modules_test</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metrics_test</span> <span class="o">+</span> <span class="p">[</span><span class="n">StepCountCondition</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span> <span class="n">PrecisionCondition</span><span class="p">(</span><span class="n">minPrec</span><span class="p">)]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods3</span><span class="p">,</span> <span class="p">[</span><span class="n">test</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules_test</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                                     |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-05)   |   AbsolutePrecision |
++=================================================+=============+=============+=====================+====================+=================================+=====================+
+| CoordinateDescent(300)                          |         499 |         175 |                   0 |                  0 | Undefined                       |         5.88428e-05 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(nelder-mead)                        |          49 |         182 |                   0 |                  0 | 39                              |         2.96122e-08 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| GradientDescent(10,GoldenRatioMethod,eps=1e-05) |         271 |        8401 |                 271 |                  0 | 270                             |         1.96336e-06 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| NewtonBase(1)                                   |         101 |           0 |                 101 |                101 | Undefined                       |         5.22824e+18 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(3,GoldenRatioMethod,eps=0.0001)          |         499 |       11976 |                 499 |                499 | Undefined                       |         1.78741     |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                          |           7 |          19 |                  19 |                 13 | 1                               |         2.58325e-09 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(bfgs)                               |          16 |          49 |                  49 |                  0 | 16                              |         1.67663e-09 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Функция имеет довольно любопытный вид в окрестности своего нуля за счёт добавления синуса. Как можно увидеть, на функции полохо приближаемой квадратичной, метод Ньютона с фиксированным шагом вновь разошёлся. Остальные методы сошлись, хотя стоит отметить аномалию в числе итераций метода Ньютона с переменным шагом. Вероятно, она обусловлена как раз тем, что используется весьма примитивный метод золотого сечения для поиска минимума на луче. Стоит также отметить, что это уже не первый тест, где эффективность выбора направления методом Ньютона была ограничена низкой эффективностью метода выбора точки.</p>
+<p>Подводя итоги сравнения и отдельного анализа метдов Ньютона, приходится констатировать, что хотя они и требуют меньшего числа шагов для схождения, их вычислительная эффективность сомнительна. Так, метод <em>BFGS</em>, не требуя Гессиана, выдавал показатели, схожие с методом <em>Newton-CG</em>, кроме того, в случае плохо апрокимируемых функций или работы в области функции, апроксимация которой квадратичной недостаточно точна, методы Ньютона без доверительного региона могут демонстрировать весьма странное поведение. Пример, представленный в дополнительном задании 2 также представляет не с лучшей стороны классичекий метод Ньютона. Многие из этих проблем решаются более сложным алгоритмом выбора точки, тем не менее, подобное усложнение влечёт и увеличение вычислительной сложности, чего хотелось бы избежать (особенно, если речь идёт о вычислениипроизводных). Кроме того, иногда ошибки алгоритма выбора шага могут даже ухудшить работу метода. Один из примеров подобного был представлен ранее, когда метод <em>Newton-CG</em> сойтись не сумел, в то время как это вышло у куда менее интеллектуального <em>NewtonBase</em>. Далее мы подробнее рассмотрим изменения в поведении алгоритма Ньютона, если выполнять одномерный поиск в соответствии с усиленным равилом Вольфе.</p>
+</section>
+<section id="id2">
+<h1>Дополнительное задание 1<a class="headerlink" href="#id2" title="Link to this heading">#</a></h1>
+<p>Класс <em>NewtonWolfe</em>, далее именуемый <em>Wolfe</em> реализует метод Ньютона с одномерным поиском по сильному правилу Вольфе. Ранее наши алгоритмы использовали весьма примитивные методы одномерного поиска, что существенно ограничивало их применимость. Однако прежде чем перейти к тестам, приведём описание метода и некоторые особенности реализации<p>
+<strong>Описание работы правила Вольфе:</strong>
+Как всегда задача минимизировать функцию. Для этого у нас есть гладкая функция f, и мы сведем задачу min(f(x)) -&gt; min(f(xk + a * pk)), pk - направление поиска, а a - длина шага</p>
+<p>Есть два вида условий Вольфе: слабое и строгое. Строгое имеет на одино неравенство больше (3 пункт). Перечеслим эти 3 неравенста:</p>
+<ol class="arabic simple">
+<li><p>f(xk + ak * pk) &lt;= f(xk) + c1 * ak * transpose(pk) * grad(f(xk))</p></li>
+<li><p>-transpose(pk) * grad(f(xk + ak * pk)) &lt;= -c2 * transpose(pk) * grad(f(xk))</p></li>
+<li><p>| transpose(pk) * grad(f(xk + ak * pk)) | &lt;= c2 * | transpose(pk) * grad(f(xk)) |</p></li>
+</ol>
+<p>0 &lt; c1 &lt; c2 &lt; 1. Обычно c1 выбирается довольно маленьнким, а c2 сильно больше. Самые популярные значения c1 = 10e-4, c2 = 0.9.
+Рассмотрим условия поподробнее:</p>
+<ol class="arabic simple">
+<li><p>Гарантирует, что длина шага уменьшается в достаточной степени</p></li>
+<li><p>Гарантирует достаточное уменьшение уклона</p></li>
+<li><p>1 + 3 условия образуют строгое условие Вольфе и они обечспечивают то, что результат будет близок к критической точке</p></li>
+</ol>
+<p>pk выбирается в зависимости от алгоритма поиска. Например, градиентный спуск использует pk равный отрицательному градиенту. В нашем же случае pk выбирается методом Ньютона. В качестве гиперпараметров подаются c1, c2, max_iter, отвечающий за приближение и learning_rate, отвечающий за максимальную длину шага<p>
+Для внесения разнообразия, в слуае запуска на тех функциях, что уже встречались в тестах, начальные оточки будут изменены. Кроме того, часть функций для большей показательности будет заменена на более примечательные</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">newton_methods</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">NewtonBase</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Newton</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="n">defPrec</span><span class="p">),</span>
+    <span class="n">ScipyMethod</span><span class="p">(</span><span class="s2">&quot;Newton-CG&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_newton</span> <span class="o">=</span> <span class="n">newton_methods</span> <span class="o">+</span> <span class="p">[</span><span class="n">NewtonWolfe</span><span class="p">(</span><span class="n">c1</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">2000</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">all_newton</span><span class="p">,</span> <span class="p">[</span><span class="n">rosenbrok</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules2</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-07) |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |           7 |           0 |                   7 |                  7 |                               6 |         0           |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(4,GoldenRatioMethod,eps=1e-07) |         124 |        4836 |                 124 |                124 |                             123 |         1.16192e-14 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |          20 |          53 |                  53 |                 39 |                               1 |         5.22333e-11 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Wolfe(0.1,0.9,eps=1e-07)              |          19 |          28 |                  47 |                 19 |                              18 |         2.49247e-14 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Начнём серию тестов с довольно простой для методов Ньютона функции - функции Розенброка. Заметим, что по сравнению с другими модификациями метода Ньютона, использующими методы одномерного поиска, основанная на Вольфе сошлась за наименьшее число шагов, да и затратила значительно меньше вычислений. Тем не менее, результат <em>NewtonBase</em> из-за относительной простоты функции обойти не удалось</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_newton</span> <span class="o">=</span> <span class="n">newton_methods</span> <span class="o">+</span> <span class="p">[</span><span class="n">NewtonWolfe</span><span class="p">(</span><span class="n">c1</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">200</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">all_newton</span><span class="p">,</span> <span class="p">[</span><span class="n">bil</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules_bil</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">minPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-05)   |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |          72 |           0 |                  72 |                 72 | Undefined                       |             3.04138 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(4,GoldenRatioMethod,eps=1e-07) |         499 |       19461 |                 499 |                499 | Undefined                       |        186228       |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |           6 |          12 |                  12 |                 11 | Undefined                       |            90.5308  |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Wolfe(0.1,0.9,eps=1e-07)              |          72 |          73 |                 145 |                 72 | Undefined                       |             3.04138 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_points</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;no_show_value&#39;, array([-4.443727e-16,  1.000000e+00]), &#39;Method name&#39;, &#39;NewtonBase(1)&#39;)
+(&#39;no_show_value&#39;, array([-1.86225399e+05,  1.00000532e+00]), &#39;Method name&#39;, &#39;Newton(4,GoldenRatioMethod,eps=1e-07)&#39;)
+(&#39;no_show_value&#39;, array([ 3.56858548e-06, -8.99811040e+01]), &#39;Method name&#39;, &#39;ScipyMethod(newton-cg)&#39;)
+(&#39;no_show_value&#39;, array([-4.443727e-16,  1.000000e+00]), &#39;Method name&#39;, &#39;Wolfe(0.1,0.9,eps=1e-07)&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Результаты работы на функции Билла оказались уже несколько более интересными. Метод Вольфе показал себя лучше других методов Ньютона, использующих методы одномерного поиска, сойдясь к точке, находящейся ближе к минимуму. Тем не менее, удивительно, что туда же сошёлся и <em>NewtonBase</em>, притом за то же число итераций</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mf">20.5</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">all_newton</span><span class="p">,</span> <span class="p">[</span><span class="n">hard_non_poly</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules4</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">minPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                           |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-05)   |   AbsolutePrecision |
++=======================================+=============+=============+=====================+====================+=================================+=====================+
+| NewtonBase(1)                         |         999 |           0 |                 999 |                999 | Undefined                       |         1.31084e+11 |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(4,GoldenRatioMethod,eps=1e-07) |           4 |         156 |                   4 |                  4 | Undefined                       |         7.49736     |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                |           3 |           8 |                   8 |                  5 | Undefined                       |         7.49736     |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Wolfe(0.1,0.9,eps=1e-07)              |           6 |          10 |                  16 |                  6 | Undefined                       |         7.49736     |
++---------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_points</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;no_show_value&#39;, array([-9.26778933e+10,  9.27035816e+10]), &#39;Method name&#39;, &#39;NewtonBase(1)&#39;)
+(&#39;no_show_value&#39;, array([5.30143759, 5.30143764]), &#39;Method name&#39;, &#39;Newton(4,GoldenRatioMethod,eps=1e-07)&#39;)
+(&#39;no_show_value&#39;, array([5.3014376, 5.3014376]), &#39;Method name&#39;, &#39;ScipyMethod(newton-cg)&#39;)
+(&#39;no_show_value&#39;, array([5.3014376, 5.3014376]), &#39;Method name&#39;, &#39;Wolfe(0.1,0.9,eps=1e-07)&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Однако, на примере <em>hard_non_poly</em> мы можем увидеть, что хотя <em>Wolfe</em> и немного теряет эффективность в сравнении с <em>NewtonBase</em>, на сложных функциях он сопособен показать себя значительно лучше. Функция сошлась, пусть и к локальному минимуму<p>
+Таким образом, модификация метода Ньютона, основанная на правиле Вольфе действительно выглядит как наиболее эффективной в плане вычислений, так и точной в плане сходимости в сравнении с другими вариациями</p>
+</section>
+<section id="id3">
+<h1>Переходим к дополнительному заданию 2<a class="headerlink" href="#id3" title="Link to this heading">#</a></h1>
+<p>
+Стоит понимать, что метод Ньютона может подразумевать различные реализации, детали которых способны оказывать существенное влияние на работут методов. Так, например, в основном задании была представлена точка на функции Розенброка, при старте их которой методы NewtonBase и Newton, в то время как Newton-CG разошёлся. Потому далее, при аналитических размышлениях, будет рассматриваться метод Ньютона, логика работы которого соответствует представленной на лекции, в испытаниях же будут участвоввать лишь методы NewtonBase и Newton
+<p>
+Разобравшись с терминологией, перейдём к содержательной части. Заметим, что метод Ньютона требует вычисления значения, обратного Гессиану. Данная операция в общем случае может быть невозможна, более того, даже если мы считаем Гессиан ненулевым, его абсолютные значения могут быть весьма малы, что приведёт к излишне большому знаению шага. Фактически, если мы видим, что функция имеет малую кривизну, то приближаем её некорректно, принимая за очень сплюснутую квадратичная. Данную проблему сопсобно в значительной степени решить введение доверительного региона, тем не менее, алгоритмы, использующие данную методику не рассматриваются в рамках данной работы.
+<p>
+Осознав это, нахождение функции, на которой классический алгоритм Ньютона не сумеет сойтись становится не столь проблематчиным: достаточно лишь взять функцию, содержащую область, на которой значение Гессиана крайне мало и точку на этом плато. Конечно, для этого подошла бы и функция Изома из прошлой работы, однако пример не был бы столь показательным, ведь на значительном удалении от минимума у данной функции и значения производной стаовятся бесполезными. Потому рассмотрим следующую функцию:<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span> <span class="o">=</span> <span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">atan</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">sympy</span><span class="o">.</span><span class="n">atan</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)))</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">test2_abs</span> <span class="o">=</span> <span class="n">SymbolOracul</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Она имеет две области минимумов, остальные же участки представляют собой слегка наклонённые плато.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test2</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctanh</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">-</span><span class="p">(((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arctanh</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)))</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">abs_metrics_test2</span> <span class="o">=</span> <span class="n">metrics_base</span>
+<span class="n">modules_test2</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metrics_test2</span> <span class="o">+</span> <span class="p">[</span><span class="n">StepCountCondition</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">PrecisionCondition</span><span class="p">(</span><span class="n">minPrec</span><span class="p">)]</span>
+<span class="n">result1</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">),</span> <span class="n">NewtonBase</span><span class="p">(),</span> <span class="n">Newton</span><span class="p">(</span><span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)],</span> <span class="p">[</span><span class="n">test2_abs</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules_test2</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">minPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SymbolOracul
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+
+| Method name                                      |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |
++==================================================+=============+=============+=====================+====================+
+| GradientDescent(300,GoldenRatioMethod,eps=1e-06) |          27 |        1161 |                  27 |                  0 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+
+| NewtonBase(1)                                    |          99 |           0 |                  99 |                 99 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+
+| Newton(3,GoldenRatioMethod,eps=1e-06)            |          99 |        3267 |                  99 |                 99 |
++--------------------------------------------------+-------------+-------------+---------------------+--------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_points</span><span class="p">(</span><span class="n">result1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;no_show_value&#39;, array([1821.24653958, 1821.24635699]), &#39;Method name&#39;, &#39;GradientDescent(300,GoldenRatioMethod,eps=1e-06)&#39;)
+(&#39;no_show_value&#39;, array([-1.08422070e+21,  3.02667279e+03]), &#39;Method name&#39;, &#39;NewtonBase(1)&#39;)
+(&#39;no_show_value&#39;, array([-4.00009867e+03, -2.71284524e-19]), &#39;Method name&#39;, &#39;Newton(3,GoldenRatioMethod,eps=1e-06)&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>И вот, на тестах мы видим картину: методам Ньютона сойтись не удалось, в то время как градиентный спуск вполне успешно нашёл область минимума. К сожалению, в данном случае, запуск сначала градиентного спуска не поможет сойтись методу Ньютона, ведь вся функция (кроме областей минимума) - плато, однако в случае, если лишь часть функции представляет собой плато, запуск градиентного спуска для выхода с него и последующего запуска метода Ньютона может быть целесообразным. Так же проблему мог бы решить более интеллектуальный выбор точки на луче. Например, на данной функции, с задачей справляется замена метода золотого сечения на более интеллектуальный метод поиска (при условии выбора за напрпавление антиградиента)</p>
+<p>Говоря про второй подпункт второго задания, для его выполнения достаточно взять функцию с огромным числом локальных минимумов, тогда даже малейшее  отклонение в выборе окажется существенным. И такая функция у нас есть: функция Леви</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">levi_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">FACTOR</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="n">FACTOR</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">FACTOR</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="n">FACTOR</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">FACTOR</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="n">FACTOR</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">levi</span> <span class="o">=</span> <span class="n">LambdaOracul</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">levi_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="n">abs_metrics5</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="p">[</span><span class="n">AbsolutePrecisionCount</span><span class="p">(</span><span class="n">minPrec</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">AbsolutePrecision</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])]</span>
+<span class="n">modules5</span> <span class="o">=</span> <span class="n">animations</span> <span class="o">+</span> <span class="n">abs_metrics5</span> <span class="o">+</span> <span class="p">[</span><span class="n">StepCountCondition</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span> <span class="n">PrecisionCondition</span><span class="p">(</span><span class="n">minPrec</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">102.1</span><span class="p">,</span> <span class="mf">320.5</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="p">[</span><span class="n">levi</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules5</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">FULL_VISUALIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LambdaOracul
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Method name                                     |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount | AbsolutePrecisionCount(1e-05)   |   AbsolutePrecision |
++=================================================+=============+=============+=====================+====================+=================================+=====================+
+| ScipyMethod(nelder-mead)                        |          42 |         169 |                   0 |                  0 | Undefined                       |       307.502       |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| CoordinateDescent(300)                          |          27 |         154 |                   0 |                  0 | 26                              |         3.40371e-06 |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| GradientDescent(10,GoldenRatioMethod,eps=1e-11) |         499 |       29940 |                 499 |                  0 | Undefined                       |         1.65873     |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| NewtonBase(1)                                   |         499 |           0 |                 499 |                499 | Undefined                       |       315.805       |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| Newton(1,GoldenRatioMethod,eps=1e-11)           |           2 |         110 |                   2 |                  2 | Undefined                       |       327.344       |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(newton-cg)                          |         201 |         410 |                 410 |                400 | Undefined                       |       327.839       |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+| ScipyMethod(bfgs)                               |           6 |          16 |                  16 |                  0 | Undefined                       |       315.002       |
++-------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>Результат соответствует ожиданиям: методы Newton-CG и  Newton(1,GoldenRatioMethod,eps=1e-11) оказались в крайне близких точках - и действительно, методы во многом схожи: различия возникают лишь в рассчёте обратного значения Гессиана (однако и производные в данном случае мы берём приближённо) и методе выбора точки на луче (в случае с Newton-CG задействовано правило Армихо, в то время как Newton использует лишь золотое сечение), следующей парой, попавшей однако в разные минимумы являются BFGS и NewtonBase(1). Как причины их расхождения - так и схожести очевидны. Оба метода делают шаг по одному правилу, однако NewtonBase(1) использует в своих вычислениях Гессиан, а BFGS - его приближение (довольно точное, стоит заметить).
+Нелдер-мид, в  силу своей специфичности, ушёл в совершенно иную точку</p>
+<p>
+Неожиданно сошёлся к абсолютному минимуму координатный спуск. Приина очевидна: так уж совпали шаг и начальная точка (а это, смею вас заверить, и правда ни что иное, как совпадение), тем не менее, подобное может послужить напоминанием о том, что иногда и более слабые методы, в силу случая или их специфики, способны выдать лучший результат в конкретном случае.
+<p>
+Координатный спуск шёл по направлению градиента и тоже весьма сильно разошёлся с собратьями, выисляющими или приближающими Гессиан. Тем не менее, в данном случае, из-за слишком высокой специфичности функции данный подход оказался более выгодным (и на самом деле, каждый отдельный перепад весьма хорошо приближается квадратичной функцией, однако попасть в глобальный минимум при таком подходе едва ли удастся</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lab-2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../lab-1/%D0%BE%D1%82%D1%87%D1%91%D1%82.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../test/test.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Краткое описание методов:</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Дополнительное задание 1</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Переходим к дополнительному заданию 2</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
