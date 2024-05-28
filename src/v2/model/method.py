@@ -1,5 +1,5 @@
 from abc import abstractmethod, ABC
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -13,7 +13,7 @@ class State:
     point: np.ndarray
     eps: float
     index: int = 1
-    epoch_state: EpochState = EpochState()
+    epoch_state: EpochState = field(default_factory=lambda: EpochState())
 
 
 @dataclass
