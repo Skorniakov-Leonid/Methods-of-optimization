@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Дополнительное задание 2 &#8212; My Jupyter Book</title>
+    <title>Метод стохастического градиентного спуска (SGD) и его модификации &#8212; My Jupyter Book</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -60,8 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lab-3/отчёт';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="../test/test.html" />
-    <link rel="prev" title="Краткое описание методов:" href="../lab-2/%D0%BE%D1%82%D1%87%D1%91%D1%82.html" />
+    <link rel="prev" title="Методы первого и высших порядков" href="../lab-2/%D0%BE%D1%82%D1%87%D1%91%D1%82.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -171,10 +170,14 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../lab-2/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Краткое описание методов:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-1/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Методы нулевого порядка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-2/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Методы первого и высших порядков</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Метод стохастического градиентного спуска (SGD) и его модификации</a></li>
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Дополнительное задание 2</a></li>
+
+
+
 </ul>
 
     </div>
@@ -313,7 +316,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Дополнительное задание 2</h1>
+    <h1>Метод стохастического градиентного спуска (SGD) и его модификации</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -323,12 +326,24 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Постановка задачи</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearsvc">Как работает метод LinearSVC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Немного про визуализацию</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Пример 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Пример 2</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Метод стохастического градиентного спуска (SGD) и его модификации</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Постановка задачи</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Первый подпункт основного задания</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Второй подпункт основного задания</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Третий подпункт основного задания</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Дополнительное задание 1</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Дополнительное задание 2</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Постановка задачи</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearsvc">Как работает метод LinearSVC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Немного про визуализацию</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Пример 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Пример 2</a></li>
+</ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -339,31 +354,45 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>Дополнительное задание 2<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
-<p>В данном задании в качестве изучаемого метода машинного обучения выберем метод опорных векторов, который является популярным методом машинного обучеия для решения задач классфифкации и регресии. Давайте посавим задачи для данного метода при этом будем решать задачу классфифкации.</p>
-<section id="id2">
-<h2>Постановка задачи<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
-<p>Задача состоит в том, чтобы найти гиперплоскость, которая наилучшим образом разделяет классы данных. Для этого будем максимизировать зазор между гиперплоскостью и ближайшими точками каждого класса, которые называются опорными векторами.</p>
-<p>Теперь попробуем формализоровать нашу задачу:</p>
-<p>У нас есть данные в виде множества (xi, yi) размера n, где xi - это векторы признаков, а yi - это “метка” класса. Нам требуется найти гиперплоскость вида w * x + b = 0, которая разделяет данные.</p>
-</section>
-<section id="linearsvc">
-<h2>Как работает метод LinearSVC<a class="headerlink" href="#linearsvc" title="Link to this heading">#</a></h2>
-<p>Фактически мы должны решить данную проблему минимизации:</p>
-<p><img alt="formula" src="../_images/img.png" /></p>
-<p>В данном классе есть метод fit, который как раз отвечает за обучение. Для начала формулируется задача оптимизации для поиска гиперплоскости. Далее используются алгоритмы оптимизации, такие как метод стохастического градиентного спуска (SGD) или другие итерационные методы. По итоге мы находим находит параметры w и b, которые минимизируют функцию потерь.</p>
-</section>
-<section id="id3">
-<h2>Немного про визуализацию<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>Часто данные содержат довольно большое количество призгаков, что влечет за собой проблему отрисовки многомерного простанства. Чтобы её решить будем выбирать два наиболее значимых признака и делать их проекцию на плоскость. Для этого воспользуемся методом PCA. PCA - это метод снижения размерности данных, широко используемый в машинном обучении и статистике. Он помогает уменьшить количество признаков (измерений) в данных, сохраняя при этом как можно больше информации. Это достигается путем преобразования исходных признаков в новые, некоррелированные переменные, называемые главными компонентами.</p>
-</section>
-<section id="id4">
-<h2>Пример 1<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
-<p>Для начала возьмем данные, в которых собрана информация об ирисах. Это довольно популярный датасет, который активно используется для обучения.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="sgd">
+<h1>Метод стохастического градиентного спуска (SGD) и его модификации<a class="headerlink" href="#sgd" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span> <span class="ow">or</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux2&quot;</span> <span class="ow">or</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../../&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.conditions</span> <span class="kn">import</span> <span class="n">StepCountCondition</span><span class="p">,</span> <span class="n">PrecisionCondition</span><span class="p">,</span> <span class="n">AbsolutePrecisionCondition</span><span class="p">,</span> <span class="n">EpochCountCondition</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.function_interpretations</span> <span class="kn">import</span> <span class="n">LinearInterpretation</span><span class="p">,</span> <span class="n">PolynomialInterpretation</span><span class="p">,</span> <span class="n">MultiLinearInterpretation</span><span class="p">,</span> <span class="n">HyperbolicInterpretation</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.loss_functions</span> <span class="kn">import</span> <span class="n">MSE</span><span class="p">,</span> <span class="n">LineBinary</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.methods</span> <span class="kn">import</span> <span class="n">CoordinateDescent</span><span class="p">,</span> <span class="n">GoldenRatioMethod</span><span class="p">,</span> <span class="n">NewtonWolfe</span><span class="p">,</span> <span class="n">GradientDescentSheduled</span><span class="p">,</span> <span class="n">GradientDescentBase</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.metrics</span> <span class="kn">import</span> <span class="n">StepCount</span><span class="p">,</span> <span class="n">CallCount</span><span class="p">,</span> <span class="n">GradientCallCount</span><span class="p">,</span> <span class="n">HessianCallCount</span><span class="p">,</span> <span class="n">PrecisionCount</span><span class="p">,</span> \
+    <span class="n">AbsolutePrecisionCount</span><span class="p">,</span> <span class="n">AbsolutePrecision</span><span class="p">,</span> <span class="n">MinAbsolutePrecision</span><span class="p">,</span> <span class="n">RAMSize</span><span class="p">,</span> <span class="n">ExecutionTime</span><span class="p">,</span> <span class="n">EpochCount</span><span class="p">,</span> <span class="n">LossValue</span><span class="p">,</span> <span class="n">ResultValue</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.oraculs</span> <span class="kn">import</span> <span class="n">LambdaOracul</span><span class="p">,</span> <span class="n">SymbolOracul</span><span class="p">,</span> <span class="n">MinimisingOracul</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.debug</span> <span class="kn">import</span> <span class="n">FULL_DEBUG</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span><span class="p">,</span> <span class="n">FULL_VISUALIZE</span><span class="p">,</span> <span class="n">NO_VISUALIZE</span><span class="p">,</span> <span class="n">FULL_ANIMATION</span><span class="p">,</span> <span class="n">VISUALIZE_FUNCTION</span><span class="p">,</span> <span class="n">VISUALIZE</span>
+<span class="kn">from</span> <span class="nn">src.v2.visualization.animation</span> <span class="kn">import</span> <span class="n">Animator</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.runner</span> <span class="kn">import</span> <span class="n">TABLE</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.methods</span> <span class="kn">import</span> <span class="n">GradientDescent</span><span class="p">,</span> <span class="n">ScipyMethod</span><span class="p">,</span> <span class="n">Newton</span><span class="p">,</span> <span class="n">NewtonBase</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.loss_functions</span> <span class="kn">import</span> <span class="n">L1</span><span class="p">,</span> <span class="n">L2</span><span class="p">,</span> <span class="n">Elastic</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.function_interpretations</span> <span class="kn">import</span> <span class="n">LambdaInterpretation</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">pi</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
 <span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
@@ -375,7 +404,1135 @@ document.write(`
     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
                      <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)))</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">]</span>
 
-<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;pre { white-space: pre !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">print_points</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+<span class="k">def</span> <span class="nf">seed</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time_ns</span><span class="p">()</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SEED:&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>pre { white-space: pre !important; }</style></div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>Постановка задачи<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>Перед началом непосредственного представления отчёта заметим, что <strong>глобальной задачей работы</strong> видится нам исследование поведения метода SGD при разных его модификациях значениях гиперпараметров с целью определения наиболее эффективных их сочетаний и границ применимости. Более подробно задача будет расписана в каждом конкретном случае (ведь в зависимости от предмета исследования конкретной серии испытаний, постановка задачи минимизации, предмет исследования или данные, могут варьироваться).<p>
+Так же стоит заметить, что в данной работе, в отличие от предыдущих, рассматривается полноценные задачи минимизации,  а не нахождение минимума абстрактной функции, что требует некоторого усложнения терминологии. В качестве оракулов теперь выступают функции лосса от наборов параметров, для модели же, параметры которой изменяются посредством методов минимизации, стоит задача найти минимум функции лосса по всей выборке. <p>
+Сам <strong>метод SGD</strong> представляет собой хорошо известный нам по предыдущим работам метод Gradient Descent с той лишь разницей, что при обновлении весов в качестве градиента выступает среднее значение градиентов функции лосса по случайно взятой выборке. <p>
+Замечание: в процессе обработки одной эпохи данные в кропах не повторяются. В  случае недостатка данных для последнего кропа, берётся значение функции лосса по меньшему числу точек</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrics_base</span> <span class="o">=</span> <span class="p">[</span><span class="n">ExecutionTime</span><span class="p">(),</span> <span class="n">RAMSize</span><span class="p">(),</span> <span class="n">EpochCount</span><span class="p">(),</span> <span class="n">CallCount</span><span class="p">(),</span> <span class="n">GradientCallCount</span><span class="p">(),</span> <span class="n">LossValue</span><span class="p">(),</span> <span class="n">ResultValue</span><span class="p">(),</span> <span class="n">Animator</span><span class="p">()]</span>
+
+<span class="n">minPrec</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">defPrec</span> <span class="o">=</span> <span class="mf">1e-9</span>
+<span class="n">maxPrec</span> <span class="o">=</span> <span class="mf">1e-11</span>
+
+<span class="n">animations</span> <span class="o">=</span> <span class="p">[</span><span class="n">Animator</span><span class="p">()]</span>
+
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="n">StepCountCondition</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+
+<span class="n">modules</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="n">conditions</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)]</span>
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">10.2</span><span class="p">,</span> <span class="mf">32.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Для начала зададим генератор для порождения простейших данных. Данная функция призвана генерировать набор точек, согласно заданной функции, зашумляя данные. Именно на предоставленных ей массивах будет тестироваться базовая работоспособность и вычислительная эффективность функций</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">noised_data_generator</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">noise_range</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="p">[[</span><span class="n">point</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">noise_range</span><span class="p">,</span> <span class="n">noise_range</span><span class="p">)]]</span>
+    <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_data</span> <span class="o">=</span> <span class="n">noised_data_generator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">sq_data</span> <span class="o">=</span> <span class="n">noised_data_generator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id2">
+<h1>Первый подпункт основного задания<a class="headerlink" href="#id2" title="Link to this heading">#</a></h1>
+<p><strong>Первый подпункт основного задания</strong> предполагает исследование изменений в поведении метода SGD в зависимости от параметра batch_size. Для демонстрации как данной изменчивости, так и работоспособности алгоритма на практике (не стоит забывать, что его работа носит вероятностный характер, в отличие от метода градиентного спуска) рассмотрение данных особенностей будет происходить на реализованной силами данной команды реализации SGD, в силу наибольшей её приближённости к академическому представлению работы данного метода, что позволяет рассматривать подобные аспекты вне контекста практических приложений (таких как особенности работы в рамках обучения именно нейросетевых моделей, как в библиотеке tensorflow, использующейся в специфических разделах даной работы)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">10.2</span><span class="p">,</span> <span class="mf">32.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">linear_min_oracul</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LinearInterpretation</span><span class="p">(),</span> <span class="n">linear_data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">linear_oracul</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LinearInterpretation</span><span class="p">(),</span> <span class="n">linear_data</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">linear_max_oracul</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LinearInterpretation</span><span class="p">(),</span> <span class="n">linear_data</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">linear_data</span><span class="p">))</span>
+<span class="n">polynomial_min_oracul</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">PolynomialInterpretation</span><span class="p">(),</span> <span class="n">sq_data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">polynomial_oracul</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">PolynomialInterpretation</span><span class="p">(),</span> <span class="n">sq_data</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">polynomial_max_oracul</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">PolynomialInterpretation</span><span class="p">(),</span> <span class="n">sq_data</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sq_data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="p">[</span><span class="n">linear_min_oracul</span><span class="p">,</span> <span class="n">linear_oracul</span><span class="p">,</span> <span class="n">linear_max_oracul</span><span class="p">,</span> <span class="n">polynomial_min_oracul</span><span class="p">,</span> <span class="n">polynomial_oracul</span><span class="p">,</span> <span class="n">polynomial_max_oracul</span><span class="p">],</span> <span class="n">point</span><span class="p">,</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span>
+                 <span class="c1"># **FULL_DEBUG,</span>
+                 <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span>
+                 <span class="c1"># **FULL_VISUALIZE,</span>
+                 <span class="c1"># **FULL_ANIMATION,</span>
+                 <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span>
+                 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++--------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+------------------------------------------+
+| Method name                                      |   ExecutionTime | RAMSize    |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                   |
++==================================================+=================+============+==============+=============+=====================+=============+==========================================+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-05) |        0.155381 | 0.53125 Mb |            0 |        3564 |                  99 |      357108 | [  5.76756708 104.7131091    2.        ] |
++--------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+------------------------------------------+
+
+MinimisingOracul
++--------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------+
+| Method name                                      |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                |
++==================================================+=================+===========+==============+=============+=====================+=============+=======================================+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-05) |         2.36994 | 0.4375 Mb |           19 |        3564 |                  99 |      350954 | [ 5.9361166  32.47986572  2.        ] |
++--------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------+
+
+MinimisingOracul
++--------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+------------------------------------------+
+| Method name                                      |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                   |
++==================================================+=================+=============+==============+=============+=====================+=============+==========================================+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-05) |         11.3209 | 0.234375 Mb |           99 |        3564 |                  99 |      336035 | [  5.76141056 -29.19081604   2.        ] |
++--------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+------------------------------------------+
+
+MinimisingOracul
++--------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------+
+| Method name                                      |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                |
++==================================================+=================+=============+==============+=============+=====================+=============+=======================================+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-05) |        0.165009 | 0.171875 Mb |            0 |        3564 |                  99 | 1.91651e+12 | [10.21505935 32.19081146  9.16291146] |
++--------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------+
+
+MinimisingOracul
++--------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------+
+| Method name                                      |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                |
++==================================================+=================+===========+==============+=============+=====================+=============+=======================================+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-05) |         2.52443 | 0.125 Mb  |           19 |        3564 |                  99 |  1.6828e+08 | [10.20000716 32.49641141  6.00365787] |
++--------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------+
+
+MinimisingOracul
++--------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+---------------------------------------+
+| Method name                                      |   ExecutionTime | RAMSize    |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                |
++==================================================+=================+============+==============+=============+=====================+=============+=======================================+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-05) |         12.4116 | 0.21875 Mb |           99 |        3564 |                  99 |  1.1351e+08 | [10.20037069 28.49977255  6.00200747] |
++--------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+---------------------------------------+
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "569abb9be8184d9bbb5ac542ba4f03e6"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "df710ccd809549c5b09c9c8759e096bd"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "bf30c5ec21894780af5d5641f595a323"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "a9200c5bc5254cd18595c7b550b23d6b"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "8d83daa1131945568111f47530757910"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "94bd9f241a5b4409b6e92d9884db09ff"}</script></div>
+</div>
+<p>Поведение метода в целом соответствует ожиданиям. При минимальном размере существенно снижается время обучения, тем не менее значительно страдает точность. Даже на графиках заметно существенное отклонение от целевой функции. Другой крайностью является взятие в качестве batch_size размера выборки(фактически градиентный спуск): несмотря на существенное возрастание времени обучения, улучшения точности незначительны в сравнении с представителем промежуточного batch_size. Таким образом, подтверждается теоритическое предположение о большей вычислительной эффективности SGD в сравнении с GD при незначительной потере точности. Тем не менее, подобные изменения времени связаны с тем, что остановка производится по количеству шагов. В случае остановки по числу эпох, методы SGD могут требовать даже большего времени из-за дополнительных накладных расходов. Дело в том, что при одинаковом числе эпох требуется равное же количество вычислений, преимущество же SGD как раз и состоит в том, что из-за более частого обновления весов, процесс обучения проходит быстрее - требуется меньше эпох для обучения<p>
+Далее обучение будет проводиться по числу эпох, в т.ч. для демонстрации данного эффекта</p>
+<p>Также стоит заметить, что поведение методов сходно для случаев регрессии разных целевых функций, что является ожидаемым,  ведь подобный переход представляет из себя лишь добавление одного параметра<p>
+Тем не менее, стоит проверить, сохранится ли <strong>поведение методов на более сложных задачах</strong>. В качестве подобной задачи рассмотрим проблему поиска прямой, разделяющей два множества. Для начала, сгенерируем множества</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="k">def</span> <span class="nf">gen_areas</span><span class="p">(</span><span class="n">per_class</span><span class="p">,</span> <span class="n">areas</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">areas</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">per_class</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="p">[[</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="n">counter</span><span class="p">]]</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">res</span>
+<span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">dim</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">+=</span> <span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">y</span> <span class="o">+=</span> <span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="n">gen_areas</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="p">[[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Также потребуется изменить функцию ошибки. Ошибку будем считать следующим образом: если точка находится с нужной стороны от прямой, то ошибка считается приблизительно равной нулю. В противном же случае, ошибка растёт с ростом расстояния до прямой. Заметим так же, что при подобной постановке задачи, она может быть интерпретирована как бинарная классификация</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="n">EpochCountCondition</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+
+<span class="n">modules</span> <span class="o">=</span> <span class="p">(</span>  <span class="p">[</span><span class="n">ExecutionTime</span><span class="p">()]</span>
+           <span class="o">+</span> <span class="p">[</span><span class="n">RAMSize</span><span class="p">()]</span>
+           <span class="o">+</span> <span class="p">[</span><span class="n">EpochCount</span><span class="p">()]</span>
+           <span class="o">+</span>  <span class="n">metrics_base</span>
+           <span class="o">+</span> <span class="n">conditions</span>
+           <span class="o">+</span> <span class="p">[</span><span class="n">Animator</span><span class="p">()]</span>
+           <span class="p">)</span>
+<span class="n">primal_classes_oracul_min</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">LineBinary</span><span class="p">(),</span> <span class="n">LinearInterpretation</span><span class="p">(),</span> <span class="n">groups</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">primal_classes_oracul</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">LineBinary</span><span class="p">(),</span> <span class="n">LinearInterpretation</span><span class="p">(),</span> <span class="n">groups</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">primal_classes_oracul_max</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">LineBinary</span><span class="p">(),</span> <span class="n">LinearInterpretation</span><span class="p">(),</span> <span class="n">groups</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">))</span>
+<span class="n">result_gr</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)],</span> <span class="p">[</span><span class="n">primal_classes_oracul_min</span><span class="p">,</span> <span class="n">primal_classes_oracul</span><span class="p">,</span> <span class="n">primal_classes_oracul_max</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">]),</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span>
+                    <span class="c1"># **FULL_DEBUG,</span>
+                    <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span>
+                    <span class="c1">#**VISUALIZE,</span>
+                    <span class="c1"># **FULL_VISUALIZE,</span>
+                    <span class="c1"># **FULL_ANIMATION,</span>
+                    <span class="c1">#**VISUALIZE_FUNCTION</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++--------------------------------------------------+-----------------+-------------+--------------+-----------------+------------+--------------+-------------+---------------------+-------------+-----------------------------+
+| Method name                                      |   ExecutionTime | RAMSize     |   EpochCount |   ExecutionTime | RAMSize    |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                      |
++==================================================+=================+=============+==============+=================+============+==============+=============+=====================+=============+=============================+
+| GradientDescent(200,GoldenRatioMethod,eps=1e-05) |         6.88741 | 0.328125 Mb |           30 |         7.17832 | 0.09375 Mb |           30 |      222000 |                6000 |       2e-08 | [ -0.53669724 206.71615081] |
++--------------------------------------------------+-----------------+-------------+--------------+-----------------+------------+--------------+-------------+---------------------+-------------+-----------------------------+
+
+MinimisingOracul
++--------------------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------+
+| Method name                                      |   ExecutionTime | RAMSize     |   EpochCount |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                    |
++==================================================+=================+=============+==============+=================+=============+==============+=============+=====================+=============+===========================+
+| GradientDescent(200,GoldenRatioMethod,eps=1e-05) |         4.42855 | 0.015625 Mb |           30 |         4.71478 | 0.015625 Mb |           30 |        8880 |                 240 |     51740.7 | [-0.16743134 32.75883654] |
++--------------------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------+
+
+MinimisingOracul
++--------------------------------------------------+-----------------+-------------+--------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-----------------------------------+
+| Method name                                      |   ExecutionTime | RAMSize     |   EpochCount |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                            |
++==================================================+=================+=============+==============+=================+===========+==============+=============+=====================+=============+===================================+
+| GradientDescent(200,GoldenRatioMethod,eps=1e-05) |          4.2824 | 0.046875 Mb |           30 |         4.56058 | 0.0625 Mb |           30 |        1110 |                  30 |     33491.2 | [-2.99458613e-02  4.00158541e+01] |
++--------------------------------------------------+-----------------+-------------+--------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-----------------------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_line_p</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">interpreter</span> <span class="o">=</span> <span class="n">LinearInterpretation</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">interpreter</span><span class="o">.</span><span class="n">interpret</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">])),</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">interpret</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">30</span><span class="p">]))]</span>
+<span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">get_line_p</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axline</span><span class="p">([</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="n">axes</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">axes</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;yellow&quot;</span><span class="p">)</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">visualize</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">result_gr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "2a561bc7307c444aa0d061f56d17af6e"}</script></div>
+</div>
+<p>Подчёркнутые в предыдущей серии сообенности поведения касательно времени, сохраняются и в данных испытаниях. Однако же, данный пример примечателен другой своей особенностью. В силу особенностей функции ошибки, наиболее эффективным не только с вычислительной,точки зрения, но и согласно итоговой точности, оказался SGD с кропом 1.<p>
+Последней из тестовых выборок для данного сегмента будет являться <strong>датасет регрессии</strong>. Задача - определение расхода топлива на милю по характеристикам машины.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data&#39;</span>
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MPG&#39;</span><span class="p">,</span> <span class="s1">&#39;Cylinders&#39;</span><span class="p">,</span> <span class="s1">&#39;Displacement&#39;</span><span class="p">,</span> <span class="s1">&#39;Horsepower&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;Acceleration&#39;</span><span class="p">,</span> <span class="s1">&#39;Model Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Origin&#39;</span><span class="p">]</span>
+
+<span class="n">raw_dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">column_names</span><span class="p">,</span>
+                          <span class="n">na_values</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>
+                          <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">raw_dataset</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[[</span><span class="s1">&#39;Cylinders&#39;</span><span class="p">,</span> <span class="s1">&#39;Displacement&#39;</span><span class="p">,</span> <span class="s1">&#39;Horsepower&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;Acceleration&#39;</span><span class="p">,</span> <span class="s1">&#39;Model Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Origin&#39;</span><span class="p">,</span> <span class="s1">&#39;MPG&#39;</span><span class="p">]]</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">data_normal</span><span class="o">=</span><span class="p">(</span><span class="n">dataset</span><span class="o">-</span><span class="n">dataset</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="n">dataset</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">data_normal</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Cylinders</th>
+      <th>Displacement</th>
+      <th>Horsepower</th>
+      <th>Weight</th>
+      <th>Acceleration</th>
+      <th>Model Year</th>
+      <th>Origin</th>
+      <th>MPG</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>393</th>
+      <td>-0.862911</td>
+      <td>-0.519972</td>
+      <td>-0.479835</td>
+      <td>-0.220842</td>
+      <td>0.021267</td>
+      <td>1.634321</td>
+      <td>-0.715726</td>
+      <td>0.455359</td>
+    </tr>
+    <tr>
+      <th>394</th>
+      <td>-0.862911</td>
+      <td>-0.930889</td>
+      <td>-1.363154</td>
+      <td>-0.997859</td>
+      <td>3.283479</td>
+      <td>1.634321</td>
+      <td>0.525711</td>
+      <td>2.633448</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>-0.862911</td>
+      <td>-0.567753</td>
+      <td>-0.531795</td>
+      <td>-0.803605</td>
+      <td>-1.428605</td>
+      <td>1.634321</td>
+      <td>-0.715726</td>
+      <td>1.095974</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>-0.862911</td>
+      <td>-0.711097</td>
+      <td>-0.661694</td>
+      <td>-0.415097</td>
+      <td>1.108671</td>
+      <td>1.634321</td>
+      <td>-0.715726</td>
+      <td>0.583482</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>-0.862911</td>
+      <td>-0.720653</td>
+      <td>-0.583754</td>
+      <td>-0.303253</td>
+      <td>1.398646</td>
+      <td>1.634321</td>
+      <td>-0.715726</td>
+      <td>0.967851</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Прежде чем переёти непосредственно к регресии, ознакомимся с данными самостоятельно. Для этого построим парные графики для наиболее интересных нам значений. Заметим, что распределения имеют скорее параболический вид, что делает ещё более интересным рассмотрение возможности приближения данного распределение линейным представлением</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">data_normal</span><span class="p">[[</span><span class="s1">&#39;MPG&#39;</span><span class="p">,</span> <span class="s1">&#39;Model Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Displacement&#39;</span><span class="p">,</span> <span class="s1">&#39;Weight&#39;</span><span class="p">,</span> <span class="s1">&#39;Horsepower&#39;</span><span class="p">,</span> <span class="s1">&#39;Origin&#39;</span><span class="p">]],</span> <span class="n">diag_kind</span><span class="o">=</span><span class="s1">&#39;kde&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x176531c10&gt;
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "529f7e30b28d4d55a612886cfd067e16"}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_normal_np</span> <span class="o">=</span> <span class="n">data_normal</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">mpg_regress</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">MultiLinearInterpretation</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="n">data_normal_np</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)],</span> <span class="p">[</span><span class="n">mpg_regress</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span>
+                    <span class="c1"># **FULL_DEBUG,</span>
+                    <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span>
+                    <span class="c1">#**VISUALIZE,</span>
+                    <span class="c1"># **FULL_VISUALIZE,</span>
+                    <span class="c1"># **FULL_ANIMATION,</span>
+                    <span class="c1">#**VISUALIZE_FUNCTION</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++--------------------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+--------------------------------------------------------------------------+
+| Method name                                      |   ExecutionTime | RAMSize     |   EpochCount |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                   |
++==================================================+=================+=============+==============+=================+=============+==============+=============+=====================+=============+==========================================================================+
+| GradientDescent(100,GoldenRatioMethod,eps=1e-05) |         38.4315 | 1.171875 Mb |           30 |         38.7071 | 0.703125 Mb |           30 |       15120 |                 420 |    0.198796 | [-0.09506153  0.21925503 -0.1270567  -0.71738639 -0.07674898  0.41710929 |
+|                                                  |                 |             |              |                 |             |              |             |                     |             |   0.02047323  0.0492051 ]                                                |
++--------------------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+--------------------------------------------------------------------------+
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/matplotlib/animation.py:892: UserWarning: Animation was deleted without rendering anything. This is most likely not intended. To prevent deletion, assign the Animation to a variable, e.g. `anim`, that exists until you output the Animation using `plt.show()` or `anim.save()`.
+  warnings.warn(
+</pre></div>
+</div>
+</div>
+</div>
+<p>Визуализация семимерного пространства, по очевидным причинам, видится затруднительной, потому, как и при расссмотрении данных, попробуем взглянуть на двумерную проекцию результатов</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_prediction</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">point</span><span class="p">[</span><span class="n">ind</span><span class="p">],</span> <span class="n">MultiLinearInterpretation</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">interpret</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">point</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">print_some</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">ind</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">data_normal</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">data_normal</span><span class="p">[</span><span class="s1">&#39;MPG&#39;</span><span class="p">]</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+    <span class="n">points_x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">points_y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data_normal_np</span><span class="p">:</span>
+        <span class="n">t_x</span><span class="p">,</span> <span class="n">t_y</span> <span class="o">=</span> <span class="n">get_prediction</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">],</span> <span class="n">ind</span><span class="p">)</span>
+        <span class="n">points_x</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t_x</span><span class="p">]</span>
+        <span class="n">points_y</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t_y</span><span class="p">]</span>
+    <span class="n">axes</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points_x</span><span class="p">,</span> <span class="n">points_y</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">print_some</span><span class="p">(</span><span class="s1">&#39;Weight&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "58b5226e29ae4d3a9af5f8c8d85aa1c2"}</script></div>
+</div>
+<p>Несложно заметить как линейный паттерн распределния результатов, так и сходность очетаний предсказываемыз величин и реальных. В совокупности с весьма малым значением функции лосса и рассмотрением других проекций (не представленных в данном отчёте ввиду меньшей их значимости и в угоду большей компактности), это позволяет сделать заключение об успешном выполнении алгоритмом своих задач на массиве реальных данных. Что немаловажно, ввиду его простоты, мы можем понять, какие данные наиболее значимы для предсказываемого значения</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.09506153,  0.21925503, -0.1270567 , -0.71738639, -0.07674898,
+        0.41710929,  0.02047323,  0.0492051 ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Несложно заметить, что наиболее важным алгоритму видится вес автомобиля (притом берётся он с отрицательным коэффициентом) - подобныя зависимость, если задуматься, весьма очевидна, заметна она и на графиках совместного распределения, тем не менее, тот факт, что модель распознала подобную закономерность видится примечательным. Менее тривиальную зависимость можно заметить в параметре под номером 5. Он соответствует году выпуска. При обращении к парным распределениям, вновь можно заметить тенденцию роста показателя MPG с увеличением года выпуска. Остальные же параметры вносят вклад не столь значительный (а страна выпуска или число цилиндров - так и вовсе почти не влияют на результат). Таким образом, даже столь примитивная модель может быть полезна в выявлении закономерностей.</p>
+<p>Использованные ранее датасеты, ввиду довольно полного покрытия ими задач линейной регрессии, будут и далее служить нам мерилом эффективности при рассмотрении различных модификаций метода SGD, исследованию коего и посвящена данная работа. Хотя, конечно, для внесения минимального разнообразия, там, где это возможно и осмысленно, в рассматриваемые задачи будут внесены изменения</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id3">
+<h1>Второй подпункт основного задания<a class="headerlink" href="#id3" title="Link to this heading">#</a></h1>
+<p><strong>Перейдём ко второму подпункту основного задания</strong>. В качестве функций изменения шага рассмотрим ступенчатую (ladder_sheduler) и вариации экспоненциального затухания. Также в список рассматриваемых функций добавлен GradientDescentBase, работающий с неизменным learning_rate. Он будет служить основой для дальнейших наблюдений и соображений.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">epoch_sheduler</span><span class="p">(</span><span class="n">base_rate</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">decay</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_rate</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">decay</span> <span class="o">*</span> <span class="n">state</span><span class="o">.</span><span class="n">epoch</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">step_sheduler</span><span class="p">(</span><span class="n">base_rate</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">decay</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base_rate</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">decay</span> <span class="o">*</span> <span class="p">((</span><span class="n">state</span><span class="o">.</span><span class="n">epoch</span> <span class="o">*</span> <span class="n">steps</span><span class="p">)</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">step</span><span class="p">)))</span>
+<span class="k">def</span> <span class="nf">ladder_sheduler</span><span class="p">(</span><span class="n">base_rate</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">epoch</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">base_rate</span> <span class="o">/</span> <span class="mi">10</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">epoch</span> <span class="o">&gt;=</span> <span class="mi">20</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">base_rate</span> <span class="o">/</span> <span class="mi">100</span>
+    <span class="k">return</span> <span class="n">base_rate</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sheduled</span> <span class="o">=</span> <span class="p">[</span><span class="n">GradientDescentBase</span><span class="p">(),</span>
+           <span class="n">GradientDescentSheduled</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">epoch_sheduler</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
+           <span class="n">GradientDescentSheduled</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">step_sheduler</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
+           <span class="n">GradientDescentSheduled</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">ladder_sheduler</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">hyperbolic_data</span> <span class="o">=</span> <span class="n">noised_data_generator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
+<span class="n">sq_data1</span> <span class="o">=</span> <span class="n">noised_data_generator</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">polynomial_oracul_1</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">PolynomialInterpretation</span><span class="p">(),</span> <span class="n">sq_data1</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">hyperbolic_oracul</span> <span class="o">=</span> <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">HyperbolicInterpretation</span><span class="p">(),</span> <span class="n">hyperbolic_data</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">sheduled</span><span class="p">,</span> <span class="p">[</span><span class="n">hyperbolic_oracul</span><span class="p">,</span> <span class="n">polynomial_oracul_1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span>
+                 <span class="c1"># **FULL_DEBUG,</span>
+                 <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span>
+                 <span class="c1"># **FULL_VISUALIZE,</span>
+                 <span class="c1"># **FULL_ANIMATION,</span>
+                 <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span>
+                 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/presentation/lab-3/../../src/v2/visualization/animation.py:154: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  figure_main = plt.figure()
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-----------------------------------------------+
+| Method name                            |   ExecutionTime | RAMSize     |   EpochCount |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                        |
++========================================+=================+=============+==============+=================+=============+==============+=============+=====================+=============+===============================================+
+| GradientDescentBase(1, eps=0.0001)     |         3.92731 | 0.125 Mb    |           30 |         4.20513 | 0.0 Mb      |           30 |           0 |                 150 | 1.76887e+11 | [3.00000385 1.00194587 0.9999899  1.00000003] |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-----------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         3.93163 | 0.171875 Mb |           30 |         4.21437 | 0.171875 Mb |           30 |           0 |                 150 | 5.00878e+11 | [2.99688901 0.99869385 0.99999965 1.        ] |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-----------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         3.93278 | 0.140625 Mb |           30 |         4.20737 | 0.15625 Mb  |           30 |           0 |                 150 | 3.42716e+11 | [3.00048085 1.01369443 0.99995256 1.00000013] |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-----------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         3.96104 | 0.109375 Mb |           30 |         4.23639 | 0.125 Mb    |           30 |           0 |                 150 | 1.26332e+15 | [2.8999992  0.99834819 1.00000113 1.        ] |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-----------------------------------------------+
+
+MinimisingOracul
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------+
+| Method name                            |   ExecutionTime | RAMSize     |   EpochCount |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                            |
++========================================+=================+=============+==============+=================+=============+==============+=============+=====================+=============+===================================================+
+| GradientDescentBase(1, eps=0.0001)     |         4.21162 | 0.15625 Mb  |           30 |         4.49223 | 0.15625 Mb  |           30 |           0 |                 150 | 1.69892e+11 | [ 0.99991618  0.27069521 -6.98190352  1.        ] |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         4.14866 | 0.125 Mb    |           30 |         4.43181 | 0.125 Mb    |           30 |           0 |                 150 | 3.31066e+07 | [ 0.99998082  0.94355677 -5.99220637  1.        ] |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         4.14456 | 0.140625 Mb |           30 |         4.42609 | 0.140625 Mb |           30 |           0 |                 150 | 2.79711e+10 | [ 0.99998271  0.97664678 -5.59445024  1.        ] |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         4.10853 | 0.15625 Mb  |           30 |         4.38677 | 0.15625 Mb  |           30 |           0 |                 150 | 9.67538e+08 | [ 0.99997846  0.78158753 -5.92150616  1.        ] |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------+
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "4318930d918548fab160af20bd7a4930"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "49054053880149f0a9d7bbe8037a095f"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "9daa9f6c6e7a446b998ccebba4c73fc2"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "cc21b7550a384921b74076d6cf6c312c"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "be9301a13b2e4f7680aca78acafff37c"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "cf5fedcec41a4732b72d5ee9e3946637"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "1ec3285cb59e4f22b4476719b342b8d5"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "1f507d05976848e6a4b152b00d7074b2"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "666b596e80cf485c851d99385dda6fa4"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "6b2ab443d6cc49f1993f3040cec219a2"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "0e1c9c2deb564dfd93ffd5613a91a292"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "4dcf1aa2500640e5a74fced90fd72e8e"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "8e969260f44045cdad022c65797346f6"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "f8bbd0b31a8848228fe66923589fb42b"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "d2e1e7a9f1194b6b80c5192fccb14eab"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "c309994ba4d249c283132b192af0b970"}</script></div>
+</div>
+<p>При всех стратегиях изменения шага обучения модели показали улучшение точности предсказаний. Тем не менее, можно заметить, что различные стратегии привели к разной точности вычисления. Подобное легко объяснимо тем, что они предназначены для различных задач и поведения модели. Более подробно данная тема будет рассмотрена после второй серии экспериментов.<p>
+Также немаловажным является тот факт, что подобное управление шагом обучения не влияет на время обучения модели. Показатели же, достигаемые ими, сравнимы с теми, что были у моделей, выбирающих шаг на основе алгоритма золотого сечения</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">sheduled</span><span class="p">,</span> <span class="p">[</span><span class="n">mpg_regress</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span>
+                 <span class="c1"># **FULL_DEBUG,</span>
+                 <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span>
+                 <span class="c1"># **FULL_VISUALIZE,</span>
+                 <span class="c1"># **FULL_ANIMATION,</span>
+                 <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span>
+                 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+--------------------------------------------------------------------------+
+| Method name                            |   ExecutionTime | RAMSize     |   EpochCount |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                   |
++========================================+=================+=============+==============+=================+=============+==============+=============+=====================+=============+==========================================================================+
+| GradientDescentBase(1, eps=0.0001)     |         35.449  | 0.734375 Mb |           30 |         35.7325 | 0.5 Mb      |           30 |           0 |                 420 |    1.75113  | [-0.14153055 -0.0433639  -0.29995601 -0.94340053  0.487701    0.46231877 |
+|                                        |                 |             |              |                 |             |              |             |                     |             |   0.29650909 -0.27770481]                                                |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+--------------------------------------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         35.8999 | 0.09375 Mb  |           30 |         36.173  | 0.09375 Mb  |           30 |           0 |                 420 |    0.183261 | [-0.11860932  0.25941608 -0.09676253 -0.71665711  0.04401812  0.35976632 |
+|                                        |                 |             |              |                 |             |              |             |                     |             |   0.13342598 -0.05322567]                                                |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+--------------------------------------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         36.0177 | 0.015625 Mb |           30 |         36.3278 | 0.015625 Mb |           30 |           0 |                 420 |    0.247276 | [-0.01942088  0.31522468 -0.03036651 -0.74594609 -0.09153739  0.29483132 |
+|                                        |                 |             |              |                 |             |              |             |                     |             |   0.1590404  -0.00439864]                                                |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+--------------------------------------------------------------------------+
+| GradientDescentScheduled(1,eps=0.0001) |         35.8835 | 0.0 Mb      |           30 |         36.1695 | 0.0 Mb      |           30 |           0 |                 420 |    0.19827  | [-0.05406049  0.25110118 -0.05314434 -0.71510011 -0.05987467  0.42442031 |
+|                                        |                 |             |              |                 |             |              |             |                     |             |   0.10633197 -0.01728589]                                                |
++----------------------------------------+-----------------+-------------+--------------+-----------------+-------------+--------------+-------------+---------------------+-------------+--------------------------------------------------------------------------+
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/matplotlib/animation.py:892: UserWarning: Animation was deleted without rendering anything. This is most likely not intended. To prevent deletion, assign the Animation to a variable, e.g. `anim`, that exists until you output the Animation using `plt.show()` or `anim.save()`.
+  warnings.warn(
+</pre></div>
+</div>
+</div>
+</div>
+<p>Заметим, что некоторые стратегии, показавшие себя не лучшим образом в предыдущем случае, оказались эффективны при работе на реальных данных. Подобный эффект в значительной степени ожидаем. В зависимости от сложности задачи, может быть предпочтительным различное поведение шага обучения. Так, большой шаг на старте может помочь быстрее добраться в окрестность минимума или перескочить локальные, однако же для получения более точного значения требуется меньшее значение шага. Так же большое значение шага может вести к серьёзным колебаниям функции потерь в процессе обучения. Потому, для наиболее точного и быстрого схождения алгоритмов подобного класса, требуется подбирать функцию изменения шага для конкретной задачи и специфики схождения в ней. <p>
+Тем не менее, проведённые эксперименты позволяют предположить, что во многих случаях довольно эффективна будет стратегия экспоненциального изменения. Данная стратегия так же применяется в качестве базовой библиотекой keras</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_some</span><span class="p">(</span><span class="s1">&#39;Horsepower&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "e6a974eda66a4cbc9916048aa411a792"}</script></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id4">
+<h1>Третий подпункт основного задания<a class="headerlink" href="#id4" title="Link to this heading">#</a></h1>
+<p>Перейдём наконец к сравнению различных модификаций метода SGD. Для этого будет использована библиотека tensorflow. Выбор связан как с её простотой, так и с наиболее широким выборов функций класса SGD в сравнении с аналогичными библиотеками (в частности, sklearn, pyTorch, scipy), что является крайне важным фактором в рамках данной работы</p>
+<p>Для наблюдения особенностей поведения методов, будем использовать набор данных по предсказанию MPG и сгенерированные зашумлённые данные для предсказания прямой по переменной x</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">linear_data</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">temp2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">linear_data</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">data_normal_np_x</span> <span class="o">=</span> <span class="n">data_normal_np</span><span class="o">.</span><span class="n">transpose</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">data_normal_np_y</span> <span class="o">=</span> <span class="n">data_normal_np</span><span class="o">.</span><span class="n">transpose</span><span class="p">()[</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="k">def</span> <span class="nf">fit_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+    <span class="n">s_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="c1">#model.load_weights(&#39;default.weights.h5&#39;)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_absolute_error&#39;</span><span class="p">)</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">epoch</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">optimizer</span> <span class="o">+</span> <span class="s2">&quot;_best.keras&quot;</span><span class="p">)],</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">validation_split</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">optimizer</span> <span class="o">+</span> <span class="s2">&quot;_best.keras&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training time: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">s_t</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best params: &quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_weights</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">history</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the &#39;ssl&#39; module is compiled with &#39;LibreSSL 2.8.3&#39;. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+</pre></div>
+</div>
+</div>
+</div>
+<p>В качестве модели будет использована нейронная сеть с одним нейроном и bias в качесвте обучаемого параметра. Подобное задание полностью эквивалентно тому, что было представлено нами при решении данной проблемы ранее.</p>
+<p>В качестве же модификаций метода SGD будут рассмотрены <em>Adam</em>, <em>Adagrad</em>, <em>RMSProp</em>, кроме того, в качестве точки опоры будет рассмотрен и сам метод SGD, представленный в библиотеке Tensorflow. Работоспособность библиотеки не вызывает сомнений, потому дабы не смотреть на очередной трививальный пример, а сравнить вместо этого большее число методов, начнём сразу с содержательного случая. призванного проверить эффективность метода на реальных данных.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_model_sgd</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">((</span><span class="mi">7</span><span class="p">,)),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">])</span>
+<span class="n">hist_sgd</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">linear_model_sgd</span><span class="p">,</span> <span class="s1">&#39;sgd&#39;</span><span class="p">,</span> <span class="n">data_normal_np_x</span><span class="p">,</span> <span class="n">data_normal_np_y</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training time:  1.172090768814087
+Best params:  [array([[-0.3066626 ],
+       [ 0.26446024],
+       [-0.4199562 ],
+       [-0.25968996],
+       [-0.21950096],
+       [ 0.1915992 ],
+       [ 0.14441852]], dtype=float32), array([-0.11646139], dtype=float32)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_model_adam</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">((</span><span class="mi">7</span><span class="p">,)),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">])</span>
+<span class="n">hist_adam</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">linear_model_adam</span><span class="p">,</span> <span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="n">data_normal_np_x</span><span class="p">,</span> <span class="n">data_normal_np_y</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training time:  1.1147828102111816
+Best params:  [array([[-0.00880639],
+       [-0.95371526],
+       [ 0.40200678],
+       [ 0.01015572],
+       [ 0.03499455],
+       [ 0.22565219],
+       [ 0.1224956 ]], dtype=float32), array([-0.07611985], dtype=float32)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_model_rmsprop</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">((</span><span class="mi">7</span><span class="p">,)),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">])</span>
+<span class="n">hist_rmsprop</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">linear_model_rmsprop</span><span class="p">,</span> <span class="s1">&#39;rmsprop&#39;</span><span class="p">,</span> <span class="n">data_normal_np_x</span><span class="p">,</span> <span class="n">data_normal_np_y</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training time:  1.1057190895080566
+Best params:  [array([[-0.12467125],
+       [-0.4949515 ],
+       [ 0.41174436],
+       [-0.40470526],
+       [ 0.09811797],
+       [ 0.05471202],
+       [-0.09100392]], dtype=float32), array([-0.20862952], dtype=float32)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_model_adagrad</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">((</span><span class="mi">7</span><span class="p">,)),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">])</span>
+<span class="n">hist_adagrad</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">linear_model_adagrad</span><span class="p">,</span> <span class="s1">&#39;adagrad&#39;</span><span class="p">,</span> <span class="n">data_normal_np_x</span><span class="p">,</span> <span class="n">data_normal_np_y</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training time:  1.0130431652069092
+Best params:  [array([[-0.44017237],
+       [-0.14166105],
+       [ 0.38986912],
+       [ 0.33522013],
+       [ 0.36370715],
+       [ 0.3713924 ],
+       [ 0.7580322 ]], dtype=float32), array([-0.01702357], dtype=float32)]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Сразу заметим, что наибольшее время для своего исполнения требуют алгоритмы <em>AdaGrad</em> и <em>RMSProp</em>, наименьшее - <em>SGD</em> и <em>Adam</em>. Модификации алгоритма <em>SGD</em> имеют несколько основных целей: ускорение обучения, избегание локальных минимумов, ускорение вычислений.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_loss</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+  <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+  <span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+  <span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Error [MPG]&#39;</span><span class="p">)</span>
+  <span class="n">axes</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+  <span class="n">axes</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Как сами данные, так и результаты работы функции при сходных значениях итоговой функции ошибки уже демонстрировались ранее, кроме того, финальный результат работы функций малоинформативен, потому рассмотрим работу на графиках функций потерь</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_loss</span><span class="p">(</span><span class="n">hist_sgd</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "150c28a9a760439b89360c5779725e77"}</script></div>
+</div>
+<p>Сначала рассмотрим уже привычный и знакомый нам по предыдущим сериям SGD. Значение функции лосса достаточно быстро падает, однако разбиение датасета на набор для тренировки и валидации позволяет заметить проблему: в некоторый момент падение <em>val_loss</em> прекратилось. Это позволяет предположить, что можель перестала обучаться видеть глобальные закономерности, подгоняя свои коэффициенты для конкретных данных. Во многом именно данную проблему призваны решить модификации</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_loss</span><span class="p">(</span><span class="n">hist_adagrad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "be98f0abf73046b3a14763612a473f00"}</script></div>
+</div>
+<p>Особенность <em>Adagrad</em> заключается в том, что при обновлении параметров учитывается частота их обновлении в прошлом. Чем чаще обновляется параметр - тем меньше величина его обновления. Как моэно заметить, подобное препятствует переобучению модели, хотя и требует как дополнительных вычислений, так и памяти. Тем не менее, при малом числе параметров, это существенно тормозит обучение модели (более того, может привести к полной остановке обучения), как можно заметить на данном примере. В некоторой степени, подобная проблема может быть решена повышением значения learning_rate, тем не менее, данный набор данных не имеет критически важных экзотических признаков, чтобы применение Adagrad имело существенный смысл.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_loss</span><span class="p">(</span><span class="n">hist_rmsprop</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "de60f2e2333d487c9dda2a602a7bdd82"}</script></div>
+</div>
+<p><em>RMSProp</em> в некотором смысле явялется модификацией <em>Adagrad</em>, призванный исправить проблему остановки или существенного замедления обучения при слишком частом обновлении одних и тех же параметров. Как и <em>Adagrad</em>, потребляет существенное количество памяти и требует большего, нежели более примитивные методы, времени для вычисления. Однако, как можно заметить, весьма успешно справляется с поставленными перед ним задачами. Достигается это экспоненциально затухающим убывающим средним, использованным для вычисления коэффициентов обновления параметров.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_loss</span><span class="p">(</span><span class="n">hist_adam</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "d67f2326a193453599492c39080b8d10"}</script></div>
+</div>
+<p>Adam использует в своих вычислениях моменты первого и второго порядка. Сочетает в себе и идею накопления движения, и идею более слабого обновления весов для типичных признаков. Результаты работы видятся наиболее эффективными в сравнении с другими алгоритмами</p>
+<section id="id5">
+<h2>Дополнительное задание 1<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>В качестве данных для изучения SGD для полиномиальной регрессии предлагается рассмотреть данную функцию:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">polynomSum</span><span class="p">(</span><span class="n">a0</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">a1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a3</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a4</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a5</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">10</span>
+    <span class="n">x5</span> <span class="o">=</span> <span class="n">a5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">5</span>  
+    <span class="n">x4</span> <span class="o">=</span> <span class="n">a4</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">4</span>
+    <span class="n">x3</span> <span class="o">=</span> <span class="n">a3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">3</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">a2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">*</span> <span class="n">x</span> 
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">a0</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x5</span> <span class="o">+</span> <span class="n">x4</span> <span class="o">+</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Это полиномиальная функция 5-ой степени, где график растянут по x в 10 раз с целью более практичной визуализации данных.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
+<span class="n">polynom</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">polynomSum</span><span class="p">,</span> <span class="o">*</span><span class="n">coefficients</span><span class="p">)</span>
+
+<span class="n">point_count</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">range_</span> <span class="o">=</span> <span class="mi">30</span>
+
+<span class="k">def</span> <span class="nf">noised_data_generator</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">noise_range</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="p">[[</span><span class="n">point</span><span class="p">,</span> <span class="n">func</span><span class="p">([</span><span class="n">point</span><span class="p">])[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">noise_range</span><span class="p">,</span> <span class="n">noise_range</span><span class="p">)]]</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+<span class="n">seed</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span>  <span class="n">noised_data_generator</span><span class="p">(</span><span class="n">polynom</span><span class="p">,</span> <span class="n">point_count</span><span class="p">,</span> <span class="o">-</span><span class="n">range_</span><span class="p">,</span> <span class="n">range_</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SEED: 1716958160421995000
+</pre></div>
+</div>
+</div>
+</div>
+<p>В качестве данных для приближения используется специально выбранный интересный полином на диапозоне, имеющем наибольшее количество перегибов.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="n">EpochCountCondition</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+<span class="n">modules</span> <span class="o">=</span> <span class="n">metrics_base</span> <span class="o">+</span> <span class="n">conditions</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)]</span>
+<span class="n">oraculs</span> <span class="o">=</span> <span class="p">[</span>    
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span> <span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Для начала предлагается рассмотреть, как график апроксимируется без регуляризаци, но при разном размере батча.
+В качестве батчей для сравнения предлагается рассмотреть три размера: 0.1% от количества точек, 10% и 100%.
+Функцией минимизации остается MSE из-за своей эффективности и простоты в восприятии.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span> <span class="n">oraculs</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span>  <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span> <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++---------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+=============+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         21.1382 | 0.203125 Mb |           30 |      150000 |                3000 |     253.382 | [ 3.06949397  9.9659832   4.8809057  -9.04767811 -1.06137915  0.92413814] |
++---------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+
+MinimisingOracul
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+===========+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         19.2556 | 0.0 Mb    |           30 |       15000 |                 300 |     546.828 | [ 1.00842478  3.11896872 -2.63293767 -0.44709758  0.2386578  -0.11699473] |
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+
+MinimisingOracul
++---------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+=============+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         19.2733 | 0.109375 Mb |           30 |        1500 |                  30 |     879.382 | [ 0.34603498  4.31938502 -3.80665198  2.71502093  0.38431865 -0.55765115] |
++---------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "41c4d9ee4683489aa4aa4dfe909e60bc"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "34032ac908de43bc8431a5a1f1829fdd"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "95df0d3162b14632ae6f67fc5e260e44"}</script></div>
+</div>
+<p>На удивление почти идеальная точность была достигнута при батче размером 1. Это можно объяснить тем, что на каждом шаге функция немного подгоняется под какую-то из точек, почти не сдвигаясь относительно остальных.
+По итогу функция получается очень точно приближена к исходной. Но отсюда вытекает сразу несколько минусов: при таком размере батча метод очень долго сходится, до своего примерного пика по приближению остальными размерам батчей нужно всего ~5 эпох, в то время как единичному батчу нужно не менее 20. Второй существенный минус - кратное увеличение количества шагов в каждой эпохе. Поэтому единичный батч оказывается самым медленным и в случае методов, долго выполняющих каждый шаг, итоговая производительность может быть в сотни раз меньше, при этом не всегда единичный батч гарантирует сходимость и хорошую точность. <p>
+Другие размеры батчей справились более менее ожидаемо, почти без отличий. Смотря на график напрашивается более гладкая апроксимация, но текущий функционал не позволяет подсказать методу пытаться использовать более гладкую кривую. <p>
+Для решения этой задачи есть <strong>регуляризация</strong>. Это добавка к loss-функции, которая позволяет влиять на результат апроксимации. Чаще всего она нужна как раз для ‘выпрямления’ графиков и избежания переобучения.<p>
+В рамках данной работы рассмотрим три функции:</p>
+<ul class="simple">
+<li><p><strong>L1</strong> - сумма абсолютных значений весов, умноженная на коэффициент.</p></li>
+<li><p><strong>L2</strong> - сумма квадратов значений весов, умноженная на коэффициент.</p></li>
+<li><p><strong>Elastic</strong> - сумма двух предыдущих функций.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oraculs</span> <span class="o">=</span> <span class="p">[</span>    
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L1</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.01</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L2</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mi">500</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">Elastic</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed</span><span class="p">(</span><span class="mi">1716939274959657400</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span><span class="n">oraculs</span><span class="p">,</span><span class="n">point</span><span class="p">,</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span> <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SEED: 1716939274959657400
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+===========+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         22.4294 | 0.0 Mb    |           30 |       15000 |                 300 |     520.393 | [ 1.11418108  2.98146914 -2.51048811 -0.71100303  0.17508206 -0.09918396] |
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+
+MinimisingOracul
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+===========+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         22.4367 | 0.125 Mb  |           30 |       15000 |                 300 |     487.079 | [ 0.00905868 -0.01901414  0.00433816 -0.06928651 -0.10098722 -0.15104962] |
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+
+MinimisingOracul
++---------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+=============+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         25.0018 | 0.140625 Mb |           30 |       15000 |                 300 |      590.85 | [ 0.97302962  3.14811938 -2.6843378  -0.30527308  0.32233591 -0.21302107] |
++---------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/matplotlib/animation.py:892: UserWarning: Animation was deleted without rendering anything. This is most likely not intended. To prevent deletion, assign the Animation to a variable, e.g. `anim`, that exists until you output the Animation using `plt.show()` or `anim.save()`.
+  warnings.warn(
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "9943dd563ddf486b84cd0bbc4e491339"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "a08e942b49e242bbb08756b00b3625be"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "3c9ffe27d82d43ea92a279163fdd0820"}</script></div>
+</div>
+<p>Все три функции регуляризации ‘сгладили’ апроксимирующую функцию. Регуляризация L2 из-за большого коэффициента слишком сильно выпрямилу функцию, показывая,
+что слишком большая добавка к loss-функции может перевесить саму функцию и значительно уменьшить итоговую точность, если не свести её к нулю. <p>
+Также стоит отметить, что коэффициент для функции регуляризации определяется очень ситуативно, в зависимости от размерности данных и апроксимирующей функции.</p>
+<p>Рассмотрим апроксимацию более интересных данных, например сумму двух синусоид.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">waveSum</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span><span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">wave1</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">wave2</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">wave1</span> <span class="o">+</span> <span class="n">wave2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Эти данные не являются линейными, поэтому просто не имеют точной полиномиальной апроксимации, из-за чего интересней как поведёт себя функция. <p>
+Интереса подогревает ещё факт того, что это довольно практическая задача, в физике нередко возникают процессы, описываемые как сумма волн, то есть синусоид с разными коэффициентами и сдвигами.
+Наша модель не позволяет описать любые волны, но и данная упрощенная версия довольно интересна.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">wave</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">waveSum</span><span class="p">,</span> <span class="o">*</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">range_</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">noised_data_generator</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span> <span class="n">point_count</span><span class="p">,</span> <span class="o">-</span><span class="n">range_</span><span class="p">,</span> <span class="n">range_</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
+
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">pi</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)]</span>
+<span class="n">oraculs</span> <span class="o">=</span> <span class="p">[</span>    
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">1</span><span class="p">),</span>
+    
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L1</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.005</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L2</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.001</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">Elastic</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.003</span><span class="p">,</span> <span class="mf">0.0005</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed</span><span class="p">(</span><span class="mi">1716942485404854900</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span><span class="n">oraculs</span><span class="p">,</span><span class="n">point</span><span class="p">,</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span> <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SEED: 1716942485404854900
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++----------------------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+| Method name                                                    |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                            |
++================================================================+=================+===========+==============+=============+=====================+=============+===================================================================+
+| GradientDescent(3.141592653589793,GoldenRatioMethod,eps=1e-07) |         18.8932 | 0.0 Mb    |           30 |       11400 |                 300 |     7.72883 | [ -0.18844789   4.46009431   5.09472504 -29.16779694 -18.53200452 |
+|                                                                |                 |           |              |             |                     |             |   -2.98682372]                                                    |
++----------------------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+
+MinimisingOracul
++----------------------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+| Method name                                                    |   ExecutionTime | RAMSize    |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                            |
++================================================================+=================+============+==============+=============+=====================+=============+===================================================================+
+| GradientDescent(3.141592653589793,GoldenRatioMethod,eps=1e-07) |         18.6621 | 0.15625 Mb |           30 |        1140 |                  30 |     22.3338 | [ -4.03682825   9.21340083  53.09859398 -32.36233683  -7.92660904 |
+|                                                                |                 |            |              |             |                     |             |   -4.37543769]                                                    |
++----------------------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+
+MinimisingOracul
++----------------------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+| Method name                                                    |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                            |
++================================================================+=================+=============+==============+=============+=====================+=============+===================================================================+
+| GradientDescent(3.141592653589793,GoldenRatioMethod,eps=1e-07) |         21.9769 | 0.109375 Mb |           30 |       11400 |                 300 |     7.98845 | [ -0.26701256   4.16470127   4.47835416 -27.37844218 -16.63524948 |
+|                                                                |                 |             |              |             |                     |             |   -1.27123223]                                                    |
++----------------------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+
+MinimisingOracul
++----------------------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+| Method name                                                    |   ExecutionTime | RAMSize    |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                            |
++================================================================+=================+============+==============+=============+=====================+=============+===================================================================+
+| GradientDescent(3.141592653589793,GoldenRatioMethod,eps=1e-07) |         21.9426 | 0.15625 Mb |           30 |       11400 |                 300 |     8.12486 | [ -0.32616567   2.53793605   3.29709526 -16.10684263  -9.37129068 |
+|                                                                |                 |            |              |             |                     |             |   -1.76245737]                                                    |
++----------------------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+
+MinimisingOracul
++----------------------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+| Method name                                                    |   ExecutionTime | RAMSize    |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                            |
++================================================================+=================+============+==============+=============+=====================+=============+===================================================================+
+| GradientDescent(3.141592653589793,GoldenRatioMethod,eps=1e-07) |         24.8651 | 0.15625 Mb |           30 |       11400 |                 300 |     8.17107 | [ -0.18632811   3.0719944    3.75378222 -21.46951775 -12.72906925 |
+|                                                                |                 |            |              |             |                     |             |   -1.62257527]                                                    |
++----------------------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+-------------------------------------------------------------------+
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/matplotlib/animation.py:892: UserWarning: Animation was deleted without rendering anything. This is most likely not intended. To prevent deletion, assign the Animation to a variable, e.g. `anim`, that exists until you output the Animation using `plt.show()` or `anim.save()`.
+  warnings.warn(
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "461da963550444ac9ac505c65e0309fd"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "9b943af1343d45e5afd3ed0014d7855a"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "ae8e1555e34a43b491226edb5e054bd1"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "05347a6d9c3a48f39da208cd91c4062f"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "a0f209d56afc42a0918d21bec07353b9"}</script></div>
+</div>
+<p>Данный пример показывает, что единичный батч не всегда дает наилучший результат, по итогу он дал наименьшую точность из всех методов.
+Остальные методы справились довольно хорошо, неожиданно обнаружилась полиномиальная кривая, которая достаточно точно проходит через середину каждого выступа суммы синусоидов.
+Использование регуляризаций сгладило кривую, проходя через основания выступов.</p>
+<p>Исследовав данную задачу, хотелось бы рассмотреть пример неполиномиальной функции, где использование регуляризации было бы более выражено.
+Можно рассмотреть апроксимацию той же суммы синусоидов, но уже суммой синусоидов. Не смотря простоту формулировки, это довольно трудно вычислимая нашими инструментами задача.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)]</span>
+<span class="n">oraculs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L1</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.2</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L2</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.07</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">Elastic</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">point_count</span> <span class="o">//</span> <span class="mi">10</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed</span><span class="p">(</span><span class="mi">1716943178454889500</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span><span class="n">oraculs</span><span class="p">,</span><span class="n">point</span><span class="p">,</span> <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span> <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span> <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span> <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SEED: 1716943178454889500
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-----------------------------+
+| Method name                                    |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                      |
++================================================+=================+===========+==============+=============+=====================+=============+=============================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |         9.12013 | 0.0 Mb    |           30 |       11400 |                 300 |     1.95448 | [-20.86173798   4.06891352] |
++------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-----------------------------+
+
+MinimisingOracul
++------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-----------------------------+
+| Method name                                    |   ExecutionTime | RAMSize     |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                      |
++================================================+=================+=============+==============+=============+=====================+=============+=============================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |          12.845 | 1.265625 Mb |           30 |      342000 |                9000 |     1.79437 | [ 25.64302411 -81.37302249] |
++------------------------------------------------+-----------------+-------------+--------------+-------------+---------------------+-------------+-----------------------------+
+
+MinimisingOracul
++------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-------------------------+
+| Method name                                    |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                  |
++================================================+=================+===========+==============+=============+=====================+=============+=========================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |         9.71678 | 0.125 Mb  |           30 |       11400 |                 300 |     1.24478 | [2.65381547 0.01029288] |
++------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-------------------------+
+
+MinimisingOracul
++------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------+
+| Method name                                    |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                    |
++================================================+=================+===========+==============+=============+=====================+=============+===========================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |         9.67844 | 0.0 Mb    |           30 |       11400 |                 300 |     1.47224 | [-1.94115137  1.93887247] |
++------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------+
+
+MinimisingOracul
++------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-------------------------+
+| Method name                                    |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                  |
++================================================+=================+===========+==============+=============+=====================+=============+=========================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |         10.6149 | 0.0 Mb    |           30 |       11400 |                 300 |    0.791443 | [0.15550033 1.03096634] |
++------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+-------------------------+
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/matplotlib/animation.py:892: UserWarning: Animation was deleted without rendering anything. This is most likely not intended. To prevent deletion, assign the Animation to a variable, e.g. `anim`, that exists until you output the Animation using `plt.show()` or `anim.save()`.
+  warnings.warn(
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "a0bcf44fb095489fb8c511cd3e71c744"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "48e5b2a53b024b3099ba7dee170a07b1"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "ba60148c9d5e474b97692dc7454e340c"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "27937d9b74724112bb79182be43c98fa"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "1d2d4465aa5a4e03b6641c7683d1da43"}</script></div>
+</div>
+<p>Данный пример прекрасно иллюстрирует необходимость регуляризации.
+Первые два метода очевидно переобучились, их графики слабо ассоциируются с тем плавным графиком суммы синусоид, что был изначально.
+Остальные же не ушли в переобучение и сохранили плавность, достигнув даже меньшего значения loss’а. (Значением в таблице можно пренебречь, так как там учитывается добавка от регуляризации) <p>
+Также хочется отметить регуляризацию Elastic, которая от запуска к запуску показывает наилучшие результаты среди всех методов.
+Эффективность этого метода отлично объясняется особенностями регуляризаций L1 и L2:</p>
+<ul class="simple">
+<li><p>L1 пытается приблизить все значения к нулю, сглаживая график путем приближения его к оси OX.</p></li>
+<li><p>L2 просто избегает больших значений весов.</p></li>
+</ul>
+<p>Данного функционала недостаточно, хотелось бы использовать функционал L2, чтобы уменьшить количество выступов графика, и функионал L1, чтобы уравновесить коэффициенты синусоид чтобы получить более регулярную функцию.
+Elastic объединяет оба подхода и позволяет добиться самого лучшего результата.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id6">
+<h1>Дополнительное задание 2<a class="headerlink" href="#id6" title="Link to this heading">#</a></h1>
+<p>В данном задании в качестве изучаемого метода машинного обучения выберем метод опорных векторов, который является популярным методом машинного обучеия для решения задач классфифкации и регресии. Давайте посавим задачи для данного метода при этом будем решать задачу классфифкации.</p>
+<section id="id7">
+<h2>Постановка задачи<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>Задача состоит в том, чтобы найти гиперплоскость, которая наилучшим образом разделяет классы данных. Для этого будем максимизировать зазор между гиперплоскостью и ближайшими точками каждого класса, которые называются опорными векторами.</p>
+<p>Теперь попробуем формализоровать нашу задачу:</p>
+<p>У нас есть данные в виде множества (xi, yi) размера n, где xi - это векторы признаков, а yi - это “метка” класса. Нам требуется найти гиперплоскость вида w * x + b = 0, которая разделяет данные.</p>
+</section>
+<section id="linearsvc">
+<h2>Как работает метод LinearSVC<a class="headerlink" href="#linearsvc" title="Link to this heading">#</a></h2>
+<p>Фактически мы должны решить данную проблему минимизации:</p>
+<p><img alt="formula" src="../_images/img.png" /></p>
+<p>В данном классе есть метод fit, который как раз отвечает за обучение. Для начала формулируется задача оптимизации для поиска гиперплоскости. Далее используются алгоритмы оптимизации, такие как метод стохастического градиентного спуска (SGD) или другие итерационные методы. По итоге мы находим находит параметры w и b, которые минимизируют функцию потерь.</p>
+</section>
+<section id="id8">
+<h2>Немного про визуализацию<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>Часто данные содержат довольно большое количество призгаков, что влечет за собой проблему отрисовки многомерного простанства. Чтобы её решить будем выбирать два наиболее значимых признака и делать их проекцию на плоскость. Для этого воспользуемся методом PCA. PCA - это метод снижения размерности данных, широко используемый в машинном обучении и статистике. Он помогает уменьшить количество признаков (измерений) в данных, сохраняя при этом как можно больше информации. Это достигается путем преобразования исходных признаков в новые, некоррелированные переменные, называемые главными компонентами.</p>
+</section>
+<section id="id9">
+<h2>Пример 1<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<p>Для начала возьмем данные, в которых собрана информация об ирисах. Это довольно популярный датасет, который активно используется для обучения.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">st</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
 <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">classes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -412,16 +1569,32 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/405cd945bc961e34de9b05d454bfec8027d464d207666cde16fae64289c8649e.png" src="../_images/405cd945bc961e34de9b05d454bfec8027d464d207666cde16fae64289c8649e.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">IndexError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">43</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">st</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">classes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<span class="nn">Cell In[43], line 2,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">st</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">classes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<span class="ne">IndexError</span>: list index out of range
+</pre></div>
+</div>
 </div>
 </div>
 </section>
-<section id="id5">
-<h2>Пример 2<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<section id="id10">
+<h2>Пример 2<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
 <p>Далее попробуем самомостоятельно сгенерировать данные, чтобы посмотреть как метод работает с большим количестов классов и признаков. В данном примере 5 классов, все классы имеют одинаковый вес. Также указано 16 признаков, из них 4 информативные, 0 избыточных, также нет повторяющихся признаков. Для такого количества классов было сгенерировано 1000 образцов.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">n_informative</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">n_redundant</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_repeated</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_classes</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_clusters_per_class</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">class_sep</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">flip_y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">n_informative</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">n_redundant</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_repeated</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_classes</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_clusters_per_class</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">class_sep</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">flip_y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
 
 <span class="n">clf</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LinearSVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">))</span>
 <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -449,9 +1622,6 @@ document.write(`
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/c0238d22b849dfff4fa0b3a0fb11277e8614bf51731c5933f95489d3dec69438.png" src="../_images/c0238d22b849dfff4fa0b3a0fb11277e8614bf51731c5933f95489d3dec69438.png" />
 </div>
 </div>
 </section>
@@ -493,17 +1663,8 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Краткое описание методов:</p>
+        <p class="prev-next-title">Методы первого и высших порядков</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="../test/test.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -521,12 +1682,24 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Постановка задачи</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearsvc">Как работает метод LinearSVC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Немного про визуализацию</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Пример 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Пример 2</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Метод стохастического градиентного спуска (SGD) и его модификации</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Постановка задачи</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Первый подпункт основного задания</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Второй подпункт основного задания</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Третий подпункт основного задания</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Дополнительное задание 1</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Дополнительное задание 2</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Постановка задачи</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearsvc">Как работает метод LinearSVC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Немного про визуализацию</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Пример 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Пример 2</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>

@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -171,10 +171,14 @@
             </li>
         </ul>
         <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../lab-2/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Краткое описание методов:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-1/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Методы нулевого порядка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-2/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Методы первого и высших порядков</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-3/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Метод стохастического градиентного спуска (SGD) и его модификации</a></li>
 
 
-<li class="toctree-l1"><a class="reference internal" href="../lab-3/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Дополнительное задание 2</a></li>
+
+
+
 </ul>
 
     </div>
@@ -337,156 +341,293 @@ document.write(`
                   
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.conditions</span> <span class="kn">import</span> <span class="n">StepCountCondition</span><span class="p">,</span> <span class="n">PrecisionCondition</span><span class="p">,</span> <span class="n">AbsolutePrecisionCondition</span><span class="p">,</span> \
+    <span class="n">EpochCountCondition</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.function_interpretations</span> <span class="kn">import</span> <span class="n">LinearInterpretation</span><span class="p">,</span> <span class="n">PolynomialInterpretation</span><span class="p">,</span> <span class="n">LambdaInterpretation</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.loss_functions</span> <span class="kn">import</span> <span class="n">MSE</span><span class="p">,</span> <span class="n">LineBinary</span><span class="p">,</span> <span class="n">L1</span><span class="p">,</span> <span class="n">L2</span><span class="p">,</span> <span class="n">Elastic</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.methods</span> <span class="kn">import</span> <span class="n">CoordinateDescent</span><span class="p">,</span> <span class="n">GoldenRatioMethod</span><span class="p">,</span> <span class="n">NewtonWolfe</span><span class="p">,</span> <span class="n">GradientDescentBase</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.metrics</span> <span class="kn">import</span> <span class="n">StepCount</span><span class="p">,</span> <span class="n">CallCount</span><span class="p">,</span> <span class="n">GradientCallCount</span><span class="p">,</span> <span class="n">HessianCallCount</span><span class="p">,</span> <span class="n">PrecisionCount</span><span class="p">,</span> \
+    <span class="n">AbsolutePrecisionCount</span><span class="p">,</span> <span class="n">AbsolutePrecision</span><span class="p">,</span> <span class="n">MinAbsolutePrecision</span><span class="p">,</span> <span class="n">RAMSize</span><span class="p">,</span> <span class="n">ExecutionTime</span><span class="p">,</span> <span class="n">EpochCount</span><span class="p">,</span> \
+    <span class="n">OraculValue</span><span class="p">,</span> <span class="n">LossValue</span><span class="p">,</span> <span class="n">ResultValue</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.oraculs</span> <span class="kn">import</span> <span class="n">LambdaOracul</span><span class="p">,</span> <span class="n">SymbolOracul</span><span class="p">,</span> <span class="n">MinimisingOracul</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.debug</span> <span class="kn">import</span> <span class="n">FULL_DEBUG</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span><span class="p">,</span> <span class="n">FULL_VISUALIZE</span><span class="p">,</span> <span class="n">NO_VISUALIZE</span><span class="p">,</span> <span class="n">FULL_ANIMATION</span><span class="p">,</span> <span class="n">VISUALIZE</span><span class="p">,</span> <span class="n">VISUALIZE_FUNCTION</span>
+<span class="kn">from</span> <span class="nn">src.v2.visualization.animation</span> <span class="kn">import</span> <span class="n">Animator</span>
+<span class="kn">from</span> <span class="nn">src.v2.runner.runner</span> <span class="kn">import</span> <span class="n">TABLE</span>
+<span class="kn">from</span> <span class="nn">src.v2.impl.methods</span> <span class="kn">import</span> <span class="n">GradientDescent</span><span class="p">,</span> <span class="n">ScipyMethod</span><span class="p">,</span> <span class="n">Newton</span><span class="p">,</span> <span class="n">NewtonBase</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;pre { white-space: pre !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">print_points</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="n">metrics_base</span> <span class="o">=</span> <span class="p">[</span><span class="n">CallCount</span><span class="p">(),</span> <span class="n">GradientCallCount</span><span class="p">(),</span> <span class="n">LossValue</span><span class="p">()]</span>
+
+<span class="n">minPrec</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">defPrec</span> <span class="o">=</span> <span class="mf">1e-9</span>
+<span class="n">maxPrec</span> <span class="o">=</span> <span class="mf">1e-11</span>
+
+<span class="n">animations</span> <span class="o">=</span> <span class="p">[</span><span class="n">Animator</span><span class="p">()]</span>
+
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="n">EpochCountCondition</span><span class="p">(</span><span class="mi">50</span><span class="p">)]</span>
+
+<span class="n">modules</span> <span class="o">=</span> <span class="p">([</span><span class="n">ExecutionTime</span><span class="p">()]</span>
+           <span class="o">+</span> <span class="p">[</span><span class="n">RAMSize</span><span class="p">()]</span>
+           <span class="o">+</span> <span class="p">[</span><span class="n">EpochCount</span><span class="p">()]</span>
+           <span class="o">+</span> <span class="n">metrics_base</span>
+           <span class="o">+</span> <span class="n">conditions</span>
+           <span class="o">+</span> <span class="p">[</span><span class="n">Animator</span><span class="p">()]</span>
+           <span class="o">+</span> <span class="p">[</span><span class="n">ResultValue</span><span class="p">()]</span>
+           <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">seed</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time_ns</span><span class="p">()</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SEED:&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">noised_data_generator</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">noise_range</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="p">[[</span><span class="n">point</span><span class="p">,</span> <span class="n">func</span><span class="p">([</span><span class="n">point</span><span class="p">])[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">noise_range</span><span class="p">,</span> <span class="n">noise_range</span><span class="p">)]]</span>
+    <span class="k">return</span> <span class="n">res</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the &#39;ssl&#39; module is compiled with &#39;LibreSSL 2.8.3&#39;. See: https://github.com/urllib3/urllib3/issues/3020
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">11</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="kn">import</span> <span class="nn">sympy</span>
+<span class="ne">---&gt; </span><span class="mi">11</span> <span class="kn">from</span> <span class="nn">src.v2.impl.conditions</span> <span class="kn">import</span> <span class="n">StepCountCondition</span><span class="p">,</span> <span class="n">PrecisionCondition</span><span class="p">,</span> <span class="n">AbsolutePrecisionCondition</span><span class="p">,</span> \
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">EpochCountCondition</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">from</span> <span class="nn">src.v2.impl.function_interpretations</span> <span class="kn">import</span> <span class="n">LinearInterpretation</span><span class="p">,</span> <span class="n">PolynomialInterpretation</span><span class="p">,</span> <span class="n">LambdaInterpretation</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="kn">from</span> <span class="nn">src.v2.impl.loss_functions</span> <span class="kn">import</span> <span class="n">MSE</span><span class="p">,</span> <span class="n">LineBinary</span><span class="p">,</span> <span class="n">L1</span><span class="p">,</span> <span class="n">L2</span><span class="p">,</span> <span class="n">Elastic</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;src&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed</span><span class="p">()</span>
+<span class="n">point_count</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">crop_size</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">diap</span> <span class="o">=</span> <span class="mi">30</span>
+
+<span class="k">def</span> <span class="nf">polynomSum</span><span class="p">(</span><span class="n">a0</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">a1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a3</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a4</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a5</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">10</span>
+    <span class="n">x5</span> <span class="o">=</span> <span class="n">a5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">5</span>  
+    <span class="n">x4</span> <span class="o">=</span> <span class="n">a4</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">4</span>
+    <span class="n">x3</span> <span class="o">=</span> <span class="n">a3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">3</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">a2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">*</span> <span class="n">x</span> 
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">a0</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x5</span> <span class="o">+</span> <span class="n">x4</span> <span class="o">+</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x0</span><span class="p">])</span>
+
+<span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
+<span class="n">polynom</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">polynomSum</span><span class="p">,</span> <span class="o">*</span><span class="n">coefficients</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span>  <span class="n">noised_data_generator</span><span class="p">(</span><span class="n">polynom</span><span class="p">,</span> <span class="n">point_count</span><span class="p">,</span> <span class="o">-</span><span class="n">diap</span><span class="p">,</span> <span class="n">diap</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
+
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="n">EpochCountCondition</span><span class="p">(</span><span class="mi">30</span><span class="p">)]</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)]</span>
+<span class="n">oraculs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">),</span>
+    
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L1</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mi">50</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L2</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mi">10</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">Elastic</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">polynomSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SEED: 1716937081082292300
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span>
+                    <span class="n">oraculs</span><span class="p">,</span>
+                    <span class="n">point</span><span class="p">,</span>
+                    <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span>
+                    <span class="c1"># **FULL_DEBUG,</span>
+                    <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span>
+                    <span class="c1"># **FULL_VISUALIZE,</span>
+                    <span class="c1"># **FULL_ANIMATION,</span>
+                    <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++---------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize       |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+===============+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |          24.179 | 0.00390625 Mb |           50 |       25000 |                 500 |     323.278 | [ 3.21221999  1.50439197  0.133895   -3.41869019 -0.26130932  0.30085594] |
++---------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+
+MinimisingOracul
++---------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize       |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+===============+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         29.3019 | 0.51171875 Mb |           50 |      250000 |                5000 |     254.286 | [ 2.92973243  9.88669519  5.68447667 -9.18496392 -1.19063932  0.88421952] |
++---------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+
+MinimisingOracul
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+===========+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         27.4711 | 0.0 Mb    |           50 |       25000 |                 500 |     512.206 | [ 0.07811208  0.00314767  0.0413776  -0.14884393 -0.13275107 -0.0397981 ] |
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+
+MinimisingOracul
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize   |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+===========+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         30.1236 | 0.0 Mb    |           50 |       25000 |                 500 |     433.448 | [ 0.58934561 -0.14038821  0.58950459 -0.85001157 -0.27923713 -0.02512763] |
++---------------------------------------------------+-----------------+-----------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+
+MinimisingOracul
++---------------------------------------------------+-----------------+--------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+| Method name                                       |   ExecutionTime | RAMSize      |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                                                                    |
++===================================================+=================+==============+==============+=============+=====================+=============+===========================================================================+
+| GradientDescent(1000,GoldenRatioMethod,eps=1e-07) |         32.4603 | 0.0703125 Mb |           50 |       25000 |                 500 |      487.02 | [ 0.00474721 -0.00280465  0.0013951  -0.7626944  -0.22159182 -0.06386396] |
++---------------------------------------------------+-----------------+--------------+--------------+-------------+---------------------+-------------+---------------------------------------------------------------------------+
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D:\Projects\Methods-of-optimizations\venv\lib\site-packages\matplotlib\animation.py:892: UserWarning: Animation was deleted without rendering anything. This is most likely not intended. To prevent deletion, assign the Animation to a variable, e.g. `anim`, that exists until you output the Animation using `plt.show()` or `anim.save()`.
   warnings.warn(
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gen_classes</span><span class="p">(</span><span class="n">class_num</span><span class="p">,</span> <span class="n">per_class</span><span class="p">,</span> <span class="n">lower_b</span><span class="p">,</span> <span class="n">upper_b</span><span class="p">):</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">class_areas</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">class_num</span><span class="p">):</span>
-        <span class="n">temp_class</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">low_b</span> <span class="o">=</span> <span class="n">lower_b</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">upper_b</span> <span class="o">-</span> <span class="n">lower_b</span><span class="p">)</span> <span class="o">/</span> <span class="n">class_num</span>
-        <span class="n">high_b</span> <span class="o">=</span> <span class="n">lower_b</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">upper_b</span> <span class="o">-</span> <span class="n">lower_b</span><span class="p">)</span> <span class="o">/</span> <span class="n">class_num</span>
-        <span class="c1">#class_areas += [random.uniform(, ), random.uniform()]</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">per_class</span><span class="p">):</span>
-            <span class="n">temp_class</span> <span class="o">+=</span> <span class="p">[[</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">lower_b</span><span class="p">,</span> <span class="n">high_b</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low_b</span><span class="p">,</span> <span class="n">high_b</span><span class="p">),</span> <span class="n">i</span><span class="p">]]</span>
-        <span class="n">res</span> <span class="o">+=</span> <span class="p">[</span><span class="n">temp_class</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">res</span>
-<span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="n">dim</span><span class="p">]:</span>
-        <span class="n">x</span> <span class="o">+=</span> <span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-        <span class="n">y</span> <span class="o">+=</span> <span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-<span class="n">temp</span> <span class="o">=</span> <span class="n">gen_classes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "d5d58704985f47b8b4657fbd0d5e4036"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "1b42b26ef94149ccb98fc9023e4aaf09"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "8adcdafddfed445393d10d5f7f1d4281"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "698ca09ef0fb4a7eb3236b8cf712b79b"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "487afa702f1e475e9bf7195e191aec51"}</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_temp</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
-    <span class="n">n_temp</span> <span class="o">+=</span> <span class="n">i</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
-<span class="n">axes</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">axes</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;yellow&quot;</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed</span><span class="p">()</span>
+
+<span class="n">point_count</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">crop_size</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">diap</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="k">def</span> <span class="nf">waveSum</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span><span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span><span class="n">point</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">wave1</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">wave2</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">wave1</span> <span class="o">+</span> <span class="n">wave2</span><span class="p">])</span>
+
+<span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">wave</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">waveSum</span><span class="p">,</span> <span class="o">*</span><span class="n">coefficients</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">noised_data_generator</span><span class="p">(</span><span class="n">wave</span><span class="p">,</span> <span class="n">point_count</span><span class="p">,</span> <span class="o">-</span><span class="n">diap</span><span class="p">,</span> <span class="n">diap</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
+
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">aprox_dec</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)]</span>
+<span class="n">oraculs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L1</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.3</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">L2</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">),</span>
+    <span class="n">MinimisingOracul</span><span class="p">(</span><span class="n">Elastic</span><span class="p">(</span><span class="n">MSE</span><span class="p">(),</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="n">LambdaInterpretation</span><span class="p">(</span><span class="n">func</span> <span class="o">=</span> <span class="n">waveSum</span><span class="p">,</span> <span class="n">eval_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">crop_size</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/54b8b11e74571a9e01fd7a207679a8074f822a6535c0538d93fecd9a48dcb137.png" src="../_images/54b8b11e74571a9e01fd7a207679a8074f822a6535c0538d93fecd9a48dcb137.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">ans</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n_temp</span><span class="p">:</span>
-    <span class="n">x_train</span> <span class="o">+=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span>
-    <span class="n">y_train</span> <span class="o">+=</span> <span class="p">[</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]]]</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SEED: 1716934617675046900
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,)),</span>
-    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;softmax&quot;</span><span class="p">)</span>
-<span class="p">])</span>
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">,</span>
-              <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">BinaryCrossentropy</span><span class="p">(),</span>
-              <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">Runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span>
+                    <span class="n">oraculs</span><span class="p">,</span>
+                    <span class="n">point</span><span class="p">,</span>
+                    <span class="n">modules</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">defPrec</span><span class="p">,</span>
+                    <span class="c1"># **FULL_DEBUG,</span>
+                    <span class="o">**</span><span class="n">TABLE</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">VISUALIZE</span><span class="p">,</span>
+                    <span class="c1"># **FULL_VISUALIZE,</span>
+                    <span class="c1"># **FULL_ANIMATION,</span>
+                    <span class="o">**</span><span class="n">VISUALIZE_FUNCTION</span>
+                    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/keras/src/layers/core/dense.py:87: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
-  super().__init__(activity_regularizer=activity_regularizer, **kwargs)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MinimisingOracul
++------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+---------------------------+
+| Method name                                    |   ExecutionTime | RAMSize       |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                    |
++================================================+=================+===============+==============+=============+=====================+=============+===========================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |         11.0456 | 0.08984375 Mb |           50 |       19000 |                 500 |     1.52381 | [-9.74223299 43.86611854] |
++------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+---------------------------+
+
+MinimisingOracul
++------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+---------------------------+
+| Method name                                    |   ExecutionTime | RAMSize    |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                    |
++================================================+=================+============+==============+=============+=====================+=============+===========================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |         15.4004 | 0.59375 Mb |           50 |      190000 |                5000 |     1.90266 | [ 9.77944187 -8.47323523] |
++------------------------------------------------+-----------------+------------+--------------+-------------+---------------------+-------------+---------------------------+
+
+MinimisingOracul
++------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+-------------------------+
+| Method name                                    |   ExecutionTime | RAMSize       |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                  |
++================================================+=================+===============+==============+=============+=====================+=============+=========================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |          12.395 | 0.07421875 Mb |           50 |       19000 |                 500 |     2.19819 | [0.74403288 2.02264427] |
++------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+-------------------------+
+
+MinimisingOracul
++------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+-------------------------+
+| Method name                                    |   ExecutionTime | RAMSize       |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                  |
++================================================+=================+===============+==============+=============+=====================+=============+=========================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |         12.4453 | 0.00390625 Mb |           50 |       19000 |                 500 |      3.1183 | [4.73128341 1.06808217] |
++------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+-------------------------+
+
+MinimisingOracul
++------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+---------------------------+
+| Method name                                    |   ExecutionTime | RAMSize       |   EpochCount |   CallCount |   GradientCallCount |   LossValue | Result                    |
++================================================+=================+===============+==============+=============+=====================+=============+===========================+
+| GradientDescent(3,GoldenRatioMethod,eps=1e-07) |         13.4381 | 0.12890625 Mb |           50 |       19000 |                 500 |     1.28312 | [-1.44987891  1.30618668] |
++------------------------------------------------+-----------------+---------------+--------------+-------------+---------------------+-------------+---------------------------+
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_train</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D:\Projects\Methods-of-optimizations\venv\lib\site-packages\matplotlib\animation.py:892: UserWarning: Animation was deleted without rendering anything. This is most likely not intended. To prevent deletion, assign the Animation to a variable, e.g. `anim`, that exists until you output the Animation using `plt.show()` or `anim.save()`.
+  warnings.warn(
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/5
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/7</span> <span class=" -Color -Color-Green">━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 119ms/step - accuracy: 0.5000 - loss: 4.9771
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">7/7</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 681us/step - accuracy: 0.4222 - loss: 2.6472
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2/5
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/7</span> <span class=" -Color -Color-Green">━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 6ms/step - accuracy: 0.4667 - loss: 0.6932
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">7/7</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 468us/step - accuracy: 0.4848 - loss: 0.7041
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3/5
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/7</span> <span class=" -Color -Color-Green">━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 6ms/step - accuracy: 0.4000 - loss: 0.7633
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">7/7</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 467us/step - accuracy: 0.4753 - loss: 0.7173
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4/5
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/7</span> <span class=" -Color -Color-Green">━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 6ms/step - accuracy: 0.5667 - loss: 0.6931
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">7/7</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 401us/step - accuracy: 0.5149 - loss: 0.6932
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5/5
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/7</span> <span class=" -Color -Color-Green">━━</span><span class=" -Color -Color-White">━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 6ms/step - accuracy: 0.7000 - loss: 0.6931
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-<span class=" -Color -Color-Bold">7/7</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 493us/step - accuracy: 0.5253 - loss: 0.6932
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;keras.src.callbacks.history.History at 0x3850d0f40&gt;
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "06aafe266ea042449bd054d41c82015a"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "2f934b0d76c74c7c829a4136357a360b"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "f45918a84d7f47768fa5bd3ec55da758"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "4d76a4c971ec4d9abc68ac8300364244"}</script><script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "d7cf5656577c4dd8b1f7e917b34f4ac6"}</script></div>
 </div>
 
     <script type="text/x-thebe-config">

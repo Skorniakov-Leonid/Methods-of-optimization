@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Краткое описание методов: &#8212; My Jupyter Book</title>
+    <title>Методы первого и высших порядков &#8212; My Jupyter Book</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -60,8 +60,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lab-2/отчёт';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Дополнительное задание 2" href="../lab-3/%D0%BE%D1%82%D1%87%D1%91%D1%82.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="../lab-1/%D0%BE%D1%82%D1%87%D1%91%D1%82.html" />
+    <link rel="next" title="Метод стохастического градиентного спуска (SGD) и его модификации" href="../lab-3/%D0%BE%D1%82%D1%87%D1%91%D1%82.html" />
+    <link rel="prev" title="Методы нулевого порядка" href="../lab-1/%D0%BE%D1%82%D1%87%D1%91%D1%82.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -171,10 +171,14 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Краткое описание методов:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-1/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Методы нулевого порядка</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Методы первого и высших порядков</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-3/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Метод стохастического градиентного спуска (SGD) и его модификации</a></li>
 
 
-<li class="toctree-l1"><a class="reference internal" href="../lab-3/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Дополнительное задание 2</a></li>
+
+
+
 </ul>
 
     </div>
@@ -313,7 +317,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Краткое описание методов:</h1>
+    <h1>Методы первого и высших порядков</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -323,11 +327,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Краткое описание методов:</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Дополнительное задание 1</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Переходим к дополнительному заданию 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Краткое описание методов:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Дополнительное задание 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Переходим к дополнительному заданию 2</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -338,7 +341,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>Методы первого и высших порядков<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
 <span class="n">pyplot</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
@@ -443,8 +448,8 @@ document.write(`
 </div>
 </div>
 <p>Первая серия экспериментов будет представлять из себя сравнение метода Newton-CG, представленного в библиотеке scipi, и методов Ньютона, реализованных нами (с фиксированным и плавающим шагами. В методе с плавающим шагом использован метод золотого сечения, сравнение эффективности с методом Вольфе, предлагаемым к реализации в первом дополнительным задании представлено в последующих сериях, относящихся к дополнительному заданию 1</p>
-<section id="id1">
-<h1>Краткое описание методов:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<section id="id2">
+<h2>Краткое описание методов:<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p><em>NewtonBase</em> - классический метод Ньютона с фиксированным шагом. Параметризуется параметром learning_rate, отвечающим за длину шага по направлению предполагаемого минимума. Каждая следующая точка вычислется по правилу x = x_prev - hess^(-1)(x_prev)*grad(x_prev)*learning_rate, где grad - значение градиента функции в переданной точке, а hess - значение гессиана. В случае, если не существует hess^-1, значения на главной диагонали увеличиваются на eps=1e-7, что, как правило, приводит к выбору в качестве направления направление градиента<p></p></li>
 <li><p><em>Newton</em> - метод Ньютона с перменным шагом. Параметризуется параметрами learning_rate - максимальная длина шага, method - метод, используемый для поиска минимума на луче, aprox_dec - точность приближения для внуреннегоо метода. Луч выбирается аналогичным NewtonBase образом. В тестах в качестве метода используется метод золотого сечения. Это связано с тем, что метод Newton-CG использует в свой реализации правило Армихо, правило Вольфе же вынесено в дополнительное задание 1, потому, для более полного демонстрация различий (и без того не слишком явных, как будет заметно далее), зависящих от метода одномерного поиска была выбрана данная реализация</p></li>
@@ -661,8 +666,9 @@ LambdaOracul
 +--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
 | ScipyMethod(bfgs)                                |           2 |           5 |                   5 |                  0 |                               2 |         2.30643e-12 |
 +--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
-
-SymbolOracul
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SymbolOracul
 +--------------------------------------------------+-------------+-------------+---------------------+--------------------+---------------------------------+---------------------+
 | Method name                                      |   StepCount |   CallCount |   GradientCallCount |   HessianCallCount |   AbsolutePrecisionCount(1e-07) |   AbsolutePrecision |
 +==================================================+=============+=============+=====================+====================+=================================+=====================+
@@ -915,8 +921,8 @@ SymbolOracul
 <p>Функция имеет довольно любопытный вид в окрестности своего нуля за счёт добавления синуса. Как можно увидеть, на функции полохо приближаемой квадратичной, метод Ньютона с фиксированным шагом вновь разошёлся. Остальные методы сошлись, хотя стоит отметить аномалию в числе итераций метода Ньютона с переменным шагом. Вероятно, она обусловлена как раз тем, что используется весьма примитивный метод золотого сечения для поиска минимума на луче. Стоит также отметить, что это уже не первый тест, где эффективность выбора направления методом Ньютона была ограничена низкой эффективностью метода выбора точки.</p>
 <p>Подводя итоги сравнения и отдельного анализа метдов Ньютона, приходится констатировать, что хотя они и требуют меньшего числа шагов для схождения, их вычислительная эффективность сомнительна. Так, метод <em>BFGS</em>, не требуя Гессиана, выдавал показатели, схожие с методом <em>Newton-CG</em>, кроме того, в случае плохо апрокимируемых функций или работы в области функции, апроксимация которой квадратичной недостаточно точна, методы Ньютона без доверительного региона могут демонстрировать весьма странное поведение. Пример, представленный в дополнительном задании 2 также представляет не с лучшей стороны классичекий метод Ньютона. Многие из этих проблем решаются более сложным алгоритмом выбора точки, тем не менее, подобное усложнение влечёт и увеличение вычислительной сложности, чего хотелось бы избежать (особенно, если речь идёт о вычислениипроизводных). Кроме того, иногда ошибки алгоритма выбора шага могут даже ухудшить работу метода. Один из примеров подобного был представлен ранее, когда метод <em>Newton-CG</em> сойтись не сумел, в то время как это вышло у куда менее интеллектуального <em>NewtonBase</em>. Далее мы подробнее рассмотрим изменения в поведении алгоритма Ньютона, если выполнять одномерный поиск в соответствии с усиленным равилом Вольфе.</p>
 </section>
-<section id="id2">
-<h1>Дополнительное задание 1<a class="headerlink" href="#id2" title="Link to this heading">#</a></h1>
+<section id="id3">
+<h2>Дополнительное задание 1<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
 <p>Класс <em>NewtonWolfe</em>, далее именуемый <em>Wolfe</em> реализует метод Ньютона с одномерным поиском по сильному правилу Вольфе. Ранее наши алгоритмы использовали весьма примитивные методы одномерного поиска, что существенно ограничивало их применимость. Однако прежде чем перейти к тестам, приведём описание метода и некоторые особенности реализации<p>
 <strong>Описание работы правила Вольфе:</strong>
 Как всегда задача минимизировать функцию. Для этого у нас есть гладкая функция f, и мы сведем задачу min(f(x)) -&gt; min(f(xk + a * pk)), pk - направление поиска, а a - длина шага</p>
@@ -1055,8 +1061,8 @@ SymbolOracul
 <p>Однако, на примере <em>hard_non_poly</em> мы можем увидеть, что хотя <em>Wolfe</em> и немного теряет эффективность в сравнении с <em>NewtonBase</em>, на сложных функциях он сопособен показать себя значительно лучше. Функция сошлась, пусть и к локальному минимуму<p>
 Таким образом, модификация метода Ньютона, основанная на правиле Вольфе действительно выглядит как наиболее эффективной в плане вычислений, так и точной в плане сходимости в сравнении с другими вариациями</p>
 </section>
-<section id="id3">
-<h1>Переходим к дополнительному заданию 2<a class="headerlink" href="#id3" title="Link to this heading">#</a></h1>
+<section id="id4">
+<h2>Переходим к дополнительному заданию 2<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p>
 Стоит понимать, что метод Ньютона может подразумевать различные реализации, детали которых способны оказывать существенное влияние на работут методов. Так, например, в основном задании была представлена точка на функции Розенброка, при старте их которой методы NewtonBase и Newton, в то время как Newton-CG разошёлся. Потому далее, при аналитических размышлениях, будет рассматриваться метод Ньютона, логика работы которого соответствует представленной на лекции, в испытаниях же будут участвоввать лишь методы NewtonBase и Newton
 <p>
@@ -1162,6 +1168,7 @@ SymbolOracul
 Неожиданно сошёлся к абсолютному минимуму координатный спуск. Приина очевидна: так уж совпали шаг и начальная точка (а это, смею вас заверить, и правда ни что иное, как совпадение), тем не менее, подобное может послужить напоминанием о том, что иногда и более слабые методы, в силу случая или их специфики, способны выдать лучший результат в конкретном случае.
 <p>
 Координатный спуск шёл по направлению градиента и тоже весьма сильно разошёлся с собратьями, выисляющими или приближающими Гессиан. Тем не менее, в данном случае, из-за слишком высокой специфичности функции данный подход оказался более выгодным (и на самом деле, каждый отдельный перепад весьма хорошо приближается квадратичной функцией, однако попасть в глобальный минимум при таком подходе едва ли удастся</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1199,7 +1206,7 @@ SymbolOracul
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">Методы нулевого порядка</p>
       </div>
     </a>
     <a class="right-next"
@@ -1207,7 +1214,7 @@ SymbolOracul
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Дополнительное задание 2</p>
+        <p class="prev-next-title">Метод стохастического градиентного спуска (SGD) и его модификации</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1227,11 +1234,10 @@ SymbolOracul
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Краткое описание методов:</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Дополнительное задание 1</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Переходим к дополнительному заданию 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Краткое описание методов:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Дополнительное задание 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Переходим к дополнительному заданию 2</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

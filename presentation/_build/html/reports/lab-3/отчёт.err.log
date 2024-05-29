@@ -1,0 +1,70 @@
+Traceback (most recent call last):
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+X = [st[0:4] for st in data]
+y = [st[4] for st in data]
+index = 0
+classes = dict()
+for i in range(len(y)):
+    if y[i] not in classes:
+        classes[y[i]] = index
+        index += 1
+    y[i] = classes[y[i]]
+
+clf = make_pipeline(StandardScaler(), LinearSVC(random_state=0, tol=1e-5))
+clf.fit(X, y)
+
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X)
+
+x_min, x_max = X_pca[:, 0].min() - 1, X_pca[:, 0].max() + 1
+y_min, y_max = X_pca[:, 1].min() - 1, X_pca[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.02),
+                     np.arange(y_min, y_max, 0.02))
+
+Z = clf.predict(pca.inverse_transform(np.c_[xx.ravel(), yy.ravel()]))
+Z = Z.reshape(xx.shape)
+
+plt.figure(figsize=(10, 7))
+plt.contourf(xx, yy, Z, alpha=0.3, cmap='viridis')
+scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap='viridis', edgecolor='k', s=50, alpha=0.6)
+plt.title('Decision Boundary of LinearSVC with PCA-reduced Data (Iris)')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.legend(handles=scatter.legend_elements()[0], labels=['Setosa', 'Versicolor', 'Virginica'], title="Classes")
+plt.grid(True)
+plt.show()
+
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mIndexError[0m                                Traceback (most recent call last)
+Cell [0;32mIn[43], line 2[0m
+[1;32m      1[0m X [38;5;241m=[39m [st[[38;5;241m0[39m:[38;5;241m4[39m] [38;5;28;01mfor[39;00m st [38;5;129;01min[39;00m data]
+[0;32m----> 2[0m y [38;5;241m=[39m [st[[38;5;241m4[39m] [38;5;28;01mfor[39;00m st [38;5;129;01min[39;00m data]
+[1;32m      3[0m index [38;5;241m=[39m [38;5;241m0[39m
+[1;32m      4[0m classes [38;5;241m=[39m [38;5;28mdict[39m()
+
+Cell [0;32mIn[43], line 2[0m, in [0;36m<listcomp>[0;34m(.0)[0m
+[1;32m      1[0m X [38;5;241m=[39m [st[[38;5;241m0[39m:[38;5;241m4[39m] [38;5;28;01mfor[39;00m st [38;5;129;01min[39;00m data]
+[0;32m----> 2[0m y [38;5;241m=[39m [[43mst[49m[43m[[49m[38;5;241;43m4[39;49m[43m][49m [38;5;28;01mfor[39;00m st [38;5;129;01min[39;00m data]
+[1;32m      3[0m index [38;5;241m=[39m [38;5;241m0[39m
+[1;32m      4[0m classes [38;5;241m=[39m [38;5;28mdict[39m()
+
+[0;31mIndexError[0m: list index out of range
+
