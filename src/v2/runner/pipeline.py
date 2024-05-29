@@ -43,7 +43,7 @@ class Pipeline:
     def process_step(self, state: State, meta: Meta, **params) -> bool:
         stop = True
         for module in self.modules:
-            stop = stop and module.process_step(state, meta, **params)
+            stop = module.process_step(state, meta, **params) and stop
         return stop
 
     def get_result(self, **params) -> list[tuple[str, Any]]:

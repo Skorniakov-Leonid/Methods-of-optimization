@@ -1,3 +1,7 @@
+from inspect import signature
+from math import sin
+from typing import Callable
+
 import numpy as np
 
 from src.v2.model.function_interpretation import FunctionInterpretation
@@ -31,11 +35,15 @@ class MultiLinearInterpretation(FunctionInterpretation):
 
 
 class PolynomialInterpretation(FunctionInterpretation):
+    def __init__(self, argument_count: int = 3, **params) -> None:
+        self.argument_count = argument_count
+
     def interpret(self, arguments: np.ndarray, point: np.ndarray) -> np.ndarray:
-        return np.array([point[0], arguments[0] * point[0] ** 2 + arguments[1] * point[0] + arguments[2]])
+        x = point[0]
+        return np.array([x, sum([arg * x ** i for i, arg in enumerate(arguments[:self.argument_count])])])
 
     def get_dimension(self) -> int:
-        return 4
+        return self.argument_count + 1
 
     def get_eval_dimension(self) -> int:
         return 2
@@ -72,4 +80,24 @@ class MatrixInterpretation(FunctionInterpretation):
         return self.dim
 
     def get_eval_dimension(self) -> int:  # num of classes
+        return self.eval_dim
+
+
+class LambdaInterpretation(FunctionInterpretation):
+    """
+    func(a1, a2, a3 ... an, point)
+    """
+
+    def __init__(self, func: Callable[..., np.ndarray], eval_dim: int = 2) -> None:
+        self.func = func
+        self.dimension = len(signature(func).parameters)
+        self.eval_dim = eval_dim
+
+    def interpret(self, arguments: np.ndarray, point: np.ndarray) -> np.ndarray:
+        return self.func(*arguments, point)
+
+    def get_dimension(self) -> int:
+        return self.dimension
+
+    def get_eval_dimension(self) -> int:
         return self.eval_dim

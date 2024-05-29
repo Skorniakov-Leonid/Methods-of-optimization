@@ -154,7 +154,7 @@ class MinimisingOracul(Oracul):
         points = np.array([self.data[i] for i in state.points])
         interpreted_points = np.array([self.interpretation.interpretate_data(p) for p in points])
         points = np.array([p[:-1] for p in points])
-        return self.minimization_function.eval(interpreted_points, self.interpretation.evaluate(point, points))
+        return self.minimization_function.eval(interpreted_points, self.interpretation.evaluate(point, points), point)
 
     def evaluate_gradient(self, point: np.ndarray, state: EpochState, **params) -> np.ndarray:
         gradients = [nd.Gradient(partial(self.evaluate, state=EpochState(points=[p])))(point) for p in state.points]
