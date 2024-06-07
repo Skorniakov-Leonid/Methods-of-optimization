@@ -251,7 +251,7 @@ class RAMSize(MetricModule):
     def prepare_method(self, method: Callable, **params) -> Callable:
         def ramedMethod(*args, **params):
             start_mem = memory_usage(max_usage=True)
-            mem, result = memory_usage((method, args, params), interval=0.1, max_iterations=1, retval=True,
+            mem, result = memory_usage((method, args, params), interval=0.01, max_iterations=1, retval=True,
                                        max_usage=True, backend="psutil")
 
             self.mem = mem - start_mem
@@ -322,6 +322,7 @@ class ResultValue(MetricModule):
 
     def process_step(self, state: State, meta: Meta, **params) -> bool:
         self.point = state.point
+        # print(self.point)
         return True
 
     def meta(self, **params) -> MetricMeta:

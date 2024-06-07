@@ -27,6 +27,22 @@ class LineBinary(LossFunction):
                       else (data_point[1] - input_point[1]) ** 2))
 
 
+class LineBinaryWithDistance(LossFunction):
+    def __init__(self, coeff: float = 1, **params) -> None:
+        self.coeff = coeff
+
+    def eval(self, data_points: np.ndarray, input_points: np.ndarray, arguments: np.ndarray, **params) -> float:
+        min_distance = min([abs(data_points[index][1] - input_points[index][1]) for index in range(len(data_points))])
+        return np.sum(
+            np.array([self.loss(data_points[i], input_points[i], **params) for i in range(len(data_points))])) - min_distance
+
+    def loss(self, data_point: np.ndarray, input_point: np.ndarray, **params) -> float:
+        return float((1e-10
+                      if ((data_point[2] == 1 and data_point[1] > input_point[1])
+                          or (data_point[2] == 0 and data_point[1] < input_point[1]))
+                      else (data_point[1] - input_point[1]) ** 2))
+
+
 class Regularisation(LossFunction):
     def __init__(self, loss_function: LossFunction, regularisation_function: tp.Callable) -> None:
         self.loss_function = loss_function

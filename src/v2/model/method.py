@@ -1,5 +1,6 @@
 from abc import abstractmethod, ABC
 from dataclasses import dataclass, field
+from typing import Callable, Any
 
 import numpy as np
 
@@ -54,3 +55,12 @@ class OptimizationMethod(ABC):
         :return:            meta information
         """
         pass
+
+    def get_learning_rate(self, state: State, **params) -> float:
+        """
+        Get learning rate of method
+        :param state:       state for step
+        :return:            learning rate
+        """
+        return 0
+
