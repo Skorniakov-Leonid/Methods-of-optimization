@@ -1,0 +1,87 @@
+Traceback (most recent call last):
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/mike/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.datasets import make_classification
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import LinearSVC
+from sklearn.decomposition import PCA
+
+with open('iris.data', 'r') as f:
+    data = [list(map(lambda x: float(x) if ord('0') <= ord(x[0]) <= ord('9') else x.replace('\n', ''),
+                     line.split(','))) for line in f]
+
+X = [st[0:4] for st in data]
+y = [st[4] for st in data]
+index = 0
+classes = dict()
+for i in range(len(y)):
+    if y[i] not in classes:
+        classes[y[i]] = index
+        index += 1
+    y[i] = classes[y[i]]
+
+clf = make_pipeline(StandardScaler(), LinearSVC(random_state=0, tol=1e-5))
+clf.fit(X, y)
+
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X)
+
+x_min, x_max = X_pca[:, 0].min() - 1, X_pca[:, 0].max() + 1
+y_min, y_max = X_pca[:, 1].min() - 1, X_pca[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.02),
+                     np.arange(y_min, y_max, 0.02))
+
+Z = clf.predict(pca.inverse_transform(np.c_[xx.ravel(), yy.ravel()]))
+Z = Z.reshape(xx.shape)
+
+plt.figure(figsize=(10, 7))
+plt.contourf(xx, yy, Z, alpha=0.3, cmap='viridis')
+scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap='viridis', edgecolor='k', s=50, alpha=0.6)
+plt.title('Decision Boundary of LinearSVC with PCA-reduced Data (Iris)')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.legend(handles=scatter.legend_elements()[0], labels=['Setosa', 'Versicolor', 'Virginica'], title="Classes")
+plt.grid(True)
+plt.show()
+
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [0;32mIn[1], line 9[0m
+[1;32m      6[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01msvm[39;00m [38;5;28;01mimport[39;00m LinearSVC
+[1;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdecomposition[39;00m [38;5;28;01mimport[39;00m PCA
+[0;32m----> 9[0m [38;5;28;01mwith[39;00m [38;5;28;43mopen[39;49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43miris.data[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mr[39;49m[38;5;124;43m'[39;49m[43m)[49m [38;5;28;01mas[39;00m f:
+[1;32m     10[0m     data [38;5;241m=[39m [[38;5;28mlist[39m([38;5;28mmap[39m([38;5;28;01mlambda[39;00m x: [38;5;28mfloat[39m(x) [38;5;28;01mif[39;00m [38;5;28mord[39m([38;5;124m'[39m[38;5;124m0[39m[38;5;124m'[39m) [38;5;241m<[39m[38;5;241m=[39m [38;5;28mord[39m(x[[38;5;241m0[39m]) [38;5;241m<[39m[38;5;241m=[39m [38;5;28mord[39m([38;5;124m'[39m[38;5;124m9[39m[38;5;124m'[39m) [38;5;28;01melse[39;00m x[38;5;241m.[39mreplace([38;5;124m'[39m[38;5;130;01m\n[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m'[39m),
+[1;32m     11[0m                      line[38;5;241m.[39msplit([38;5;124m'[39m[38;5;124m,[39m[38;5;124m'[39m))) [38;5;28;01mfor[39;00m line [38;5;129;01min[39;00m f]
+[1;32m     13[0m X [38;5;241m=[39m [st[[38;5;241m0[39m:[38;5;241m4[39m] [38;5;28;01mfor[39;00m st [38;5;129;01min[39;00m data]
+
+File [0;32m~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/IPython/core/interactiveshell.py:310[0m, in [0;36m_modified_open[0;34m(file, *args, **kwargs)[0m
+[1;32m    303[0m [38;5;28;01mif[39;00m file [38;5;129;01min[39;00m {[38;5;241m0[39m, [38;5;241m1[39m, [38;5;241m2[39m}:
+[1;32m    304[0m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
+[1;32m    305[0m         [38;5;124mf[39m[38;5;124m"[39m[38;5;124mIPython won[39m[38;5;124m'[39m[38;5;124mt let you open fd=[39m[38;5;132;01m{[39;00mfile[38;5;132;01m}[39;00m[38;5;124m by default [39m[38;5;124m"[39m
+[1;32m    306[0m         [38;5;124m"[39m[38;5;124mas it is likely to crash IPython. If you know what you are doing, [39m[38;5;124m"[39m
+[1;32m    307[0m         [38;5;124m"[39m[38;5;124myou can use builtins[39m[38;5;124m'[39m[38;5;124m open.[39m[38;5;124m"[39m
+[1;32m    308[0m     )
+[0;32m--> 310[0m [38;5;28;01mreturn[39;00m [43mio_open[49m[43m([49m[43mfile[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: 'iris.data'
+

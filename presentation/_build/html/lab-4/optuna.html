@@ -1,0 +1,797 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; My Jupyter Book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lab-4/optuna';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">My Jupyter Book</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Список лабораторных работ
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../lab-1/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Методы нулевого порядка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-2/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Методы первого и высших порядков</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lab-3/%D0%BE%D1%82%D1%87%D1%91%D1%82.html">Метод стохастического градиентного спуска (SGD) и его модификации</a></li>
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lab-4/optuna.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><no title></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">disable_default_handler</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">add_study</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span>
+        <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;minimize&quot;</span><span class="p">,</span>
+        <span class="n">storage</span><span class="o">=</span><span class="s2">&quot;sqlite:///db.sqlite3&quot;</span><span class="p">,</span>
+        <span class="n">study_name</span><span class="o">=</span><span class="n">name</span>
+    <span class="p">)</span>
+    <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best value: </span><span class="si">{</span><span class="n">study</span><span class="o">.</span><span class="n">best_value</span><span class="si">}</span><span class="s2"> (params: </span><span class="si">{</span><span class="n">study</span><span class="o">.</span><span class="n">best_params</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="k">def</span> <span class="nf">example1</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+
+
+<span class="n">add_study</span><span class="p">(</span><span class="n">example1</span><span class="p">,</span> <span class="s2">&quot;Test 1&quot;</span><span class="p">)</span> <span class="c1"># OK</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py:1971,</span> in <span class="ni">Connection._exec_single_context</span><span class="nt">(self, dialect, context, statement, parameters)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1970</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">evt_handled</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1971</span>         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">do_execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1972</span>             <span class="n">cursor</span><span class="p">,</span> <span class="n">str_statement</span><span class="p">,</span> <span class="n">effective_parameters</span><span class="p">,</span> <span class="n">context</span>
+<span class="g g-Whitespace">   </span><span class="mi">1973</span>         <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1975</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_events</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_has_events</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py:919,</span> in <span class="ni">DefaultDialect.do_execute</span><span class="nt">(self, cursor, statement, parameters, context)</span>
+<span class="g g-Whitespace">    </span><span class="mi">918</span> <span class="k">def</span> <span class="nf">do_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">919</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+<span class="ne">IntegrityError</span>: UNIQUE constraint failed: studies.study_name
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/optuna/storages/_rdb/storage.py:273,</span> in <span class="ni">RDBStorage.create_new_study</span><span class="nt">(self, directions, study_name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">268</span>         <span class="n">direction_models</span> <span class="o">=</span> <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">269</span>             <span class="n">models</span><span class="o">.</span><span class="n">StudyDirectionModel</span><span class="p">(</span><span class="n">objective</span><span class="o">=</span><span class="n">objective</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+<span class="nn">    270             for objective, d</span> in <span class="ni">enumerate(list</span><span class="nt">(directions))</span>
+<span class="g g-Whitespace">    </span><span class="mi">271</span>         <span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">273</span>         <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="n">direction_models</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">275</span> <span class="k">except</span> <span class="n">sqlalchemy_exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">:</span>
+
+<span class="nn">File /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/contextlib.py:124,</span> in <span class="ni">_GeneratorContextManager.__exit__</span><span class="nt">(self, type, value, traceback)</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">124</span>     <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gen</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">125</span> <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/optuna/storages/_rdb/storage.py:73,</span> in <span class="ni">_create_scoped_session</span><span class="nt">(scoped_session, ignore_integrity_error)</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span>     <span class="k">yield</span> <span class="n">session</span>
+<span class="ne">---&gt; </span><span class="mi">73</span>     <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">74</span> <span class="k">except</span> <span class="n">sqlalchemy_exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py:1972,</span> in <span class="ni">Session.commit</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1970</span>     <span class="n">trans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_autobegin_t</span><span class="p">()</span>
+<span class="ne">-&gt; </span><span class="mi">1972</span> <span class="n">trans</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">_to_root</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nn">File &lt;string&gt;:2,</span> in <span class="ni">commit</span><span class="nt">(self, _to_root)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/state_changes.py:139,</span> in <span class="ni">_StateChange.declare_states.&lt;locals&gt;._go</span><span class="nt">(fn, self, *arg, **kw)</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">139</span>     <span class="n">ret_value</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span> <span class="k">except</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py:1257,</span> in <span class="ni">SessionTransaction.commit</span><span class="nt">(self, _to_root)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1256</span>     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expect_state</span><span class="p">(</span><span class="n">SessionTransactionState</span><span class="o">.</span><span class="n">PREPARED</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1257</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_impl</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1259</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nested</span><span class="p">:</span>
+
+<span class="nn">File &lt;string&gt;:2,</span> in <span class="ni">_prepare_impl</span><span class="nt">(self)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/state_changes.py:139,</span> in <span class="ni">_StateChange.declare_states.&lt;locals&gt;._go</span><span class="nt">(fn, self, *arg, **kw)</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">139</span>     <span class="n">ret_value</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span> <span class="k">except</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py:1232,</span> in <span class="ni">SessionTransaction._prepare_impl</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1231</span>         <span class="k">break</span>
+<span class="ne">-&gt; </span><span class="mi">1232</span>     <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1233</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py:4296,</span> in <span class="ni">Session.flush</span><span class="nt">(self, objects)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4295</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_flushing</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="ne">-&gt; </span><span class="mi">4296</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_flush</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4297</span> <span class="k">finally</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py:4432,</span> in <span class="ni">Session._flush</span><span class="nt">(self, objects)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4431</span> <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_reraise</span><span class="p">():</span>
+<span class="ne">-&gt; </span><span class="mi">4432</span>     <span class="n">transaction</span><span class="o">.</span><span class="n">rollback</span><span class="p">(</span><span class="n">_capture_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py:146,</span> in <span class="ni">safe_reraise.__exit__</span><span class="nt">(self, type_, value, traceback)</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exc_info</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># remove potential circular references</span>
+<span class="ne">--&gt; </span><span class="mi">146</span>     <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_tb</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">147</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py:4392,</span> in <span class="ni">Session._flush</span><span class="nt">(self, objects)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4391</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">4392</span>     <span class="n">flush_context</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">4393</span> <span class="k">finally</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py:466,</span> in <span class="ni">UOWTransaction.execute</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">465</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">topological</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span><span class="p">,</span> <span class="n">postsort_actions</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">466</span>     <span class="n">rec</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py:642,</span> in <span class="ni">SaveUpdateAll.execute</span><span class="nt">(self, uow)</span>
+<span class="g g-Whitespace">    </span><span class="mi">640</span> <span class="nd">@util</span><span class="o">.</span><span class="n">preload_module</span><span class="p">(</span><span class="s2">&quot;sqlalchemy.orm.persistence&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">641</span> <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uow</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">642</span>     <span class="n">util</span><span class="o">.</span><span class="n">preloaded</span><span class="o">.</span><span class="n">orm_persistence</span><span class="o">.</span><span class="n">save_obj</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">643</span>         <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">644</span>         <span class="n">uow</span><span class="o">.</span><span class="n">states_for_mapper_hierarchy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">645</span>         <span class="n">uow</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">646</span>     <span class="p">)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py:93,</span> in <span class="ni">save_obj</span><span class="nt">(base_mapper, states, uowtransaction, single)</span>
+<span class="g g-Whitespace">     </span><span class="mi">85</span>     <span class="n">_emit_update_statements</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">86</span>         <span class="n">base_mapper</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">87</span>         <span class="n">uowtransaction</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">90</span>         <span class="n">update</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">91</span>     <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">93</span>     <span class="n">_emit_insert_statements</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span>         <span class="n">base_mapper</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span>         <span class="n">uowtransaction</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span>         <span class="n">mapper</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span>         <span class="n">table</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span>         <span class="n">insert</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> <span class="n">_finalize_insert_update_commands</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span>     <span class="n">base_mapper</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span>     <span class="n">uowtransaction</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">120</span> <span class="p">)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py:1233,</span> in <span class="ni">_emit_insert_statements</span><span class="nt">(base_mapper, uowtransaction, mapper, table, insert, bookkeeping, use_orm_insert_stmt, execution_options)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1232</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1233</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1234</span>         <span class="n">statement</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1235</span>         <span class="n">params</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1236</span>         <span class="n">execution_options</span><span class="o">=</span><span class="n">execution_options</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1237</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1239</span> <span class="n">primary_key</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">inserted_primary_key</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py:1422,</span> in <span class="ni">Connection.execute</span><span class="nt">(self, statement, parameters, execution_options)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1421</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1422</span>     <span class="k">return</span> <span class="n">meth</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1423</span>         <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1424</span>         <span class="n">distilled_parameters</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1425</span>         <span class="n">execution_options</span> <span class="ow">or</span> <span class="n">NO_OPTIONS</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1426</span>     <span class="p">)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py:514,</span> in <span class="ni">ClauseElement._execute_on_connection</span><span class="nt">(self, connection, distilled_params, execution_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">513</span>         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Executable</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">514</span>     <span class="k">return</span> <span class="n">connection</span><span class="o">.</span><span class="n">_execute_clauseelement</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">515</span>         <span class="bp">self</span><span class="p">,</span> <span class="n">distilled_params</span><span class="p">,</span> <span class="n">execution_options</span>
+<span class="g g-Whitespace">    </span><span class="mi">516</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">517</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py:1644,</span> in <span class="ni">Connection._execute_clauseelement</span><span class="nt">(self, elem, distilled_parameters, execution_options)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1636</span> <span class="n">compiled_sql</span><span class="p">,</span> <span class="n">extracted_params</span><span class="p">,</span> <span class="n">cache_hit</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">_compile_w_cache</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1637</span>     <span class="n">dialect</span><span class="o">=</span><span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1638</span>     <span class="n">compiled_cache</span><span class="o">=</span><span class="n">compiled_cache</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1642</span>     <span class="n">linting</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">compiler_linting</span> <span class="o">|</span> <span class="n">compiler</span><span class="o">.</span><span class="n">WARN_LINTING</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1643</span> <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1644</span> <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_context</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1645</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1646</span>     <span class="n">dialect</span><span class="o">.</span><span class="n">execution_ctx_cls</span><span class="o">.</span><span class="n">_init_compiled</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1647</span>     <span class="n">compiled_sql</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1648</span>     <span class="n">distilled_parameters</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1649</span>     <span class="n">execution_options</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1650</span>     <span class="n">compiled_sql</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1651</span>     <span class="n">distilled_parameters</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1652</span>     <span class="n">elem</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1653</span>     <span class="n">extracted_params</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1654</span>     <span class="n">cache_hit</span><span class="o">=</span><span class="n">cache_hit</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1655</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1656</span> <span class="k">if</span> <span class="n">has_events</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py:1850,</span> in <span class="ni">Connection._execute_context</span><span class="nt">(self, dialect, constructor, statement, parameters, execution_options, *args, **kw)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1849</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1850</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec_single_context</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1851</span>         <span class="n">dialect</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span>
+<span class="g g-Whitespace">   </span><span class="mi">1852</span>     <span class="p">)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py:1990,</span> in <span class="ni">Connection._exec_single_context</span><span class="nt">(self, dialect, context, statement, parameters)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1989</span> <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1990</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_handle_dbapi_exception</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1991</span>         <span class="n">e</span><span class="p">,</span> <span class="n">str_statement</span><span class="p">,</span> <span class="n">effective_parameters</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">context</span>
+<span class="g g-Whitespace">   </span><span class="mi">1992</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1994</span> <span class="k">return</span> <span class="n">result</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py:2357,</span> in <span class="ni">Connection._handle_dbapi_exception</span><span class="nt">(self, e, statement, parameters, cursor, context, is_sub_exec)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2356</span>     <span class="k">assert</span> <span class="n">sqlalchemy_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">2357</span>     <span class="k">raise</span> <span class="n">sqlalchemy_exception</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="kn">from</span> <span class="nn">e</span>
+<span class="g g-Whitespace">   </span><span class="mi">2358</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py:1971,</span> in <span class="ni">Connection._exec_single_context</span><span class="nt">(self, dialect, context, statement, parameters)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1970</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">evt_handled</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1971</span>         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">do_execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1972</span>             <span class="n">cursor</span><span class="p">,</span> <span class="n">str_statement</span><span class="p">,</span> <span class="n">effective_parameters</span><span class="p">,</span> <span class="n">context</span>
+<span class="g g-Whitespace">   </span><span class="mi">1973</span>         <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1975</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_events</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_has_events</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py:919,</span> in <span class="ni">DefaultDialect.do_execute</span><span class="nt">(self, cursor, statement, parameters, context)</span>
+<span class="g g-Whitespace">    </span><span class="mi">918</span> <span class="k">def</span> <span class="nf">do_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">919</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+<span class="ne">IntegrityError</span>: (sqlite3.IntegrityError) UNIQUE constraint failed: studies.study_name
+<span class="p">[</span><span class="n">SQL</span><span class="p">:</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">studies</span> <span class="p">(</span><span class="n">study_name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="err">?</span><span class="p">)]</span>
+<span class="p">[</span><span class="n">parameters</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Test 1&#39;</span><span class="p">,)]</span>
+<span class="p">(</span><span class="n">Background</span> <span class="n">on</span> <span class="n">this</span> <span class="n">error</span> <span class="n">at</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">sqlalche</span><span class="o">.</span><span class="n">me</span><span class="o">/</span><span class="n">e</span><span class="o">/</span><span class="mi">20</span><span class="o">/</span><span class="n">gkpj</span><span class="p">)</span>
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">DuplicatedStudyError</span><span class="g g-Whitespace">                      </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">add_study</span><span class="p">(</span><span class="n">example1</span><span class="p">,</span> <span class="s2">&quot;Test 1&quot;</span><span class="p">)</span> <span class="c1"># OK</span>
+
+<span class="nn">Cell In[1], line 5,</span> in <span class="ni">add_study</span><span class="nt">(fn, name)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">def</span> <span class="nf">add_study</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>         <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;minimize&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>         <span class="n">storage</span><span class="o">=</span><span class="s2">&quot;sqlite:///db.sqlite3&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>         <span class="n">study_name</span><span class="o">=</span><span class="n">name</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best value: </span><span class="si">{</span><span class="n">study</span><span class="o">.</span><span class="n">best_value</span><span class="si">}</span><span class="s2"> (params: </span><span class="si">{</span><span class="n">study</span><span class="o">.</span><span class="n">best_params</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/optuna/_convert_positional_args.py:83,</span> in <span class="ni">convert_positional_args.&lt;locals&gt;.converter_decorator.&lt;locals&gt;.converter_wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">77</span>     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">78</span>         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">() got multiple values for arguments </span><span class="si">{</span><span class="n">duplicated_kwds</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">81</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">inferred_kwargs</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">83</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/optuna/study/study.py:1251,</span> in <span class="ni">create_study</span><span class="nt">(storage, sampler, pruner, study_name, direction, load_if_exists, directions)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1249</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">storages</span><span class="o">.</span><span class="n">get_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1250</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1251</span>     <span class="n">study_id</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_new_study</span><span class="p">(</span><span class="n">direction_objects</span><span class="p">,</span> <span class="n">study_name</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1252</span> <span class="k">except</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">DuplicatedStudyError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1253</span>     <span class="k">if</span> <span class="n">load_if_exists</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/optuna/storages/_cached_storage.py:82,</span> in <span class="ni">_CachedStorage.create_new_study</span><span class="nt">(self, directions, study_name)</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span> <span class="k">def</span> <span class="nf">create_new_study</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">80</span>     <span class="bp">self</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StudyDirection</span><span class="p">],</span> <span class="n">study_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">     </span><span class="mi">81</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">82</span>     <span class="n">study_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">create_new_study</span><span class="p">(</span><span class="n">directions</span><span class="o">=</span><span class="n">directions</span><span class="p">,</span> <span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">83</span>     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">84</span>         <span class="n">study</span> <span class="o">=</span> <span class="n">_StudyInfo</span><span class="p">()</span>
+
+<span class="nn">File ~/Documents/Methods-of-optimization/venv/lib/python3.9/site-packages/optuna/storages/_rdb/storage.py:276,</span> in <span class="ni">RDBStorage.create_new_study</span><span class="nt">(self, directions, study_name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span>         <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="n">direction_models</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">275</span> <span class="k">except</span> <span class="n">sqlalchemy_exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">276</span>     <span class="k">raise</span> <span class="n">optuna</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">DuplicatedStudyError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">277</span>         <span class="s2">&quot;Another study with name &#39;</span><span class="si">{}</span><span class="s2">&#39; already exists. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span>         <span class="s2">&quot;Please specify a different name, or reuse the existing one &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">279</span>         <span class="s2">&quot;by setting `load_if_exists` (for Python API) or &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">280</span>         <span class="s2">&quot;`--skip-if-exists` flag (for CLI).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">study_name</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">281</span>     <span class="p">)</span>
+<span class="nn">    283 _logger.info(&quot;A new study created</span> in <span class="ni">RDB with name: {}&quot;.format</span><span class="nt">(study_name))</span>
+<span class="g g-Whitespace">    </span><span class="mi">285</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_study_id_from_name</span><span class="p">(</span><span class="n">study_name</span><span class="p">)</span>
+
+<span class="ne">DuplicatedStudyError</span>: Another study with name &#39;Test 1&#39; already exists. Please specify a different name, or reuse the existing one by setting `load_if_exists` (for Python API) or `--skip-if-exists` flag (for CLI).
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">example2</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="o">**</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">20</span><span class="p">)</span> <span class="o">**</span> <span class="mi">10</span>
+<span class="n">add_study</span><span class="p">(</span><span class="n">example2</span><span class="p">,</span> <span class="s2">&quot;Test 2&quot;</span><span class="p">)</span> <span class="c1"># OK</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best value: 32.07507143516409 (params: {&#39;x&#39;: 10.574947241432184, &#39;y&#39;: -19.119125950781388})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">cos</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">pi</span>
+<span class="k">def</span> <span class="nf">example3</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">pi</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">pi</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">add_study</span><span class="p">(</span><span class="n">example3</span><span class="p">,</span> <span class="s2">&quot;Test 3&quot;</span><span class="p">)</span> <span class="c1"># no global minimum</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best value: 0.0 (params: {&#39;x&#39;: 100.0, &#39;y&#39;: 100.0})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span>
+<span class="k">def</span> <span class="nf">example4</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sin</span><span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="mi">5</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="mi">5</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">add_study</span><span class="p">(</span><span class="n">example4</span><span class="p">,</span> <span class="s2">&quot;Test 4&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best value: 0.01404441958189792 (params: {&#39;x&#39;: 4.972685238973462, &#39;y&#39;: 5.46614774150794})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arctan</span><span class="p">,</span> <span class="n">pi</span>
+
+<span class="k">def</span> <span class="nf">example5</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">arctan</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">arctan</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)))</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="n">add_study</span><span class="p">(</span><span class="n">example5</span><span class="p">,</span> <span class="s2">&quot;Test 5&quot;</span><span class="p">)</span> <span class="c1"># OK</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best value: 0.01924926495426973 (params: {&#39;x&#39;: 89.88905790222024, &#39;y&#39;: 90.02492193201206})
+</pre></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lab-4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

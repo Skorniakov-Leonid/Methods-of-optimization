@@ -13,3 +13,5 @@ mlxtend~=0.23.1
 seaborn
 tensorflow
 memory_profiler
+optuna
+optuna-dashboard
